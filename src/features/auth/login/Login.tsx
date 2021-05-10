@@ -10,6 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from 'react-hook-form';
+import { login } from '../auth-slice';
+import { useAppDispatch } from '../../../app/hooks';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router';
 
 function Copyright() {
   return (
@@ -63,8 +67,18 @@ const Login = () => {
 
   const { handleSubmit, control } = useForm<FormData>();
 
+  const history = useHistory();
+
+  const dispatch = useAppDispatch();
+
   const onSubmit = async ({ email, password }: FormData) => {
-    console.log(email, password);
+    try {
+      const result = await dispatch(login({ email, password }));
+      unwrapResult(result);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

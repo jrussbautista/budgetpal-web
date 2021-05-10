@@ -7,6 +7,8 @@ import {
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import reportWebVitals from './reportWebVitals';
+import { store } from './app/store';
+import { Provider } from 'react-redux';
 
 const theme = createMuiTheme({
   palette: {
@@ -18,10 +20,12 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

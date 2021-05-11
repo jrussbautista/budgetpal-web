@@ -8,8 +8,11 @@ const apiClient = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
   },
 });
+
+if (accessToken) {
+  apiClient.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+}
 
 export default apiClient;

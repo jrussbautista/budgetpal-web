@@ -1,6 +1,6 @@
 import { Dashboard } from './DashboardModel';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { DashboardApi } from './dashboardApi';
+import { DashboardApi } from './dashboard-api';
 import { AxiosError } from 'axios';
 
 interface InitialState {

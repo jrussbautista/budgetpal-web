@@ -6,9 +6,28 @@ import Budgets from '../features/budgets/Budgets';
 import Transactions from '../features/transactions/Transactions';
 import Login from '../features/auth/login';
 import Register from '../features/auth/register';
+import PrivateRoute from '../core/PrivateRoute';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useAppDispatch } from './hooks';
+import {
+  fetchCurrentUser,
+  removeCurrentUser,
+} from '../features/auth/auth-slice';
 
 function App() {
-  useEffect(() => {}, []);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const response = await dispatch(fetchCurrentUser());
+        unwrapResult(response);
+      } catch (error) {
+        dispatch(removeCurrentUser());
+      }
+    };
+    getCurrentUser();
+  }, [dispatch]);
 
   return (
     <Router>
@@ -22,15 +41,13 @@ function App() {
         <Route>
           <Layout>
             <Switch>
-              <Route path='/' exact>
-                <Dashboard />
-              </Route>
-              <Route path='/budgets' exact>
-                <Budgets />
-              </Route>
-              <Route path='/transactions' exact>
-                <Transactions />
-              </Route>
+              <PrivateRoute path='/' component={Dashboard} exact />
+              <PrivateRoute path='/budgets' component={Budgets} exact />
+              <PrivateRoute
+                path='/transactions'
+                component={Transactions}
+                exact
+              />
             </Switch>
           </Layout>
         </Route>

@@ -17,8 +17,13 @@ const register = (fields: {
   return apiClient.post('/api/register', fields);
 };
 
+const getCurrentUser = () => {
+  return apiClient.get('/api/users/me');
+};
+
 export const AuthApi = {
   login,
   getCSRFCookie,
   register,
+  getCurrentUser,
 };

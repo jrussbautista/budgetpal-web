@@ -52,7 +52,7 @@ const DashboardPage = () => {
   return (
     <Grid container spacing={2}>
       {dashboard?.analytics.map((analytic, index) => (
-        <Grid item xs={3} key={index}>
+        <Grid item xs={12} md={6} lg={3} key={index}>
           <Card>
             <CardContent>
               <Typography variant='body1' component='h2' color='textSecondary'>

@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import SidebarList from './SidebarList';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 const drawerWidth = 240;
 

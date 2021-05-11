@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import User from '../../shared/model/User';
-import { AuthApi } from './authApi';
+import { AuthApi } from './auth-api';
 import { AxiosError } from 'axios';
 import apiClient from '../../shared/utils/apiClient';
 
@@ -89,7 +89,33 @@ export const register = createAsyncThunk(
   }
 );
 
-export const userSlice = createSlice({
+export const removeCurrentUser = createAsyncThunk(
+  'user/removeCurrentUser',
+  async () => {
+    window.localStorage.removeItem('currentUser');
+    window.localStorage.removeItem('accessToken');
+  }
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  'user/currentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await AuthApi.getCurrentUser();
+      const user = response.data.data;
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      return user;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
@@ -108,14 +134,20 @@ export const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(register.rejected, (state, action: any) => {
-      console.log(action.payload);
       if (action.payload) {
         state.error = action.payload.message;
       } else {
         state.error = action.error.message;
       }
     });
+    builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(removeCurrentUser.fulfilled, (state, action) => {
+      state.user = null;
+      state.error = null;
+    });
   },
 });
 
-export default userSlice.reducer;
+export default authSlice.reducer;

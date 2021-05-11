@@ -4,6 +4,7 @@ import Dashboard from '../features/dashboard/Dashboard';
 import Budgets from '../features/budgets/Budgets';
 import Transactions from '../features/transactions/Transactions';
 import Login from '../features/auth/login';
+import Register from '../features/auth/register';
 
 function App() {
   return (
@@ -11,6 +12,9 @@ function App() {
       <Switch>
         <Route path='/login' exact>
           <Login />
+        </Route>
+        <Route path='/register' exact>
+          <Register />
         </Route>
         <Route>
           <Layout>

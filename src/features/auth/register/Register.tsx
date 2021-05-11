@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from 'react-hook-form';
-import { login } from '../auth-slice';
+import { register } from '../auth-slice';
 import { useAppDispatch } from '../../../app/hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory, Link } from 'react-router-dom';
@@ -70,17 +70,20 @@ const useStyles = makeStyles((theme) => ({
 interface FormData {
   email: string;
   password: string;
+  password_confirmation: string;
+  name: string;
 }
 
 const defaultValues = {
   email: '',
   password: '',
+  name: '',
 };
 
-const Login = () => {
+const Register = () => {
   const classes = useStyles();
 
-  const { handleSubmit, control } = useForm<FormData>({
+  const { handleSubmit, control, watch } = useForm<FormData>({
     defaultValues,
   });
 
@@ -90,17 +93,28 @@ const Login = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const onSubmit = async ({ email, password }: FormData) => {
+  const passwordFieldValue = watch('password');
+
+  const onSubmit = async ({
+    email,
+    password,
+    name,
+    password_confirmation,
+  }: FormData) => {
     try {
       setIsSubmitting(true);
-      const result = await dispatch(login({ email, password }));
+      const result = await dispatch(
+        register({ name, email, password, password_confirmation })
+      );
       unwrapResult(result);
       setIsSubmitting(false);
-      toast.success('Successfully logged in!');
+      toast.success('Successfully Registered!');
       history.push('/');
     } catch (error) {
       setError(error.message);
+      if (error.errors) setFieldErrors(error.errors);
       setIsSubmitting(false);
     }
   };
@@ -122,7 +136,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Log in
+            Register
           </Typography>
           {error && (
             <Alert severity='error' className={classes.alertContainer}>
@@ -136,6 +150,30 @@ const Login = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
+              name='name'
+              control={control}
+              defaultValue=''
+              rules={{
+                required: 'Name is required field',
+              }}
+              render={({ field: { onChange }, fieldState: { error } }) => (
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  onChange={onChange}
+                  id='name'
+                  label='Name'
+                  name='name'
+                  type='name'
+                  autoFocus
+                  error={Boolean(error)}
+                  helperText={error?.message || fieldErrors['name']}
+                />
+              )}
+            />
+
+            <Controller
               name='email'
               control={control}
               defaultValue=''
@@ -146,10 +184,7 @@ const Login = () => {
                   message: 'invalid email address',
                 },
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange }, fieldState: { error } }) => (
                 <TextField
                   margin='normal'
                   required
@@ -160,8 +195,8 @@ const Login = () => {
                   name='email'
                   autoComplete='email'
                   autoFocus
-                  error={Boolean(error)}
-                  helperText={error?.message}
+                  error={Boolean(error || fieldErrors['email'])}
+                  helperText={error?.message || fieldErrors['email']}
                 />
               )}
             />
@@ -173,10 +208,7 @@ const Login = () => {
               rules={{
                 required: 'Password is required field',
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange }, fieldState: { error } }) => (
                 <TextField
                   margin='normal'
                   required
@@ -187,8 +219,34 @@ const Login = () => {
                   name='password'
                   type='password'
                   autoFocus
-                  error={Boolean(error)}
-                  helperText={error?.message}
+                  error={Boolean(error || fieldErrors['password'])}
+                  helperText={error?.message || fieldErrors['password']}
+                />
+              )}
+            />
+
+            <Controller
+              name='password_confirmation'
+              control={control}
+              defaultValue=''
+              rules={{
+                required: 'Password Confirmation is required field.',
+                validate: (value) =>
+                  value === passwordFieldValue || 'The passwords do not match.',
+              }}
+              render={({ field: { onChange }, fieldState: { error } }) => (
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  onChange={onChange}
+                  id='password_confirm'
+                  label='Confirm Password'
+                  name='password_confirm'
+                  type='password'
+                  autoFocus
+                  error={Boolean(error || fieldErrors['password_confirm'])}
+                  helperText={error?.message || fieldErrors['password_confirm']}
                 />
               )}
             />
@@ -202,7 +260,7 @@ const Login = () => {
               className={classes.submit}
               disabled={isSubmitting}
             >
-              {isSubmitting ? <CircularProgress size={30} /> : 'Log In'}
+              {isSubmitting ? <CircularProgress size={30} /> : 'Register'}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -230,4 +288,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

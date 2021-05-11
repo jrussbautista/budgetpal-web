@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,6 +25,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
+        <Toaster />
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

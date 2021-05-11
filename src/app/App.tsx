@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from '../core/layout';
 import Dashboard from '../features/dashboard/Dashboard';
@@ -7,6 +8,8 @@ import Login from '../features/auth/login';
 import Register from '../features/auth/register';
 
 function App() {
+  useEffect(() => {}, []);
+
   return (
     <Router>
       <Switch>

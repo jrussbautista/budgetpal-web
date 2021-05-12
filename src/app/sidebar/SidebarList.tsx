@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -22,33 +22,59 @@ const useStyles = makeStyles((theme) => ({
 const SidebarList = () => {
   const classes = useStyles();
 
+  const location = useLocation();
+
+  const getIsActive = (path: string) => {
+    return path === location.pathname;
+  };
+
   return (
     <List className={classes.list}>
-      <ListItem button component={Link} to='/'>
+      <ListItem button component={Link} to='/' selected={getIsActive('/')}>
         <ListItemIcon className={classes.listItem}>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
       </ListItem>
-      <ListItem button component={Link} to='/transactions'>
+      <ListItem
+        button
+        component={Link}
+        to='/transactions'
+        selected={getIsActive('/transactions')}
+      >
         <ListItemIcon className={classes.listItem}>
           <PaymentIcon />
         </ListItemIcon>
         <ListItemText primary='Transactions' />
       </ListItem>
-      <ListItem button component={Link} to='/budgets'>
+      <ListItem
+        button
+        component={Link}
+        to='/budgets'
+        selected={getIsActive('/budgets')}
+      >
         <ListItemIcon className={classes.listItem}>
           <AccountBalanceIcon />
         </ListItemIcon>
         <ListItemText primary='Budgets' />
       </ListItem>
-      <ListItem button component={Link} to='/account'>
+      <ListItem
+        button
+        component={Link}
+        to='/account'
+        selected={getIsActive('/account')}
+      >
         <ListItemIcon className={classes.listItem}>
           <PersonIcon />
         </ListItemIcon>
         <ListItemText primary='Account' />
       </ListItem>
-      <ListItem button component={Link} to='/settings'>
+      <ListItem
+        button
+        component={Link}
+        to='/settings'
+        selected={getIsActive('/settings')}
+      >
         <ListItemIcon className={classes.listItem}>
           <SettingsIcon />
         </ListItemIcon>

@@ -6,9 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { makeStyles } from '@material-ui/core/styles';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { useHistory } from 'react-router';
 import { removeCurrentUser } from '../../features/auth/auth-slice';
 
@@ -63,7 +63,7 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
 
   const handleClickMenu = (val: string) => {
     switch (val) {
-      case 'my_menu':
+      case 'my_account':
         history.push('/account');
         break;
       case 'logout':

@@ -1,5 +1,5 @@
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
+import { useAppSelector } from './hooks';
 
 interface PrivateRouteProps extends RouteProps {
   component: React.ComponentType;

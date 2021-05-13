@@ -2,9 +2,10 @@ import { Dashboard } from './DashboardModel';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { DashboardApi } from './dashboard-api';
 import { AxiosError } from 'axios';
+import { Status } from '../../shared/models/Status';
 
 interface InitialState {
-  status: 'idle' | 'loading' | 'success' | 'failed';
+  status: Status;
   dashboard: Dashboard | null;
   error: string | null | undefined;
 }
@@ -48,7 +49,7 @@ export const dashboardSlice = createSlice({
     });
     builder.addCase(fetchDashboard.fulfilled, (state, action) => {
       state.dashboard = action.payload;
-      state.status = 'success';
+      state.status = 'succeed';
     });
     builder.addCase(fetchDashboard.rejected, (state, action: any) => {
       if (action.payload) {

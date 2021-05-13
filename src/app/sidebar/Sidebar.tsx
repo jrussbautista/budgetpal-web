@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     color: '#fff',
   },
   icon: {
@@ -66,6 +66,11 @@ const Sidebar: React.FC<Props> = ({
             keepMounted: true,
           }}
         >
+          <div className={classes.drawerHeader}>
+            <Typography variant='h6' color='inherit'>
+              Budgetty
+            </Typography>
+          </div>
           <SidebarList />
         </Drawer>
       </Hidden>

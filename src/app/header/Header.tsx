@@ -9,8 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { removeCurrentUser } from '../../features/auth/auth-slice';
+import upperCaseFirstLetter from '../../shared/utils/uppercaseFistLetter';
 
 const drawerWidth = 240;
 
@@ -53,6 +54,16 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
 
   const history = useHistory();
 
+  const location = useLocation();
+
+  const getHeaderTitle = () => {
+    return location.pathname === '/'
+      ? 'Dashboard'
+      : upperCaseFirstLetter(
+          location.pathname.substring(1, location.pathname.length)
+        );
+  };
+
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,9 +80,8 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
       case 'logout':
         dispatch(removeCurrentUser());
         break;
-      default:
-        handleClose();
     }
+    handleClose();
   };
 
   return (
@@ -87,7 +97,7 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant='h6' noWrap>
-          Dashboard
+          {getHeaderTitle()}
         </Typography>
         <div className={classes.spacer} />
         <IconButton

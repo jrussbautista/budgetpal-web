@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import User from '../../shared/model/User';
+import User from '../../shared/models/User';
 import { AuthApi } from './auth-api';
 import { AxiosError } from 'axios';
 import apiClient from '../../shared/utils/apiClient';

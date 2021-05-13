@@ -18,16 +18,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import toast from 'react-hot-toast';
 
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <span>Budgetty</span> {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -76,6 +66,16 @@ const defaultValues = {
   email: '',
   password: '',
 };
+
+function Copyright() {
+  return (
+    <Typography variant='body2' color='textSecondary' align='center'>
+      {'Copyright © '}
+      <span>Budgetty</span> {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const Login = () => {
   const classes = useStyles();

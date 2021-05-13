@@ -8,12 +8,13 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
+import formatMoney from '../../shared/models/formatMonet';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     loadingContainer: {
       textAlign: 'center',
-      margin: '200px 0',
+      margin: '100px 0',
     },
     amount: {
       textAlign: 'center',
@@ -59,7 +60,7 @@ const DashboardPage = () => {
                 {analytic.name}
               </Typography>
               <Typography variant='h5' className={classes.amount}>
-                ${analytic.value}
+                {formatMoney(analytic.value)}
               </Typography>
             </CardContent>
           </Card>

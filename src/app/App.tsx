@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './layout';
-import Dashboard from '../features/dashboard/Dashboard';
+import DashboardPage from '../features/dashboard/DashboardPage';
+import TransactionsPage from '../features/transactions/TransactionsPage';
 import Budgets from '../features/budgets/Budgets';
-import Transactions from '../features/transactions/Transactions';
 import Login from '../features/auth/login';
 import Register from '../features/auth/register';
 import PrivateRoute from './PrivateRoute';
@@ -47,11 +47,11 @@ function App() {
         >
           <Layout>
             <Switch>
-              <PrivateRoute path='/' component={Dashboard} exact />
+              <PrivateRoute path='/' component={DashboardPage} exact />
               <PrivateRoute path='/budgets' component={Budgets} exact />
               <PrivateRoute
                 path='/transactions'
-                component={Transactions}
+                component={TransactionsPage}
                 exact
               />
               <PrivateRoute path='/account' component={Account} exact />

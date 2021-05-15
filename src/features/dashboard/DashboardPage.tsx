@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
-import formatMoney from '../../shared/models/formatMonet';
+import formatMoney from '../../shared/utils/formatMoney';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './layout';
 import DashboardPage from '../features/dashboard/DashboardPage';
 import TransactionsPage from '../features/transactions/TransactionsPage';
-import Budgets from '../features/budgets/Budgets';
+import Budgets from '../features/budgets/BudgetPage';
 import Login from '../features/auth/login';
 import Register from '../features/auth/register';
 import PrivateRoute from './PrivateRoute';

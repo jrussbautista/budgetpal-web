@@ -10,7 +10,7 @@ import TransactionsTable from './transactions-table';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  buttonContainer: {
+  topContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -49,7 +49,7 @@ const TransactionsPage = () => {
       >
         <TransactionManage />
       </Modal>
-      <div className={classes.buttonContainer}>
+      <div className={classes.topContainer}>
         <Button
           variant='contained'
           color='primary'

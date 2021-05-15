@@ -14,13 +14,25 @@ import {
 } from '../transactions-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
-import formatMoney from '../../../shared/models/formatMonet';
+import formatMoney from '../../../shared/utils/formatMoney';
+import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
   transaction: Transaction;
 }
 
+const useStyles = makeStyles((theme) => ({
+  expense: {
+    color: theme.palette.error.main,
+  },
+  income: {
+    color: theme.palette.primary.main,
+  },
+}));
+
 const TransactionItem: React.FC<Props> = ({ transaction }) => {
+  const classes = useStyles();
+
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -51,6 +63,9 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
     dispatch(setSelectedTransaction(transaction));
   };
 
+  const amountClassName =
+    transaction.type === 'expense' ? classes.expense : classes.income;
+
   return (
     <>
       <TableRow>
@@ -58,7 +73,9 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
           {transaction.title}
         </TableCell>
         <TableCell align='center'>
-          {formatMoney(transaction.amount, '$')}
+          <span className={amountClassName}>
+            {formatMoney(transaction.amount, '$')}
+          </span>
         </TableCell>
         <TableCell align='center'>{transaction.category.title}</TableCell>
         <TableCell align='center'>{transaction.created_at}</TableCell>

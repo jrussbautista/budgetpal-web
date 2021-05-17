@@ -4,14 +4,17 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from 'react-hook-form';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
 import toast from 'react-hot-toast';
-import { AuthApi } from '../auth-api';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { Typography } from '@material-ui/core';
+import { updateProfile } from '../../auth/auth-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
+    marginBottom: 60,
   },
   form: {
     width: '100%',
@@ -30,35 +33,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface FormData {
-  currentPassword: string;
-  newPassword: string;
-  newPasswordConfirm: string;
+  email: string;
+  name: string;
 }
 
-const ChangePassword = () => {
+const EditProfile = () => {
   const classes = useStyles();
+
+  const { user } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleSubmit, control, watch } = useForm<FormData>();
+  const defaultValues = {
+    email: user?.email || '',
+    name: user?.name || '',
+  };
 
-  const newPasswordFieldValue = watch('newPassword');
+  const { handleSubmit, control } = useForm<FormData>({
+    defaultValues,
+  });
 
-  const onSubmit = async ({
-    currentPassword,
-    newPassword,
-    newPasswordConfirm,
-  }: FormData) => {
+  const onSubmit = async (formData: FormData) => {
     try {
-      const fields = {
-        current_password: currentPassword,
-        new_password: newPassword,
-        new_password_confirmation: newPasswordConfirm,
-      };
-      await AuthApi.changePassword(fields);
-      toast.success('You have successfully changed your password');
+      setIsSubmitting(true);
+      const response = await dispatch(updateProfile(formData));
+      unwrapResult(response);
+      toast.success('Successfully profile updated');
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -66,28 +70,28 @@ const ChangePassword = () => {
 
   return (
     <div className={classes.paper}>
-      <Typography variant='h6'>Change Password</Typography>
+      <Typography variant='h6'>Edit Profile</Typography>
       <form
         className={classes.form}
         noValidate
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
-          name='currentPassword'
+          name='name'
           control={control}
           defaultValue=''
           rules={{
-            required: 'Current Password is required field',
+            required: 'Name is required field',
           }}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <TextField
               margin='normal'
               onChange={onChange}
               fullWidth
-              id='currentPassword'
-              label='Current Password'
-              name='currentPassword'
-              type='password'
+              id='name'
+              label='Name'
+              name='name'
+              autoComplete='true'
               error={Boolean(error)}
               helperText={error?.message}
               value={value}
@@ -96,47 +100,25 @@ const ChangePassword = () => {
         />
 
         <Controller
-          name='newPassword'
+          name='email'
           control={control}
           defaultValue=''
           rules={{
-            required: 'New Password is required field',
+            required: 'Email is required field',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Invalid email address',
+            },
           }}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <TextField
               margin='normal'
               onChange={onChange}
               fullWidth
-              id='newPassword'
-              label='New Password'
-              name='newPassword'
-              type='password'
-              error={Boolean(error)}
-              helperText={error?.message}
-              value={value}
-            />
-          )}
-        />
-
-        <Controller
-          name='newPasswordConfirm'
-          control={control}
-          defaultValue=''
-          rules={{
-            required: 'Confirm New Password is required field',
-            validate: (value) =>
-              value === newPasswordFieldValue ||
-              'The new password and confirm new password does not match.',
-          }}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <TextField
-              margin='normal'
-              onChange={onChange}
-              fullWidth
-              id='newPasswordConfirm'
-              label='Confirm New Password'
-              name='newPasswordConfirm'
-              type='password'
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='true'
               error={Boolean(error)}
               helperText={error?.message}
               value={value}
@@ -159,4 +141,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default EditProfile;

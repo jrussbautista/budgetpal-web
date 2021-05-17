@@ -14,8 +14,8 @@ import {
   removeCurrentUser,
 } from '../features/auth/auth-slice';
 import PageError from '../shared/components/page-error';
-import AccountPage from '../features/auth/account';
-import Settings from '../features/settings/Settings';
+import AccountPage from '../features/account/AccountPage';
+import SettingsPage from '../features/settings/SettingsPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -55,7 +55,7 @@ function App() {
                 exact
               />
               <PrivateRoute path='/account' component={AccountPage} exact />
-              <PrivateRoute path='/settings' component={Settings} exact />
+              <PrivateRoute path='/settings' component={SettingsPage} exact />
             </Switch>
           </Layout>
         </Route>

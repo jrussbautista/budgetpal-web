@@ -1,6 +1,6 @@
 import React from 'react';
-import ChangePassword from '../change-password';
-import EditProfile from '../edit-profile';
+import ChangePassword from './change-password';
+import EditProfile from './edit-profile';
 
 const AccountPage = () => {
   return (

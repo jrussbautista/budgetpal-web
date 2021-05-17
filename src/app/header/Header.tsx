@@ -17,6 +17,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
+    background: theme.palette.common.white,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -85,7 +86,12 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
   };
 
   return (
-    <AppBar position='fixed' className={classes.appBar} color='transparent'>
+    <AppBar
+      position='fixed'
+      className={classes.appBar}
+      color='transparent'
+      elevation={1}
+    >
       <Toolbar>
         <IconButton
           color='inherit'

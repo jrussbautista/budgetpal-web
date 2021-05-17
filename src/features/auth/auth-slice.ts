@@ -115,6 +115,24 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  'user/updateProfile',
+  async (fields: { name: string; email: string }, { rejectWithValue }) => {
+    try {
+      const response = await AuthApi.updateProfile(fields);
+      const user = response.data.data.user;
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      return user;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -146,6 +164,9 @@ export const authSlice = createSlice({
     builder.addCase(removeCurrentUser.fulfilled, (state, action) => {
       state.user = null;
       state.error = null;
+    });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.user = action.payload;
     });
   },
 });

@@ -18,7 +18,22 @@ const register = (fields: {
 };
 
 const getCurrentUser = () => {
-  return apiClient.get('/api/users/me');
+  return apiClient.get('/api/account/me');
+};
+
+const changePassword = async (fields: {
+  current_password: string;
+  new_password: string;
+  new_password_confirmation: string;
+}) => {
+  const response = await apiClient.post('/api/account/change-password', fields);
+  const accessToken = response.data.data.token;
+  window.localStorage.setItem('accessToken', accessToken);
+  apiClient.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+};
+
+const updateProfile = (fields: { name: string; email: string }) => {
+  return apiClient.post('/api/account/update-profile', fields);
 };
 
 export const AuthApi = {
@@ -26,4 +41,6 @@ export const AuthApi = {
   getCSRFCookie,
   register,
   getCurrentUser,
+  changePassword,
+  updateProfile,
 };

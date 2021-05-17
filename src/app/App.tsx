@@ -14,7 +14,7 @@ import {
   removeCurrentUser,
 } from '../features/auth/auth-slice';
 import PageError from '../shared/components/page-error';
-import Account from '../features/account/Account';
+import AccountPage from '../features/auth/account';
 import Settings from '../features/settings/Settings';
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
                 component={TransactionsPage}
                 exact
               />
-              <PrivateRoute path='/account' component={Account} exact />
+              <PrivateRoute path='/account' component={AccountPage} exact />
               <PrivateRoute path='/settings' component={Settings} exact />
             </Switch>
           </Layout>

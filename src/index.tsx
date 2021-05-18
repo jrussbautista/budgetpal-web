@@ -1,32 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app/App';
-import {
-  unstable_createMuiStrictModeTheme as createMuiTheme,
-  ThemeProvider,
-} from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#3498db',
-    },
-  },
-});
+import Theme from './app/theme/Theme';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <Theme>
         <App />
-        <Toaster />
-      </ThemeProvider>
+      </Theme>
+      <Toaster />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

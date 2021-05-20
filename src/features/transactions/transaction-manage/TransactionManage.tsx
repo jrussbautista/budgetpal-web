@@ -61,7 +61,7 @@ const TransactionManage = () => {
 
       const fields = {
         ...formData,
-        amount: parseInt(formData.amount),
+        amount: parseFloat(formData.amount),
       };
 
       if (selectedTransaction) {

@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ConfirmDialog from '../../../shared/components/confirm-dialog';
 import toast from 'react-hot-toast';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   deleteBudget,
   setSelectedBudget,
@@ -45,12 +45,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const BudgetItem: React.FC<Props> = ({ budget }) => {
   const classes = useStyles();
 
+  const { currency } = useAppSelector((state) => state.settings);
+
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const spentPercentage = (budget.amount_spent / budget.amount) * 100;
+  const spentPercentage = Math.floor(
+    (parseFloat(budget.amount_spent) / parseFloat(budget.amount)) * 100
+  );
 
   const isReachedLimit = budget.amount_spent > budget.amount;
 
@@ -105,7 +109,17 @@ const BudgetItem: React.FC<Props> = ({ budget }) => {
             </Box>
           </Box>
           <Typography variant='h6' className={classes.amount}>
-            {formatMoney(budget.amount_spent)}/{formatMoney(budget.amount)}
+            {formatMoney(
+              parseFloat(budget.amount_spent),
+              currency.code,
+              currency.locale
+            )}
+            /
+            {formatMoney(
+              parseFloat(budget.amount),
+              currency.code,
+              currency.locale
+            )}
           </Typography>
           <CardActions className={classes.cardActions}>
             <Button

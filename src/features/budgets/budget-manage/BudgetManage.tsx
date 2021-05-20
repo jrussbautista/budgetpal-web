@@ -54,7 +54,7 @@ const BudgetManage = () => {
 
       const fields = {
         ...formData,
-        amount: parseInt(formData.amount),
+        amount: parseFloat(formData.amount),
       };
 
       if (selectedBudget) {

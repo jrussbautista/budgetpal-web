@@ -1,8 +1,19 @@
-interface Currency {
-  [key: string]: string;
+interface KeyValue {
+  title: string;
+  locale: string;
 }
 
-export const CURRENCY: Currency = {
-  usd: 'U.S. Dollar',
-  php: 'Philippine Peso',
+interface Currency {
+  [key: string]: KeyValue;
+}
+
+export const CURRENCIES: Currency = {
+  USD: {
+    title: 'U.S. Dollar',
+    locale: 'en-US',
+  },
+  PHP: {
+    title: 'Philippine Peso',
+    locale: 'en-PH',
+  },
 };

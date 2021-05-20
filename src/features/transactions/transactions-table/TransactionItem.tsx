@@ -6,7 +6,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ConfirmDialog from '../../../shared/components/confirm-dialog';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   deleteTransaction,
   setSelectedTransaction,
@@ -35,6 +35,12 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { currency } = useAppSelector((state) => state.settings);
+
+  // console.log(currency);
+
+  // return null;
 
   const dispatch = useAppDispatch();
 
@@ -74,7 +80,7 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
         </TableCell>
         <TableCell align='center'>
           <span className={amountClassName}>
-            {formatMoney(transaction.amount, '$')}
+            {formatMoney(transaction.amount, currency.code, currency.locale)}
           </span>
         </TableCell>
         <TableCell align='center'>{transaction.category.title}</TableCell>

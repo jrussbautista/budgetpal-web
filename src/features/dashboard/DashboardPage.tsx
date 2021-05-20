@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const DashboardPage = () => {
   const classes = useStyles();
   const { dashboard, status } = useAppSelector((state) => state.dashboard);
+  const { currency } = useAppSelector((state) => state.settings);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const DashboardPage = () => {
                 {analytic.name}
               </Typography>
               <Typography variant='h5' className={classes.amount}>
-                {formatMoney(analytic.value)}
+                {formatMoney(analytic.value, currency.code, currency.locale)}
               </Typography>
             </CardContent>
           </Card>

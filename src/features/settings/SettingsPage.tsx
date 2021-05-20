@@ -2,7 +2,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -10,7 +9,8 @@ import Switch from '@material-ui/core/Switch';
 import { Typography } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import upperCaseFirstLetter from '../../shared/utils/uppercaseFistLetter';
-import { toggleTheme } from './settings-slice';
+import { setSelectedDialog, toggleTheme } from './settings-slice';
+import CurrencyFormDialog from './currency-form-dialog/CurrencyFormDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Settings = () => {
   const classes = useStyles();
 
-  const { theme } = useAppSelector((state) => state.settings);
+  const { theme, currency } = useAppSelector((state) => state.settings);
 
   const dispatch = useAppDispatch();
 
@@ -42,41 +42,53 @@ const Settings = () => {
     dispatch(toggleTheme());
   };
 
+  const handleOpenDialog = (dialog: string) => {
+    dispatch(setSelectedDialog(dialog));
+  };
+
   return (
-    <Paper className={classes.paper}>
-      <List>
-        <ListItem role={undefined} dense button onClick={handleThemeChange}>
-          <ListItemText primary={`Theme (${upperCaseFirstLetter(theme)})`} />
-          <ListItemSecondaryAction className={classes.actionsContainer}>
-            <Switch
-              color='primary'
-              name='theme'
-              inputProps={{ 'aria-label': 'primary checkbox' }}
-              onChange={handleThemeChange}
-              checked={theme === 'dark'}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem role={undefined} dense button>
-          <ListItemText primary='Currency' />
-          <ListItemSecondaryAction className={classes.actionsContainer}>
-            <Typography>USD</Typography>
-            <IconButton>
-              <ArrowDropDownIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem role={undefined} dense button>
-          <ListItemText primary='Language' />
-          <ListItemSecondaryAction className={classes.actionsContainer}>
-            <Typography>English</Typography>
-            <IconButton>
-              <ArrowDropDownIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      </List>
-    </Paper>
+    <>
+      <CurrencyFormDialog />
+      <Paper className={classes.paper}>
+        <List>
+          <ListItem role={undefined} dense button onClick={handleThemeChange}>
+            <ListItemText primary={`Theme (${upperCaseFirstLetter(theme)})`} />
+            <div className={classes.actionsContainer}>
+              <Switch
+                color='primary'
+                name='theme'
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                onChange={handleThemeChange}
+                checked={theme === 'dark'}
+              />
+            </div>
+          </ListItem>
+          <ListItem
+            role='button'
+            dense
+            button
+            onClick={() => handleOpenDialog('currencyForm')}
+          >
+            <ListItemText primary='Currency' />
+            <div className={classes.actionsContainer}>
+              <Typography>{currency.title}</Typography>
+              <IconButton>
+                <ArrowDropDownIcon />
+              </IconButton>
+            </div>
+          </ListItem>
+          <ListItem role={undefined} dense button>
+            <ListItemText primary='Language' />
+            <div className={classes.actionsContainer}>
+              <Typography>English</Typography>
+              <IconButton>
+                <ArrowDropDownIcon />
+              </IconButton>
+            </div>
+          </ListItem>
+        </List>
+      </Paper>
+    </>
   );
 };
 

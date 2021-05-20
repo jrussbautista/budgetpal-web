@@ -4,6 +4,6 @@ export interface Budget {
   id: string;
   created_at: string;
   category: Category;
-  amount: number;
-  amount_spent: number;
+  amount: string;
+  amount_spent: string;
 }

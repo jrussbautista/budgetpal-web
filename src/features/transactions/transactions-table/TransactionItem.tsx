@@ -38,10 +38,6 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
 
   const { currency } = useAppSelector((state) => state.settings);
 
-  // console.log(currency);
-
-  // return null;
-
   const dispatch = useAppDispatch();
 
   const handleClickDelete = () => {
@@ -79,9 +75,9 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
           {transaction.title}
         </TableCell>
         <TableCell align='center'>
-          <span className={amountClassName}>
+          <p className={amountClassName}>
             {formatMoney(transaction.amount, currency.code, currency.locale)}
-          </span>
+          </p>
         </TableCell>
         <TableCell align='center'>{transaction.category.title}</TableCell>
         <TableCell align='center'>{transaction.created_at}</TableCell>

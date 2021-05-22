@@ -14,7 +14,8 @@ import TransactionItem from './TransactionItem';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    tableLayout: 'fixed',
+    whiteSpace: 'nowrap',
   },
   buttonsContainer: {},
   buttonAction: {
@@ -29,16 +30,16 @@ const useStyles = makeStyles({
 const TransactionsTable = () => {
   const classes = useStyles();
 
-  const { transactions, status } = useAppSelector(
+  const { transactions, status, selectedFilter } = useAppSelector(
     (state) => state.transactions
   );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchTransactions());
+      dispatch(fetchTransactions(selectedFilter));
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, selectedFilter]);
 
   if (status === 'loading') {
     return (
@@ -61,9 +62,17 @@ const TransactionsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactions.map((transaction) => (
-            <TransactionItem transaction={transaction} key={transaction.id} />
-          ))}
+          {transactions.length > 0 ? (
+            transactions.map((transaction) => (
+              <TransactionItem transaction={transaction} key={transaction.id} />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell align='center' colSpan={6}>
+                No Transactions yet.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

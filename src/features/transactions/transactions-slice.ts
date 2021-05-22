@@ -1,5 +1,5 @@
 import { Transaction } from './TransactionModel';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TransactionApi } from './transaction-api';
 import { AxiosError } from 'axios';
 import { Status } from '../../shared/models/Status';
@@ -10,14 +10,24 @@ interface InitialState {
   error: string | null | undefined;
   isOpenTransactionModal: boolean;
   selectedTransaction: Transaction | null;
+  isOpenFilter: boolean;
+  selectedFilter: Record<string, string>;
 }
+
+const initialSelectedFilter = {
+  category_id: '',
+  type: '',
+  title: '',
+};
 
 const initialState: InitialState = {
   status: 'idle',
   transactions: [],
   error: null,
   isOpenTransactionModal: false,
+  isOpenFilter: false,
   selectedTransaction: null,
+  selectedFilter: initialSelectedFilter,
 };
 
 interface ValidationErrors {
@@ -27,9 +37,9 @@ interface ValidationErrors {
 
 export const fetchTransactions = createAsyncThunk(
   'transactions/fetchTransactions',
-  async (_, { rejectWithValue }) => {
+  async (filter: Record<string, string>, { rejectWithValue }) => {
     try {
-      const response = await TransactionApi.getTransactions();
+      const response = await TransactionApi.getTransactions(filter);
       return response.data.data;
     } catch (err) {
       let error: AxiosError<ValidationErrors> = err;
@@ -129,6 +139,20 @@ export const transactionsSlice = createSlice({
     setSelectedTransaction: (state, action) => {
       state.selectedTransaction = action.payload;
     },
+    toggleFilter: (state) => {
+      state.isOpenFilter = !state.isOpenFilter;
+    },
+    setSelectedFilter: (
+      state,
+      action: PayloadAction<{ name: string; value: string }>
+    ) => {
+      state.status = 'idle'; // necessary in order to refetch transactions from api
+      state.selectedFilter[action.payload.name] = action.payload.value;
+    },
+    resetSelectedFilter: (state) => {
+      state.status = 'idle'; // necessary in order to refetch transactions from api
+      state.selectedFilter = initialSelectedFilter;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTransactions.pending, (state) => {
@@ -167,6 +191,9 @@ export const transactionsSlice = createSlice({
 export const {
   showTransactionModal,
   setSelectedTransaction,
+  toggleFilter,
+  setSelectedFilter,
+  resetSelectedFilter,
 } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

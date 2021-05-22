@@ -1,7 +1,8 @@
 import apiClient from '../../shared/utils/apiClient';
 
-const getTransactions = () => {
-  return apiClient.get('/api/transactions');
+const getTransactions = (filter: Record<string, string>) => {
+  const url = `/api/transactions?category_id=${filter.category_id}&type=${filter.type}&title=${filter.title}`;
+  return apiClient.get(url);
 };
 
 const deleteTransaction = (id: string) => {

@@ -8,3 +8,8 @@ export interface Transaction {
   category: Category;
   created_at: string;
 }
+
+export interface TransactionFilter {
+  category_id: string;
+  type: string;
+}

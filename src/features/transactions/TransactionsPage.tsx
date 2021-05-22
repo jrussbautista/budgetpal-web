@@ -1,13 +1,17 @@
-import { Button } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Modal from '../../shared/components/modal';
 import TransactionManage from './transaction-manage';
 import {
   setSelectedTransaction,
   showTransactionModal,
+  toggleFilter,
 } from './transactions-slice';
 import TransactionsTable from './transactions-table';
 import { makeStyles } from '@material-ui/core/styles';
+import TransactionsFilter from './transactions-filter';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -16,14 +20,16 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginBottom: 20,
   },
+  iconButton: {
+    marginRight: 10,
+  },
 });
 
 const TransactionsPage = () => {
   const classes = useStyles();
 
-  const { isOpenTransactionModal, selectedTransaction } = useAppSelector(
-    (state) => state.transactions
-  );
+  const { isOpenTransactionModal, isOpenFilter, selectedTransaction } =
+    useAppSelector((state) => state.transactions);
 
   const manageTransactionTitle = selectedTransaction
     ? 'Edit Transaction'
@@ -40,6 +46,10 @@ const TransactionsPage = () => {
     dispatch(showTransactionModal(true));
   };
 
+  const handleToggleFilter = () => {
+    dispatch(toggleFilter());
+  };
+
   return (
     <div>
       <Modal
@@ -50,6 +60,9 @@ const TransactionsPage = () => {
         <TransactionManage />
       </Modal>
       <div className={classes.topContainer}>
+        <IconButton className={classes.iconButton} onClick={handleToggleFilter}>
+          <FilterListIcon />
+        </IconButton>
         <Button
           variant='contained'
           color='primary'
@@ -59,6 +72,7 @@ const TransactionsPage = () => {
           Add Transaction
         </Button>
       </div>
+      {isOpenFilter && <TransactionsFilter />}
       <TransactionsTable />
     </div>
   );

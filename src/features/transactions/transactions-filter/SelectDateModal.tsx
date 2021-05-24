@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { setSelectedFilter, setSelectedModal } from '../transactions-slice';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import toast from 'react-hot-toast';
 
 const useStyles = makeStyles({
   group: {
@@ -40,6 +41,19 @@ const SelectDateModal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!startDate) {
+      return toast.error('Starting date is required');
+    }
+
+    if (!endDate) {
+      return toast.error('End date is required');
+    }
+
+    if (endDate < startDate) {
+      return toast.error('End date cannot be before start date');
+    }
+
     const formattedStartDate = getFormattedDate(startDate as Date);
     const formattedEndDate = getFormattedDate(endDate as Date);
 

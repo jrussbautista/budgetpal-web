@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../../../shared/components/modal';
 import Button from '@material-ui/core/Button';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -19,10 +19,17 @@ const useStyles = makeStyles({
 
 const SelectDateModal = () => {
   const classes = useStyles();
-  const { selectedModal } = useAppSelector((state) => state.transactions);
+  const { selectedModal, selectedFilter } = useAppSelector(
+    (state) => state.transactions
+  );
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if (!selectedFilter.start_date) setStartDate(null);
+    if (!selectedFilter.end_date) setEndDate(null);
+  }, [selectedFilter.start_date, selectedFilter.end_date]);
 
   const dispatch = useAppDispatch();
 

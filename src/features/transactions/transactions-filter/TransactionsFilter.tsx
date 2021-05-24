@@ -8,14 +8,17 @@ import Select from '@material-ui/core/Select';
 import { IconButton, Typography, Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   toggleFilter,
   setSelectedFilter,
   resetSelectedFilter,
+  setSelectedModal,
 } from '../transactions-slice';
 import debounce from 'lodash.debounce';
+import SelectDateModal from './SelectDateModal';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -27,14 +30,26 @@ const useStyles = makeStyles({
     margin: '10px 0 20px 0',
   },
   itemsContainer: {
-    margin: '10px 0',
+    margin: '10px -5px',
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
   formControl: {
     flexBasis: '20%',
-    marginRight: 10,
+    padding: '0 5px',
+  },
+  formStaticInput: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    border: '1px solid rgba(0, 0, 0, 0.23)',
+    padding: '15.5px  10px',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  formInputText: {
+    color: 'rgba(0, 0, 0, 0.54)',
   },
   iconButton: {
     padding: 6,
@@ -59,8 +74,7 @@ const TransactionsFilter = () => {
     debounce((value: string) => {
       dispatch(
         setSelectedFilter({
-          name: 'title',
-          value,
+          title: value,
         })
       );
     }, 1000),
@@ -90,8 +104,7 @@ const TransactionsFilter = () => {
 
     dispatch(
       setSelectedFilter({
-        name: filterName,
-        value,
+        [filterName]: value,
       })
     );
   };
@@ -170,9 +183,30 @@ const TransactionsFilter = () => {
                 value={titleText}
               />
             </FormControl>
+            <div className={classes.formControl}>
+              <div
+                className={classes.formStaticInput}
+                onClick={() => dispatch(setSelectedModal('selectDateModal'))}
+              >
+                <Typography className={classes.formInputText}>Date</Typography>
+                <ChevronRightIcon />
+              </div>
+            </div>
+            <div className={classes.formControl}>
+              <div
+                className={classes.formStaticInput}
+                onClick={() => dispatch(setSelectedModal('selectDateModal'))}
+              >
+                <Typography className={classes.formInputText}>
+                  Amount
+                </Typography>
+                <ChevronRightIcon />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
+      <SelectDateModal />
     </div>
   );
 };

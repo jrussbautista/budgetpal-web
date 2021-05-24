@@ -6,13 +6,17 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import Theme from './app/theme/Theme';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import utils from '@date-io/date-fns';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Theme>
-        <App />
-      </Theme>
+      <MuiPickersUtilsProvider utils={utils}>
+        <Theme>
+          <App />
+        </Theme>
+      </MuiPickersUtilsProvider>
       <Toaster />
     </Provider>
   </React.StrictMode>,

@@ -1,7 +1,8 @@
 import apiClient from '../../shared/utils/apiClient';
 
 const getTransactions = (filter: Record<string, string>) => {
-  const url = `/api/transactions?category_id=${filter.category_id}&type=${filter.type}&title=${filter.title}`;
+  const params = new URLSearchParams(filter).toString();
+  const url = `/api/transactions?${params}`;
   return apiClient.get(url);
 };
 

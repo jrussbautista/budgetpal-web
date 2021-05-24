@@ -15,7 +15,6 @@ import TransactionItem from './TransactionItem';
 const useStyles = makeStyles({
   table: {
     tableLayout: 'fixed',
-    whiteSpace: 'nowrap',
   },
   buttonsContainer: {},
   buttonAction: {

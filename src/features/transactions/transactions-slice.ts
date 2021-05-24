@@ -12,12 +12,15 @@ interface InitialState {
   selectedTransaction: Transaction | null;
   isOpenFilter: boolean;
   selectedFilter: Record<string, string>;
+  selectedModal: string | null;
 }
 
 const initialSelectedFilter = {
   category_id: '',
   type: '',
   title: '',
+  start_date: '',
+  end_date: '',
 };
 
 const initialState: InitialState = {
@@ -28,6 +31,7 @@ const initialState: InitialState = {
   isOpenFilter: false,
   selectedTransaction: null,
   selectedFilter: initialSelectedFilter,
+  selectedModal: null,
 };
 
 interface ValidationErrors {
@@ -142,12 +146,15 @@ export const transactionsSlice = createSlice({
     toggleFilter: (state) => {
       state.isOpenFilter = !state.isOpenFilter;
     },
+    setSelectedModal: (state, action) => {
+      state.selectedModal = action.payload;
+    },
     setSelectedFilter: (
       state,
-      action: PayloadAction<{ name: string; value: string }>
+      action: PayloadAction<Record<string, string>>
     ) => {
       state.status = 'idle'; // necessary in order to refetch transactions from api
-      state.selectedFilter[action.payload.name] = action.payload.value;
+      state.selectedFilter = { ...state.selectedFilter, ...action.payload };
     },
     resetSelectedFilter: (state) => {
       state.status = 'idle'; // necessary in order to refetch transactions from api
@@ -193,6 +200,7 @@ export const {
   setSelectedTransaction,
   toggleFilter,
   setSelectedFilter,
+  setSelectedModal,
   resetSelectedFilter,
 } = transactionsSlice.actions;
 

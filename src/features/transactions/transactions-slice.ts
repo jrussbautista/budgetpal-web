@@ -21,6 +21,8 @@ const initialSelectedFilter = {
   title: '',
   start_date: '',
   end_date: '',
+  min_amount: '',
+  max_amount: '',
 };
 
 const initialState: InitialState = {

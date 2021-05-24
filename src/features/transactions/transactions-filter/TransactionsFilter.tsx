@@ -19,6 +19,7 @@ import {
 } from '../transactions-slice';
 import debounce from 'lodash.debounce';
 import SelectDateModal from './SelectDateModal';
+import SelectAmountModal from './SelectAmountModal';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -195,7 +196,7 @@ const TransactionsFilter = () => {
             <div className={classes.formControl}>
               <div
                 className={classes.formStaticInput}
-                onClick={() => dispatch(setSelectedModal('selectDateModal'))}
+                onClick={() => dispatch(setSelectedModal('selectAmountModal'))}
               >
                 <Typography className={classes.formInputText}>
                   Amount
@@ -207,6 +208,7 @@ const TransactionsFilter = () => {
         </CardContent>
       </Card>
       <SelectDateModal />
+      <SelectAmountModal />
     </div>
   );
 };

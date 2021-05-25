@@ -11,14 +11,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import toast from 'react-hot-toast';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import NumberFormat from 'react-number-format';
 import { addBudget, setSelectedModal, updateBudget } from '../budgets-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import getFormattedDate from '../../../shared/utils/getFormattedDate';
 
 interface FormData {
   category_id: string;
   type: string;
   amount: string;
+  start_date: Date | null;
+  end_date: Date | null;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -40,21 +44,37 @@ const BudgetManage = () => {
   const defaultValues = {
     amount: selectedBudget?.amount?.toString() || '',
     category_id: selectedBudget?.category.id || '',
+    start_date: selectedBudget?.start_date || null,
+    end_date: selectedBudget?.end_date || null,
   };
 
-  const { handleSubmit, control } = useForm<FormData>({ defaultValues });
+  const { handleSubmit, control, setError } = useForm<FormData>({
+    defaultValues,
+  });
 
   const dispatch = useAppDispatch();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (formData: FormData) => {
+    if (
+      formData.end_date &&
+      formData.start_date &&
+      formData.end_date < formData.start_date
+    ) {
+      setError('end_date', { shouldFocus: true });
+      toast.error('End date cannot be before start date');
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
       const fields = {
         ...formData,
         amount: parseFloat(formData.amount),
+        start_date: getFormattedDate(formData.start_date as Date),
+        end_date: getFormattedDate(formData.end_date as Date),
       };
 
       if (selectedBudget) {
@@ -126,6 +146,74 @@ const BudgetManage = () => {
               <MenuItem value={1}>Non</MenuItem>
               <MenuItem value={2}>Ut</MenuItem>
             </Select>
+            {error && <FormHelperText>{error?.message}</FormHelperText>}
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        name='start_date'
+        control={control}
+        defaultValue=''
+        rules={{
+          required: 'Start Date is required field',
+        }}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <FormControl
+            fullWidth
+            error={Boolean(error)}
+            className={classes.input}
+          >
+            <KeyboardDatePicker
+              autoOk
+              fullWidth
+              disableToolbar
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              id='starting_date'
+              label='Starting Date'
+              value={value}
+              error={Boolean(error)}
+              onChange={onChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change start date',
+              }}
+            />
+            {error && <FormHelperText>{error?.message}</FormHelperText>}
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        name='end_date'
+        control={control}
+        defaultValue=''
+        rules={{
+          required: 'End date is required field',
+        }}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <FormControl
+            fullWidth
+            error={Boolean(error)}
+            className={classes.input}
+          >
+            <KeyboardDatePicker
+              autoOk
+              fullWidth
+              disableToolbar
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              id='end-date'
+              label='End Date'
+              value={value}
+              error={Boolean(error)}
+              onChange={onChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change start date',
+              }}
+            />
             {error && <FormHelperText>{error?.message}</FormHelperText>}
           </FormControl>
         )}

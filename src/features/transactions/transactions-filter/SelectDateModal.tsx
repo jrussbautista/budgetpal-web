@@ -6,6 +6,7 @@ import { setSelectedFilter, setSelectedModal } from '../transactions-slice';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import toast from 'react-hot-toast';
+import getFormattedDate from '../../../shared/utils/getFormattedDate';
 
 const useStyles = makeStyles({
   group: {
@@ -35,15 +36,6 @@ const SelectDateModal = () => {
 
   const handleCloseModal = () => {
     dispatch(setSelectedModal(null));
-  };
-
-  const getFormattedDate = (initialDate: Date) => {
-    const date = new Date(initialDate);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const formatted = `${year}-${month}-${day}`;
-    return formatted;
   };
 
   const handleSubmit = (e: React.FormEvent) => {

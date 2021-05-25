@@ -17,7 +17,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    background: 'inherit',
+    background: theme.palette.background.default,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,

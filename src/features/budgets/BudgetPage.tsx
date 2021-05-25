@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Modal from '../../shared/components/modal';
 import BudgetList from './budget-list';
 import BudgetManage from './budget-manage';
-import { setSelectedBudget, showBudgetModal } from './budgets-slice';
+import { setSelectedBudget, setSelectedModal } from './budgets-slice';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 const BudgetPage = () => {
   const classes = useStyles();
 
-  const { isOpenBudgetModal, selectedBudget } = useAppSelector(
+  const { selectedModal, selectedBudget } = useAppSelector(
     (state) => state.budgets
   );
 
@@ -29,11 +29,11 @@ const BudgetPage = () => {
     : 'Add New Budget';
 
   const handleOpenBudgetModal = () => {
-    dispatch(showBudgetModal(true));
+    dispatch(setSelectedModal('manageBudgetModal'));
   };
 
   const handleCloseBudgetModal = () => {
-    dispatch(showBudgetModal(false));
+    dispatch(setSelectedModal(null));
     dispatch(setSelectedBudget(null));
   };
 
@@ -41,7 +41,7 @@ const BudgetPage = () => {
     <div>
       <Modal
         title={budgetManageModalTitle}
-        isVisible={isOpenBudgetModal}
+        isVisible={selectedModal === 'manageBudgetModal'}
         onClose={handleCloseBudgetModal}
       >
         <BudgetManage />

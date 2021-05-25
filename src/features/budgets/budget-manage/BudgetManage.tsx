@@ -12,7 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
-import { addBudget, showBudgetModal, updateBudget } from '../budgets-slice';
+import { addBudget, setSelectedModal, updateBudget } from '../budgets-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 interface FormData {
@@ -70,7 +70,7 @@ const BudgetManage = () => {
       }
 
       setIsSubmitting(false);
-      dispatch(showBudgetModal(false));
+      dispatch(setSelectedModal(null));
     } catch (error) {
       toast.error(error.message);
       setIsSubmitting(false);

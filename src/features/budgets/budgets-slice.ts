@@ -8,7 +8,7 @@ interface InitialState {
   status: Status;
   budgets: Budget[];
   error: string | null | undefined;
-  isOpenBudgetModal: boolean;
+  selectedModal: null | string;
   selectedBudget: Budget | null;
 }
 
@@ -16,7 +16,7 @@ const initialState: InitialState = {
   status: 'idle',
   budgets: [],
   error: null,
-  isOpenBudgetModal: false,
+  selectedModal: null,
   selectedBudget: null,
 };
 
@@ -121,8 +121,8 @@ export const BudgetsSlice = createSlice({
   name: 'Budgets',
   initialState,
   reducers: {
-    showBudgetModal: (state, action) => {
-      state.isOpenBudgetModal = action.payload;
+    setSelectedModal: (state, action) => {
+      state.selectedModal = action.payload;
     },
     setSelectedBudget: (state, action) => {
       state.selectedBudget = action.payload;
@@ -162,6 +162,6 @@ export const BudgetsSlice = createSlice({
   },
 });
 
-export const { showBudgetModal, setSelectedBudget } = BudgetsSlice.actions;
+export const { setSelectedModal, setSelectedBudget } = BudgetsSlice.actions;
 
 export default BudgetsSlice.reducer;

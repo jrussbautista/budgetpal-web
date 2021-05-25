@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   deleteBudget,
   setSelectedBudget,
-  showBudgetModal,
+  setSelectedModal,
 } from '../budgets-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 
@@ -69,7 +69,7 @@ const BudgetItem: React.FC<Props> = ({ budget }) => {
   const progressColor = isReachedLimit ? 'secondary' : 'primary';
 
   const handleClickEdit = () => {
-    dispatch(showBudgetModal(true));
+    dispatch(setSelectedModal('manageBudgetModal'));
     dispatch(setSelectedBudget(budget));
     handleCloseMenu();
   };

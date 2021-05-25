@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
     progress: {
       marginTop: 20,
     },
+    budgetListContainer: {
+      maxWidth: 800,
+      margin: '0 auto',
+    },
   })
 );
 
@@ -44,11 +48,13 @@ const BudgetList = () => {
   }
 
   return (
-    <Grid container spacing={2}>
-      {budgets.map((budget) => (
-        <BudgetItem budget={budget} key={budget.id} />
-      ))}
-    </Grid>
+    <div className={classes.budgetListContainer}>
+      <Grid container spacing={2}>
+        {budgets.map((budget) => (
+          <BudgetItem budget={budget} key={budget.id} />
+        ))}
+      </Grid>
+    </div>
   );
 };
 

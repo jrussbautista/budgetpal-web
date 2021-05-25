@@ -6,4 +6,6 @@ export interface Budget {
   category: Category;
   amount: string;
   amount_spent: string;
+  start_date: string;
+  end_date: string;
 }

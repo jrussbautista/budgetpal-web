@@ -88,10 +88,13 @@ const BudgetItem: React.FC<Props> = ({ budget }) => {
   };
 
   return (
-    <Grid item xs={12} md={6} lg={3}>
+    <Grid item xs={12} md={6} lg={6}>
       <Card>
         <CardContent>
-          <Typography variant='body1' component='h2' color='textSecondary'>
+          <Typography variant='body2' color='textSecondary'>
+            {budget.start_date} - {budget.end_date}
+          </Typography>
+          <Typography variant='h6' component='h2'>
             {budget.category.title}
           </Typography>
           <Box display='flex' alignItems='center'>

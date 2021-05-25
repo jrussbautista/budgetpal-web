@@ -12,18 +12,21 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import {
   addTransaction,
   setSelectedModal,
   updateTransaction,
 } from '../transactions-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import getFormattedDate from '../../../shared/utils/getFormattedDate';
 
 interface FormData {
   title: string;
   amount: string;
   category_id: string;
   type: string;
+  happened_on: Date | null;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +50,7 @@ const TransactionManage = () => {
     amount: selectedTransaction?.amount?.toString() || '',
     category_id: selectedTransaction?.category.id || '',
     type: selectedTransaction?.type || 'expense',
+    happened_on: selectedTransaction?.happened_on || null,
   };
 
   const { handleSubmit, control } = useForm<FormData>({ defaultValues });
@@ -62,6 +66,7 @@ const TransactionManage = () => {
       const fields = {
         ...formData,
         amount: parseFloat(formData.amount),
+        happened_on: getFormattedDate(formData.happened_on as Date),
       };
 
       if (selectedTransaction) {
@@ -187,6 +192,40 @@ const TransactionManage = () => {
               <MenuItem value='expense'>Expense</MenuItem>
               <MenuItem value='income'>Income</MenuItem>
             </Select>
+            {error && <FormHelperText>{error?.message}</FormHelperText>}
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        name='happened_on'
+        control={control}
+        defaultValue=''
+        rules={{
+          required: 'Date is required field',
+        }}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <FormControl
+            fullWidth
+            error={Boolean(error)}
+            className={classes.input}
+          >
+            <KeyboardDatePicker
+              autoOk
+              fullWidth
+              disableToolbar
+              variant='inline'
+              format='MM/dd/yyyy'
+              margin='normal'
+              id='happened_on'
+              label='Date'
+              value={value}
+              error={Boolean(error)}
+              onChange={onChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change start date',
+              }}
+            />
             {error && <FormHelperText>{error?.message}</FormHelperText>}
           </FormControl>
         )}

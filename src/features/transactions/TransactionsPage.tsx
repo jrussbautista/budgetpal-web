@@ -3,7 +3,7 @@ import Modal from '../../shared/components/modal';
 import TransactionManage from './transaction-manage';
 import {
   setSelectedTransaction,
-  showTransactionModal,
+  setSelectedModal,
   toggleFilter,
 } from './transactions-slice';
 import TransactionsTable from './transactions-table';
@@ -28,8 +28,9 @@ const useStyles = makeStyles({
 const TransactionsPage = () => {
   const classes = useStyles();
 
-  const { isOpenTransactionModal, isOpenFilter, selectedTransaction } =
-    useAppSelector((state) => state.transactions);
+  const { selectedModal, isOpenFilter, selectedTransaction } = useAppSelector(
+    (state) => state.transactions
+  );
 
   const manageTransactionTitle = selectedTransaction
     ? 'Edit Transaction'
@@ -38,12 +39,12 @@ const TransactionsPage = () => {
   const dispatch = useAppDispatch();
 
   const handleCloseTransactionModal = () => {
-    dispatch(showTransactionModal(false));
+    dispatch(setSelectedModal(null));
     dispatch(setSelectedTransaction(null));
   };
 
   const handleOpenTransactionModal = () => {
-    dispatch(showTransactionModal(true));
+    dispatch(setSelectedModal('manageTransactionModal'));
   };
 
   const handleToggleFilter = () => {
@@ -53,7 +54,7 @@ const TransactionsPage = () => {
   return (
     <div>
       <Modal
-        isVisible={isOpenTransactionModal}
+        isVisible={selectedModal === 'manageTransactionModal'}
         onClose={handleCloseTransactionModal}
         title={manageTransactionTitle}
       >

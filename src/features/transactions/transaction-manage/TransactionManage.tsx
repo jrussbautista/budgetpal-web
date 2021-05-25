@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
 import {
   addTransaction,
-  showTransactionModal,
+  setSelectedModal,
   updateTransaction,
 } from '../transactions-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -77,7 +77,7 @@ const TransactionManage = () => {
       }
 
       setIsSubmitting(false);
-      dispatch(showTransactionModal(false));
+      dispatch(setSelectedModal(null));
     } catch (error) {
       toast.error(error.message);
       setIsSubmitting(false);

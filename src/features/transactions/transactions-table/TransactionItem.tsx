@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
   deleteTransaction,
   setSelectedTransaction,
-  showTransactionModal,
+  setSelectedModal,
 } from '../transactions-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
@@ -61,7 +61,7 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
   };
 
   const handleClickEdit = () => {
-    dispatch(showTransactionModal(true));
+    dispatch(setSelectedModal('manageTransactionModal'));
     dispatch(setSelectedTransaction(transaction));
   };
 

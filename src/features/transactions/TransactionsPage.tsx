@@ -6,7 +6,7 @@ import {
   setSelectedModal,
   toggleFilter,
 } from './transactions-slice';
-import TransactionsTable from './transactions-table';
+import TransactionsList from './transactions-list';
 import { makeStyles } from '@material-ui/core/styles';
 import TransactionsFilter from './transactions-filter';
 import Button from '@material-ui/core/Button';
@@ -74,7 +74,7 @@ const TransactionsPage = () => {
         </Button>
       </div>
       {isOpenFilter && <TransactionsFilter />}
-      <TransactionsTable />
+      <TransactionsList />
     </div>
   );
 };

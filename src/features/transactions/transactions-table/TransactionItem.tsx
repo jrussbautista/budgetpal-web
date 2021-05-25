@@ -80,7 +80,7 @@ const TransactionItem: React.FC<Props> = ({ transaction }) => {
           </p>
         </TableCell>
         <TableCell align='center'>{transaction.category.title}</TableCell>
-        <TableCell align='center'>{transaction.created_at}</TableCell>
+        <TableCell align='center'>{transaction.happened_on}</TableCell>
         <TableCell align='center'>
           <Button
             variant='contained'

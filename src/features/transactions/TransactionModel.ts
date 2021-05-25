@@ -6,6 +6,7 @@ export interface Transaction {
   amount: number;
   type: string;
   category: Category;
+  happened_on: string;
   created_at: string;
 }
 

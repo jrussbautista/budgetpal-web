@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Modal from '../../shared/components/modal';
 import BudgetList from './budget-list';
@@ -12,6 +13,10 @@ const useStyles = makeStyles({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  mainContainer: {
+    maxWidth: 800,
+    margin: '0 auto',
   },
 });
 
@@ -56,7 +61,9 @@ const BudgetPage = () => {
           Add Budget
         </Button>
       </div>
-      <BudgetList />
+      <div className={classes.mainContainer}>
+        <BudgetList />
+      </div>
     </div>
   );
 };

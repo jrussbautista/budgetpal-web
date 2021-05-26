@@ -1,5 +1,10 @@
+import { RootState } from './../../app/store';
 import { Budget } from './BudgetModel';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from '@reduxjs/toolkit';
 import { BudgetApi } from './budget-api';
 import { AxiosError } from 'axios';
 import { Status } from '../../shared/models/Status';
@@ -163,5 +168,12 @@ export const BudgetsSlice = createSlice({
 });
 
 export const { setSelectedModal, setSelectedBudget } = BudgetsSlice.actions;
+
+export const selectAllBudgets = (state: RootState) => state.budgets.budgets;
+
+export const selectBudgetsByStatus = createSelector(
+  [selectAllBudgets, (state: RootState, status: string) => status],
+  (budgets, status) => budgets.filter((budget) => budget.status === status)
+);
 
 export default BudgetsSlice.reducer;

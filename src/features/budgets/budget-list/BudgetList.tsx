@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-
-import { fetchBudgets } from '../budgets-slice';
+import { fetchBudgets, selectBudgetsByStatus } from '../budgets-slice';
 import BudgetItem from './BudgetItem';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -20,9 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
     progress: {
       marginTop: 20,
     },
-    budgetListContainer: {
-      maxWidth: 800,
-      margin: '0 auto',
+    tabsContainer: {
+      margin: '15px 0',
     },
   })
 );
@@ -30,7 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const BudgetList = () => {
   const classes = useStyles();
 
-  const { status, budgets } = useAppSelector((state) => state.budgets);
+  const [value, setValue] = useState(0);
+
+  const selectedBudgetStatus = value === 0 ? 'on going' : 'finished';
+
+  const { status } = useAppSelector((state) => state.budgets);
+
+  const budgets = useAppSelector((state) =>
+    selectBudgetsByStatus(state, selectedBudgetStatus)
+  );
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -38,6 +48,10 @@ const BudgetList = () => {
       dispatch(fetchBudgets());
     }
   }, [status, dispatch]);
+
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
 
   if (status === 'loading') {
     return (
@@ -48,13 +62,27 @@ const BudgetList = () => {
   }
 
   return (
-    <div className={classes.budgetListContainer}>
+    <>
+      <Paper square>
+        <Tabs
+          value={value}
+          indicatorColor='primary'
+          textColor='primary'
+          onChange={handleTabChange}
+          aria-label='budgets tab'
+          className={classes.tabsContainer}
+          centered
+        >
+          <Tab label='On Going' />
+          <Tab label='Finished' />
+        </Tabs>
+      </Paper>
       <Grid container spacing={2}>
         {budgets.map((budget) => (
           <BudgetItem budget={budget} key={budget.id} />
         ))}
       </Grid>
-    </div>
+    </>
   );
 };
 

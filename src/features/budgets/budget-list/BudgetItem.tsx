@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
     actionsContainer: {
       padding: 5,
     },
+    finishedItem: {
+      opacity: 0.5,
+    },
   })
 );
 
@@ -67,6 +70,9 @@ const BudgetItem: React.FC<Props> = ({ budget }) => {
   const isReachedLimit = budget.amount_spent > budget.amount;
 
   const progressColor = isReachedLimit ? 'secondary' : 'primary';
+
+  const cardClassName =
+    budget.status === 'finished' ? classes.finishedItem : '';
 
   const handleClickEdit = () => {
     dispatch(setSelectedModal('manageBudgetModal'));
@@ -107,7 +113,7 @@ const BudgetItem: React.FC<Props> = ({ budget }) => {
 
   return (
     <Grid item xs={12}>
-      <Card>
+      <Card className={cardClassName}>
         <CardContent>
           <div className={classes.cardContainer}>
             <div className={classes.infoContainer}>

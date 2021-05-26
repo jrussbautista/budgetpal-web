@@ -4,6 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { fetchBudgets, selectBudgetsByStatus } from '../budgets-slice';
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tabsContainer: {
       margin: '15px 0',
+    },
+    alertContainer: {
+      margin: '20px 8px',
+      width: '100%',
     },
   })
 );
@@ -78,9 +83,15 @@ const BudgetList = () => {
         </Tabs>
       </Paper>
       <Grid container spacing={2}>
-        {budgets.map((budget) => (
-          <BudgetItem budget={budget} key={budget.id} />
-        ))}
+        {budgets.length > 0 ? (
+          budgets.map((budget) => (
+            <BudgetItem budget={budget} key={budget.id} />
+          ))
+        ) : (
+          <Alert className={classes.alertContainer} severity='info'>
+            No {selectedBudgetStatus} budgets yet.
+          </Alert>
+        )}
       </Grid>
     </>
   );

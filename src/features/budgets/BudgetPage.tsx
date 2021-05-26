@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Modal from '../../shared/components/modal';
 import BudgetList from './budget-list';

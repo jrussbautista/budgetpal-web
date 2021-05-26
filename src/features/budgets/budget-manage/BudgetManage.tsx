@@ -13,7 +13,12 @@ import Select from '@material-ui/core/Select';
 import toast from 'react-hot-toast';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import NumberFormat from 'react-number-format';
-import { addBudget, setSelectedModal, updateBudget } from '../budgets-slice';
+import {
+  addBudget,
+  setSelectedModal,
+  updateBudget,
+  fetchBudgets,
+} from '../budgets-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import getFormattedDate from '../../../shared/utils/getFormattedDate';
 
@@ -82,6 +87,7 @@ const BudgetManage = () => {
           updateBudget({ id: selectedBudget.id, fields })
         );
         unwrapResult(result);
+
         toast.success("You've successfully update budget");
       } else {
         const result = await dispatch(addBudget(fields));
@@ -90,6 +96,7 @@ const BudgetManage = () => {
       }
 
       setIsSubmitting(false);
+      dispatch(fetchBudgets());
       dispatch(setSelectedModal(null));
     } catch (error) {
       toast.error(error.message);

@@ -113,7 +113,7 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
           onClick={handleOpenMenu}
         >
           <Avatar className={classes.avatarLetter}>
-            {user?.name.charAt(0)}
+            {user?.name?.charAt(0)}
           </Avatar>
         </IconButton>
         <Menu

@@ -20,6 +20,7 @@ import {
 } from '../transactions-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import getFormattedDate from '../../../shared/utils/getFormattedDate';
+import { fetchBudgets } from '../../budgets/budgets-slice';
 
 interface FormData {
   title: string;
@@ -82,6 +83,7 @@ const TransactionManage = () => {
       }
 
       setIsSubmitting(false);
+      dispatch(fetchBudgets());
       dispatch(setSelectedModal(null));
     } catch (error) {
       toast.error(error.message);

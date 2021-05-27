@@ -12,6 +12,7 @@ interface InitialState {
   isOpenFilter: boolean;
   selectedFilter: Record<string, string>;
   selectedModal: string | null;
+  total: number;
 }
 
 const initialSelectedFilter = {
@@ -32,6 +33,7 @@ const initialState: InitialState = {
   selectedTransaction: null,
   selectedFilter: initialSelectedFilter,
   selectedModal: null,
+  total: 0,
 };
 
 interface ValidationErrors {
@@ -41,10 +43,13 @@ interface ValidationErrors {
 
 export const fetchTransactions = createAsyncThunk(
   'transactions/fetchTransactions',
-  async (filter: Record<string, string>, { rejectWithValue }) => {
+  async (
+    { filter, page }: { filter: Record<string, string>; page: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await TransactionApi.getTransactions(filter);
-      return response.data.data;
+      const response = await TransactionApi.getTransactions(page, filter);
+      return response.data;
     } catch (err) {
       let error: AxiosError<ValidationErrors> = err;
 
@@ -157,6 +162,9 @@ export const transactionsSlice = createSlice({
       state.status = 'idle'; // necessary in order to refetch transactions from api
       state.selectedFilter = initialSelectedFilter;
     },
+    setBudgetStatus: (state, action) => {
+      state.status = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTransactions.pending, (state) => {
@@ -164,7 +172,8 @@ export const transactionsSlice = createSlice({
     });
     builder.addCase(fetchTransactions.fulfilled, (state, action) => {
       state.status = 'succeed';
-      state.transactions = action.payload;
+      state.transactions = action.payload.data;
+      state.total = action.payload.meta.total;
     });
     builder.addCase(fetchTransactions.rejected, (state, action: any) => {
       if (action.payload) {
@@ -197,6 +206,7 @@ export const {
   toggleFilter,
   setSelectedFilter,
   setSelectedModal,
+  setBudgetStatus,
   resetSelectedFilter,
 } = transactionsSlice.actions;
 

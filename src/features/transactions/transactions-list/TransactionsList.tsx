@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { fetchTransactions } from '../transactions-slice';
+import { fetchTransactions, setBudgetStatus } from '../transactions-slice';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Pagination from '@material-ui/lab/Pagination';
 import TransactionItem from './TransactionItem';
+import Alert from '@material-ui/lab/Alert';
+import queryString from 'query-string';
 
 const useStyles = makeStyles({
   table: {
@@ -18,25 +22,45 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: '100px 0',
   },
-  transactionListContainer: {
-    maxWidth: 800,
-    margin: '0 auto',
+
+  paginationContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '30px 0',
+    width: '100%',
+  },
+  alertContainer: {
+    margin: '20px 8px',
+    width: '100%',
   },
 });
+
+const LIMIT = 10;
 
 const TransactionsList = () => {
   const classes = useStyles();
 
-  const { transactions, status, selectedFilter } = useAppSelector(
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const history = useHistory();
+
+  const parsedQueryString = queryString.parse(location.search);
+  const initialPage = parsedQueryString.page
+    ? parseInt(parsedQueryString.page as string)
+    : 1;
+
+  const [page, setPage] = useState(initialPage);
+
+  const { transactions, status, selectedFilter, total } = useAppSelector(
     (state) => state.transactions
   );
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchTransactions(selectedFilter));
+      dispatch(fetchTransactions({ filter: selectedFilter, page }));
     }
-  }, [status, dispatch, selectedFilter]);
+  }, [status, dispatch, selectedFilter, page]);
 
   if (status === 'loading') {
     return (
@@ -46,18 +70,49 @@ const TransactionsList = () => {
     );
   }
 
+  const handlePaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+    const newQueryString = queryString.stringify({
+      ...parsedQueryString,
+      page: value,
+    });
+    const url = `${location.pathname}?${newQueryString}`;
+    history.push(url);
+    dispatch(setBudgetStatus('idle'));
+  };
+
+  const paginationCount = Math.ceil(total / LIMIT);
+
+  const showPagination = paginationCount > 1;
+
   return (
-    <div className={classes.transactionListContainer}>
-      <Grid container spacing={2}>
-        {transactions.length > 0 ? (
-          transactions.map((transaction) => (
+    <Grid container spacing={2}>
+      {transactions.length > 0 ? (
+        <>
+          {transactions.map((transaction) => (
             <TransactionItem transaction={transaction} key={transaction.id} />
-          ))
-        ) : (
-          <div>No Transactions yet.</div>
-        )}
-      </Grid>
-    </div>
+          ))}
+        </>
+      ) : (
+        <Alert className={classes.alertContainer} severity='info'>
+          No transactions yet.
+        </Alert>
+      )}
+      {showPagination && (
+        <div className={classes.paginationContainer}>
+          <Pagination
+            count={paginationCount}
+            variant='outlined'
+            color='primary'
+            page={page}
+            onChange={handlePaginationChange}
+          />
+        </div>
+      )}
+    </Grid>
   );
 };
 

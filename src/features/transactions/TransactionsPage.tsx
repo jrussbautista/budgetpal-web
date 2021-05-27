@@ -23,6 +23,10 @@ const useStyles = makeStyles({
   iconButton: {
     marginRight: 10,
   },
+  transactionsContainer: {
+    maxWidth: 800,
+    margin: '0 auto',
+  },
 });
 
 const TransactionsPage = () => {
@@ -52,7 +56,7 @@ const TransactionsPage = () => {
   };
 
   return (
-    <div>
+    <>
       <Modal
         isVisible={selectedModal === 'manageTransactionModal'}
         onClose={handleCloseTransactionModal}
@@ -60,6 +64,7 @@ const TransactionsPage = () => {
       >
         <TransactionManage />
       </Modal>
+
       <div className={classes.topContainer}>
         <IconButton className={classes.iconButton} onClick={handleToggleFilter}>
           <FilterListIcon />
@@ -73,9 +78,11 @@ const TransactionsPage = () => {
           Add Transaction
         </Button>
       </div>
-      {isOpenFilter && <TransactionsFilter />}
-      <TransactionsList />
-    </div>
+      <div className={classes.transactionsContainer}>
+        {isOpenFilter && <TransactionsFilter />}
+        <TransactionsList />
+      </div>
+    </>
   );
 };
 

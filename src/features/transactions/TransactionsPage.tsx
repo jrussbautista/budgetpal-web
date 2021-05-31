@@ -1,11 +1,7 @@
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import Modal from '../../shared/components/modal';
-import TransactionManage from './transaction-manage';
-import {
-  setSelectedTransaction,
-  setSelectedModal,
-  toggleFilter,
-} from './transactions-slice';
+import TransactionManageModal from './transaction-manage-modal';
+import { setSelectedModal } from './transactions-slice';
 import TransactionsList from './transactions-list';
 import { makeStyles } from '@material-ui/core/styles';
 import TransactionsFilter from './transactions-filter';
@@ -32,39 +28,22 @@ const useStyles = makeStyles({
 const TransactionsPage = () => {
   const classes = useStyles();
 
-  const { selectedModal, isOpenFilter, selectedTransaction } = useAppSelector(
-    (state) => state.transactions
-  );
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
 
-  const manageTransactionTitle = selectedTransaction
-    ? 'Edit Transaction'
-    : 'Add Transaction';
+  const { selectedModal } = useAppSelector((state) => state.transactions);
 
   const dispatch = useAppDispatch();
-
-  const handleCloseTransactionModal = () => {
-    dispatch(setSelectedModal(null));
-    dispatch(setSelectedTransaction(null));
-  };
 
   const handleOpenTransactionModal = () => {
     dispatch(setSelectedModal('manageTransactionModal'));
   };
 
   const handleToggleFilter = () => {
-    dispatch(toggleFilter());
+    setIsOpenFilter(!isOpenFilter);
   };
 
   return (
     <>
-      <Modal
-        isVisible={selectedModal === 'manageTransactionModal'}
-        onClose={handleCloseTransactionModal}
-        title={manageTransactionTitle}
-      >
-        <TransactionManage />
-      </Modal>
-
       <div className={classes.topContainer}>
         <IconButton className={classes.iconButton} onClick={handleToggleFilter}>
           <FilterListIcon />
@@ -79,9 +58,12 @@ const TransactionsPage = () => {
         </Button>
       </div>
       <div className={classes.transactionsContainer}>
-        {isOpenFilter && <TransactionsFilter />}
+        {isOpenFilter && (
+          <TransactionsFilter onToggleFilter={handleToggleFilter} />
+        )}
         <TransactionsList />
       </div>
+      {selectedModal === 'manageTransactionModal' && <TransactionManageModal />}
     </>
   );
 };

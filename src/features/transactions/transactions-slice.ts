@@ -9,7 +9,6 @@ interface InitialState {
   transactions: Transaction[];
   error: string | null | undefined;
   selectedTransaction: Transaction | null;
-  isOpenFilter: boolean;
   selectedFilter: Record<string, string>;
   selectedModal: string | null;
   total: number;
@@ -29,7 +28,6 @@ const initialState: InitialState = {
   status: 'idle',
   transactions: [],
   error: null,
-  isOpenFilter: false,
   selectedTransaction: null,
   selectedFilter: initialSelectedFilter,
   selectedModal: null,
@@ -145,9 +143,6 @@ export const transactionsSlice = createSlice({
     setSelectedTransaction: (state, action) => {
       state.selectedTransaction = action.payload;
     },
-    toggleFilter: (state) => {
-      state.isOpenFilter = !state.isOpenFilter;
-    },
     setSelectedModal: (state, action) => {
       state.selectedModal = action.payload;
     },
@@ -203,7 +198,6 @@ export const transactionsSlice = createSlice({
 
 export const {
   setSelectedTransaction,
-  toggleFilter,
   setSelectedFilter,
   setSelectedModal,
   setBudgetStatus,

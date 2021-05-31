@@ -12,14 +12,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
-  toggleFilter,
   setSelectedFilter,
   resetSelectedFilter,
   setSelectedModal,
 } from '../transactions-slice';
 import debounce from 'lodash.debounce';
-import SelectDateModal from './SelectDateModal';
-import SelectAmountModal from './SelectAmountModal';
+import SelectDateModal from '../select-date-modal';
+import SelectAmountModal from '../select-amount-modal';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -62,7 +61,11 @@ const useStyles = makeStyles({
   },
 });
 
-const TransactionsFilter = () => {
+interface Props {
+  onToggleFilter(): void;
+}
+
+const TransactionsFilter: React.FC<Props> = ({ onToggleFilter }) => {
   const classes = useStyles();
 
   const { selectedFilter } = useAppSelector((state) => state.transactions);
@@ -83,6 +86,12 @@ const TransactionsFilter = () => {
   );
 
   useEffect(() => {
+    return () => {
+      dispatch(resetSelectedFilter());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
     if (titleText) {
       searchTitle(titleText);
     }
@@ -91,10 +100,6 @@ const TransactionsFilter = () => {
   const handleReset = () => {
     dispatch(resetSelectedFilter());
     setTitleText('');
-  };
-
-  const handleToggleFilter = () => {
-    dispatch(toggleFilter());
   };
 
   const handleChange = (
@@ -138,7 +143,7 @@ const TransactionsFilter = () => {
               )}
 
               <IconButton
-                onClick={handleToggleFilter}
+                onClick={onToggleFilter}
                 className={classes.iconButton}
               >
                 <CloseIcon />

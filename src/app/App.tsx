@@ -16,6 +16,7 @@ import {
 import PageError from '../shared/components/page-error';
 import AccountPage from '../features/account/AccountPage';
 import SettingsPage from '../features/settings/SettingsPage';
+import ReportPage from '../features/report/ReportPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -43,7 +44,14 @@ function App() {
         </Route>
         <Route
           exact
-          path={['/', '/budgets', '/transactions', '/settings', '/account']}
+          path={[
+            '/',
+            '/budgets',
+            '/transactions',
+            '/settings',
+            '/account',
+            '/report',
+          ]}
         >
           <Layout>
             <Switch>
@@ -55,6 +63,7 @@ function App() {
                 exact
               />
               <PrivateRoute path='/account' component={AccountPage} exact />
+              <PrivateRoute path='/report' component={ReportPage} exact />
               <PrivateRoute path='/settings' component={SettingsPage} exact />
             </Switch>
           </Layout>

@@ -4,6 +4,7 @@ import dashboardReducer from '../features/dashboard/dashboard-slice';
 import transactionsReducer from '../features/transactions/transactions-slice';
 import budgetReducer from '../features/budgets/budgets-slice';
 import settingsReducer from '../features/settings/settings-slice';
+import reportReducer from '../features/report/report-slice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     transactions: transactionsReducer,
     budgets: budgetReducer,
     settings: settingsReducer,
+    report: reportReducer,
   },
 });
 

@@ -3,11 +3,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Transaction } from '../transactions/TransactionModel';
 import { AxiosError } from 'axios';
 import { Status } from '../../shared/models/Status';
+import { getStartAndEndDate } from '../../shared/utils/getDateRange';
 
 interface InitialState {
   transactions: Transaction[];
   status: Status;
   error: string | null | undefined;
+  filter: Record<string, string>;
 }
 
 interface ValidationErrors {
@@ -15,17 +17,25 @@ interface ValidationErrors {
   message: string;
 }
 
+const initialDateRange = getStartAndEndDate();
+
 const initialState: InitialState = {
   transactions: [],
   status: 'idle',
   error: null,
+  filter: {
+    label: 'This Month',
+    value: 'thisMonth',
+    start_date: initialDateRange.startDate,
+    end_date: initialDateRange.endDate,
+  },
 };
 
 export const fetchReport = createAsyncThunk(
   'report',
-  async (_, { rejectWithValue }) => {
+  async (filter: Record<string, string> = {}, { rejectWithValue }) => {
     try {
-      const response = await ReportApi.getReport();
+      const response = await ReportApi.getReport(filter);
       return response.data.data;
     } catch (err) {
       let error: AxiosError<ValidationErrors> = err;
@@ -42,7 +52,11 @@ export const fetchReport = createAsyncThunk(
 export const reportSlice = createSlice({
   name: 'report',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchReport.pending, (state, action) => {
       state.status = 'loading';
@@ -61,5 +75,7 @@ export const reportSlice = createSlice({
     });
   },
 });
+
+export const { setSelectedFilter } = reportSlice.actions;
 
 export default reportSlice.reducer;

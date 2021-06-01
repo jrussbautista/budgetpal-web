@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -36,15 +36,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReportChart = () => {
   const classes = useStyles();
-  const { status, transactions } = useAppSelector((state) => state.report);
+  const {
+    status,
+    transactions,
+    filter: { start_date, end_date },
+  } = useAppSelector((state) => state.report);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchReport());
+      dispatch(fetchReport({ start_date, end_date }));
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, start_date, end_date]);
 
   const dataFormatter = (value: string) => {
     return `P${value}`;

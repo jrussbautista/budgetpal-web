@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,14 +11,12 @@ import CardContent from '@material-ui/core/CardContent';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-  setSelectedFilter,
-  resetSelectedFilter,
-  setSelectedModal,
-} from '../transactions-slice';
+import { setSelectedFilter, resetSelectedFilter } from '../transactions-slice';
 import debounce from 'lodash.debounce';
-import SelectDateModal from '../select-date-modal';
 import SelectAmountModal from '../select-amount-modal';
+import SelectDateRangeModal from '../../../shared/components/select-date-range-modal';
+import { DateRange } from '../../../shared/models/DateRange';
+import formatDate from '../../../shared/utils/formatDate';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -30,14 +28,15 @@ const useStyles = makeStyles({
     margin: '10px 0 20px 0',
   },
   itemsContainer: {
-    margin: '10px -5px',
+    margin: '10px -5px  0 -5px',
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
   formControl: {
-    flexBasis: '20%',
+    width: '33.33%',
     padding: '0 5px',
+    marginBottom: 10,
   },
   formStaticInput: {
     display: 'flex',
@@ -47,9 +46,15 @@ const useStyles = makeStyles({
     boxSizing: 'border-box',
     borderRadius: '4px',
     cursor: 'pointer',
+    whiteSpace: 'nowrap',
   },
   formInputText: {
     color: 'rgba(0, 0, 0, 0.54)',
+    width: '90%',
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   iconButton: {
     padding: 6,
@@ -69,27 +74,24 @@ const TransactionsFilter: React.FC<Props> = ({ onToggleFilter }) => {
   const classes = useStyles();
 
   const { selectedFilter } = useAppSelector((state) => state.transactions);
+  const [showDateRangeModal, setShowDateRangeModal] = useState(false);
+  const [showAmountModal, setShowAmountModal] = useState(false);
 
-  const [titleText, setTitleText] = useState('');
+  const [titleText, setTitleText] = useState(selectedFilter.title || '');
 
   const dispatch = useAppDispatch();
 
-  const searchTitle = useCallback(
-    debounce((value: string) => {
-      dispatch(
-        setSelectedFilter({
-          title: value,
-        })
-      );
-    }, 1000),
-    []
+  const searchTitle = useMemo(
+    () =>
+      debounce((value: string) => {
+        dispatch(
+          setSelectedFilter({
+            title: value,
+          })
+        );
+      }, 1000),
+    [dispatch]
   );
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetSelectedFilter());
-    };
-  }, [dispatch]);
 
   useEffect(() => {
     if (titleText) {
@@ -123,6 +125,12 @@ const TransactionsFilter: React.FC<Props> = ({ onToggleFilter }) => {
     return Object.keys(selectedFilter).some(
       (filter) => selectedFilter[filter] !== ''
     );
+  };
+
+  const handleSelectDateRange = (range: DateRange) => {
+    const { start_date, end_date } = range;
+    dispatch(setSelectedFilter({ start_date, end_date }));
+    setShowDateRangeModal(false);
   };
 
   return (
@@ -192,19 +200,27 @@ const TransactionsFilter: React.FC<Props> = ({ onToggleFilter }) => {
             <div className={classes.formControl}>
               <div
                 className={classes.formStaticInput}
-                onClick={() => dispatch(setSelectedModal('selectDateModal'))}
+                onClick={() => setShowDateRangeModal(true)}
               >
-                <Typography className={classes.formInputText}>Date</Typography>
+                <Typography className={classes.formInputText}>
+                  {selectedFilter.start_date && selectedFilter.end_date
+                    ? `${formatDate(selectedFilter.start_date)} - ${formatDate(
+                        selectedFilter.end_date
+                      )}`
+                    : 'Date'}
+                </Typography>
                 <ChevronRightIcon />
               </div>
             </div>
             <div className={classes.formControl}>
               <div
                 className={classes.formStaticInput}
-                onClick={() => dispatch(setSelectedModal('selectAmountModal'))}
+                onClick={() => setShowAmountModal(true)}
               >
                 <Typography className={classes.formInputText}>
-                  Amount
+                  {selectedFilter.min_amount && selectedFilter.max_amount
+                    ? `${selectedFilter.min_amount}  -  ${selectedFilter.max_amount}`
+                    : 'Amount'}
                 </Typography>
                 <ChevronRightIcon />
               </div>
@@ -212,8 +228,15 @@ const TransactionsFilter: React.FC<Props> = ({ onToggleFilter }) => {
           </div>
         </CardContent>
       </Card>
-      <SelectDateModal />
-      <SelectAmountModal />
+      <SelectDateRangeModal
+        show={showDateRangeModal}
+        onSelectDateRange={handleSelectDateRange}
+        onClose={() => setShowDateRangeModal(false)}
+      />
+      <SelectAmountModal
+        show={showAmountModal}
+        onClose={() => setShowAmountModal(false)}
+      />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SettingsIcon from '@material-ui/icons/Settings';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -57,6 +58,17 @@ const SidebarList = () => {
           <AccountBalanceIcon />
         </ListItemIcon>
         <ListItemText primary='Budgets' />
+      </ListItem>
+      <ListItem
+        button
+        component={Link}
+        to='/report'
+        selected={getIsActive('/report')}
+      >
+        <ListItemIcon className={classes.listItem}>
+          <EqualizerIcon />
+        </ListItemIcon>
+        <ListItemText primary='Report' />
       </ListItem>
       <ListItem
         button

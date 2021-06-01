@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from '../../../shared/components/modal';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { setSelectedFilter, setSelectedModal } from '../transactions-slice';
+import { setSelectedFilter } from '../transactions-slice';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -16,36 +16,29 @@ const useStyles = makeStyles({
   },
 });
 
-const SelectAmountModal = () => {
+interface Props {
+  onClose(): void;
+  show: boolean;
+}
+
+const SelectAmountModal: React.FC<Props> = ({ onClose, show }) => {
   const classes = useStyles();
-  const { selectedModal, selectedFilter } = useAppSelector(
-    (state) => state.transactions
-  );
+
+  const { selectedFilter } = useAppSelector((state) => state.transactions);
 
   const [amount, setAmount] = useState({
-    min: '',
-    max: '',
+    min: selectedFilter.min_amount || '',
+    max: selectedFilter.max_amount || '',
   });
 
-  useEffect(() => {
-    setAmount({
-      min: selectedFilter.min_amount,
-      max: selectedFilter.max_amount,
-    });
-  }, [selectedFilter.min_amount, selectedFilter.max_amount]);
-
   const dispatch = useAppDispatch();
-
-  const handleCloseModal = () => {
-    dispatch(setSelectedModal(null));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
       setSelectedFilter({ min_amount: amount.min, max_amount: amount.max })
     );
-    handleCloseModal();
+    onClose();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,11 +49,7 @@ const SelectAmountModal = () => {
   };
 
   return (
-    <Modal
-      title='Select Amount'
-      isVisible={selectedModal === 'selectAmountModal'}
-      onClose={handleCloseModal}
-    >
+    <Modal title='Select Amount' isVisible={show} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <div className={classes.group}>
           <TextField
@@ -90,7 +79,7 @@ const SelectAmountModal = () => {
           <Button
             color='secondary'
             style={{ marginRight: 10 }}
-            onClick={handleCloseModal}
+            onClick={onClose}
           >
             Cancel
           </Button>

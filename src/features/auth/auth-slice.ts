@@ -133,6 +133,28 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const updateSettings = createAsyncThunk(
+  'user/updateSettings',
+  async (
+    fields: { language: string; currency: string; theme: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await AuthApi.updateSettings(fields);
+      console.log(response);
+      const user = response.data.data;
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      return user;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -166,6 +188,9 @@ export const authSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(updateSettings.fulfilled, (state, action) => {
       state.user = action.payload;
     });
   },

@@ -3,7 +3,6 @@ import authReducer from '../features/auth/auth-slice';
 import dashboardReducer from '../features/dashboard/dashboard-slice';
 import transactionsReducer from '../features/transactions/transactions-slice';
 import budgetReducer from '../features/budgets/budgets-slice';
-import settingsReducer from '../features/settings/settings-slice';
 import reportReducer from '../features/report/report-slice';
 
 export const store = configureStore({
@@ -12,14 +11,13 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     transactions: transactionsReducer,
     budgets: budgetReducer,
-    settings: settingsReducer,
     report: reportReducer,
   },
 });
 
 store.subscribe(() => {
-  const { theme } = store.getState().settings;
-  window.localStorage.setItem('theme', theme);
+  const { user } = store.getState().auth;
+  window.localStorage.setItem('currentUser', JSON.stringify(user));
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -12,6 +12,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useAppSelector } from '../../../app/hooks';
+import { CURRENCIES } from '../../constants/currency';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,7 +55,7 @@ const BudgetCard: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
-  const { currency } = useAppSelector((state) => state.settings);
+  const { user } = useAppSelector((state) => state.auth);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -91,6 +92,9 @@ const BudgetCard: React.FC<Props> = ({
     budget.spent_percentage.replace('%', '')
   );
 
+  const currencyCode = user?.currency || 'USD';
+  const locale = CURRENCIES[currencyCode].locale;
+
   return (
     <Card className={cardClassName}>
       <CardContent>
@@ -119,8 +123,8 @@ const BudgetCard: React.FC<Props> = ({
               </Box>
             </Box>
             <Typography variant='h6' className={classes.amount}>
-              {formatMoney(budget.amount_spent, currency.code, currency.locale)}
-              /{formatMoney(budget.amount, currency.code, currency.locale)}
+              {formatMoney(budget.amount_spent, currencyCode, locale)} /{' '}
+              {formatMoney(budget.amount, currencyCode, locale)}
             </Typography>
           </div>
           {hasMenu && (

@@ -11,6 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import formatMoney from '../../shared/utils/formatMoney';
 import TransactionCard from '../../shared/components/transaction-card/TransactionCard';
 import BudgetCard from '../../shared/components/budget-card';
+import { CURRENCIES } from '../../shared/constants/currency';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const DashboardPage = () => {
   const classes = useStyles();
   const { dashboard, status } = useAppSelector((state) => state.dashboard);
-  const { currency } = useAppSelector((state) => state.settings);
+  const { user } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -60,6 +61,9 @@ const DashboardPage = () => {
     );
   }
 
+  const currencyCode = user?.currency || 'USD';
+  const locale = CURRENCIES[currencyCode].locale;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -75,7 +79,7 @@ const DashboardPage = () => {
                   {analytic.name}
                 </Typography>
                 <Typography variant='h5' className={classes.amount}>
-                  {formatMoney(analytic.value, currency.code, currency.locale)}
+                  {formatMoney(analytic.value, currencyCode, locale)}
                 </Typography>
               </CardContent>
             </Card>

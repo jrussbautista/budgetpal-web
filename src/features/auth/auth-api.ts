@@ -36,6 +36,14 @@ const updateProfile = (fields: { name: string; email: string }) => {
   return apiClient.post('/api/account/update-profile', fields);
 };
 
+const updateSettings = (fields: {
+  language: string;
+  currency: string;
+  theme: string;
+}) => {
+  return apiClient.put('/api/settings', fields);
+};
+
 export const AuthApi = {
   login,
   getCSRFCookie,
@@ -43,4 +51,5 @@ export const AuthApi = {
   getCurrentUser,
   changePassword,
   updateProfile,
+  updateSettings,
 };

@@ -9,6 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import formatMoney from '../../utils/formatMoney';
 import { Transaction } from '../../../shared/models/Transaction';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAppSelector } from '../../../app/hooks';
+import { CURRENCIES } from '../../../shared/constants/currency';
 
 interface Props {
   transaction: Transaction;
@@ -55,6 +57,8 @@ const TransactionCard: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
+  const { user } = useAppSelector((state) => state.auth);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,6 +84,9 @@ const TransactionCard: React.FC<Props> = ({
 
   const amountOperation = transaction.type === 'expense' ? '-' : '+';
 
+  const currencyCode = user?.currency || 'USD';
+  const locale = CURRENCIES[currencyCode].locale;
+
   return (
     <Card>
       <CardContent>
@@ -101,7 +108,7 @@ const TransactionCard: React.FC<Props> = ({
 
               <Typography variant='h6' className={amountClassName}>
                 {amountOperation}
-                {formatMoney(transaction.amount)}
+                {formatMoney(transaction.amount, currencyCode, locale)}
               </Typography>
             </div>
           </div>

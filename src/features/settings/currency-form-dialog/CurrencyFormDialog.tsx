@@ -10,8 +10,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { setSelectedDialog, setCurrency } from '../settings-slice';
-import { CURRENCIES } from '../../../shared/constants/currency';
+import { updateSettings } from '../../auth/auth-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,15 +26,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CurrencyFormDialog = () => {
+interface Props {
+  show: boolean;
+  onClose(): void;
+}
+
+const CurrencyFormDialog: React.FC<Props> = ({ show, onClose }) => {
   const classes = useStyles();
 
-  const { selectedDialog, currency } = useAppSelector(
-    (state) => state.settings
-  );
+  const { user } = useAppSelector((state) => state.auth);
 
   const [selectedCurrency, setSelectedCurrency] = useState<string>(
-    currency.code
+    user?.currency || 'USD'
   );
 
   const dispatch = useAppDispatch();
@@ -42,23 +46,31 @@ const CurrencyFormDialog = () => {
     setSelectedCurrency(String(event.target.value) || '');
   };
 
-  const isOpenDialog = selectedDialog === 'currencyForm';
+  const handleSave = async () => {
+    if (!user) {
+      return;
+    }
 
-  const handleCloseDialog = () => {
-    dispatch(setSelectedDialog(null));
-  };
-
-  const handleSave = () => {
-    const newCurrency = {
-      ...CURRENCIES[selectedCurrency],
-      code: selectedCurrency,
-    };
-    dispatch(setCurrency(newCurrency));
-    handleCloseDialog();
+    try {
+      const results = await dispatch(
+        updateSettings({
+          theme: user.theme,
+          language: user.language,
+          currency: selectedCurrency,
+        })
+      );
+      unwrapResult(results);
+      toast.success("You've successfully update settings");
+      onClose();
+    } catch (error) {
+      toast.error(
+        'Unable to update settings  right now. Please try again later'
+      );
+    }
   };
 
   return (
-    <Dialog disableBackdropClick disableEscapeKeyDown open={isOpenDialog}>
+    <Dialog disableBackdropClick disableEscapeKeyDown open={show}>
       <DialogTitle>Select Currency </DialogTitle>
       <DialogContent>
         <form className={classes.container}>
@@ -76,7 +88,7 @@ const CurrencyFormDialog = () => {
           </FormControl>
         </form>
         <DialogActions>
-          <Button color='primary' onClick={handleCloseDialog}>
+          <Button color='primary' onClick={onClose}>
             Cancel
           </Button>
           <Button color='primary' onClick={handleSave}>

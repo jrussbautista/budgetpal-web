@@ -7,9 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { useAppSelector } from '../hooks';
 
 const Theme: React.FC = ({ children }) => {
-  const { theme: selectedTheme } = useAppSelector((state) => state.settings);
+  const { user } = useAppSelector((state) => state.auth);
 
-  const palletType = selectedTheme === 'light' ? 'light' : 'dark';
+  const palletType = user?.theme === 'light' ? 'light' : 'dark';
 
   const theme = createMuiTheme({
     palette: {

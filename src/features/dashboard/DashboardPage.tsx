@@ -9,6 +9,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import formatMoney from '../../shared/utils/formatMoney';
+import TransactionCard from '../../shared/components/transaction-card/TransactionCard';
+import BudgetCard from '../../shared/components/budget-card';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,6 +21,12 @@ const useStyles = makeStyles((theme: Theme) =>
     amount: {
       textAlign: 'center',
       marginTop: 10,
+    },
+    section: {
+      margin: '30px 0',
+    },
+    heading: {
+      marginBottom: 10,
     },
   })
 );
@@ -53,22 +61,46 @@ const DashboardPage = () => {
   }
 
   return (
-    <Grid container spacing={2}>
-      {dashboard?.analytics.map((analytic, index) => (
-        <Grid item xs={12} md={6} lg={3} key={index}>
-          <Card>
-            <CardContent>
-              <Typography variant='body1' component='h2' color='textSecondary'>
-                {analytic.name}
-              </Typography>
-              <Typography variant='h5' className={classes.amount}>
-                {formatMoney(analytic.value, currency.code, currency.locale)}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Grid container spacing={2}>
+        {dashboard?.analytics.map((analytic, index) => (
+          <Grid item xs={12} md={6} lg={4} key={index}>
+            <Card>
+              <CardContent>
+                <Typography
+                  variant='body1'
+                  component='h2'
+                  color='textSecondary'
+                >
+                  {analytic.name}
+                </Typography>
+                <Typography variant='h5' className={classes.amount}>
+                  {formatMoney(analytic.value, currency.code, currency.locale)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {dashboard && dashboard.recentOnGoingBudget && (
+        <div className={classes.section}>
+          <Typography variant='h6' component='h2' className={classes.heading}>
+            Recent On Going Budget
+          </Typography>
+          <BudgetCard budget={dashboard.recentOnGoingBudget} />
+        </div>
+      )}
+
+      {dashboard && dashboard.recentTransaction && (
+        <div className={classes.section}>
+          <Typography variant='h6' component='h2' className={classes.heading}>
+            Recent Transaction
+          </Typography>
+          <TransactionCard transaction={dashboard.recentTransaction} />
+        </div>
+      )}
+    </>
   );
 };
 

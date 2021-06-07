@@ -1,4 +1,4 @@
-import { Transaction } from './TransactionModel';
+import { Transaction } from '../../shared/models/Transaction';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TransactionApi } from './transaction-api';
 import { AxiosError } from 'axios';

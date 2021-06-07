@@ -1,6 +1,6 @@
 import { ReportApi } from './report-api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Transaction } from '../transactions/TransactionModel';
+import { Transaction } from '../../shared/models/Transaction';
 import { AxiosError } from 'axios';
 import { Status } from '../../shared/models/Status';
 import { getStartAndEndDate } from '../../shared/utils/getDateRange';
@@ -17,7 +17,7 @@ interface ValidationErrors {
   message: string;
 }
 
-const initialDateRange = getStartAndEndDate();
+const initialDateRange = getStartAndEndDate('thisMonth');
 
 const initialState: InitialState = {
   transactions: [],

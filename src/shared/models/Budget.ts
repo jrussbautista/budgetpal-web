@@ -1,12 +1,13 @@
-import { Category } from './../../shared/models/Category';
+import { Category } from './Category';
 
 export interface Budget {
   id: string;
   created_at: string;
   category: Category;
-  amount: string;
-  amount_spent: string;
+  amount: number;
+  amount_spent: number;
   start_date: string;
   end_date: string;
   status: string;
+  spent_percentage: string;
 }

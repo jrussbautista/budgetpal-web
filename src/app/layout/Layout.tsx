@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    main: {
+      maxWidth: 1000,
+      margin: '0 auto',
+    },
     drawerHeader: {
       display: 'flex',
       alignItems: 'center',
@@ -42,7 +46,7 @@ const Layout: React.FC = ({ children }) => {
       />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {children}
+        <div className={classes.main}>{children}</div>
       </main>
     </div>
   );

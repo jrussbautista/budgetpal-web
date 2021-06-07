@@ -7,7 +7,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { format, parseISO } from 'date-fns';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { DateRange } from '../../shared/models/DateRange';
-import { fetchReport, setSelectedFilter } from './report-slice';
+import { setSelectedFilter } from './report-slice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,9 +50,7 @@ const ReportPage = () => {
   };
 
   const handleSelectDateRange = (range: DateRange) => {
-    const { start_date, end_date } = range;
     dispatch(setSelectedFilter(range));
-    dispatch(fetchReport({ start_date, end_date }));
     handleCloseDateRangeModal();
   };
 

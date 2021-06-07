@@ -17,10 +17,15 @@ export const getStartAndEndDate = (
   let endDate = date;
 
   switch (range) {
-    case 'month':
-      date = subMonths(date, value);
+    case 'thisMonth':
       startDate = startOfMonth(date);
       endDate = endOfMonth(date);
+      break;
+    case 'lastMonth':
+      const subStartDate = subMonths(date, value);
+      const subEndDate = subMonths(date, 1);
+      startDate = startOfMonth(subStartDate);
+      endDate = endOfMonth(subEndDate);
       break;
     case 'year':
       date = subYears(date, value);

@@ -1,4 +1,4 @@
-import { Dashboard } from './DashboardModel';
+import { Dashboard } from '../../shared/models/Dashboard';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { DashboardApi } from './dashboard-api';
 import { AxiosError } from 'axios';

@@ -1,5 +1,5 @@
 import { RootState } from './../../app/store';
-import { Budget } from './BudgetModel';
+import { Budget } from '../../shared/models/Budget';
 import {
   createSlice,
   createAsyncThunk,

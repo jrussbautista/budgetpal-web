@@ -1,4 +1,4 @@
-import { Category } from './../../shared/models/Category';
+import { Category } from './Category';
 
 export interface Transaction {
   id: string;
@@ -8,9 +8,4 @@ export interface Transaction {
   category: Category;
   happened_on: string;
   created_at: string;
-}
-
-export interface TransactionFilter {
-  category_id: string;
-  type: string;
 }

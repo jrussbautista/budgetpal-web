@@ -75,7 +75,6 @@ const BudgetManageModal = () => {
       formData.start_date &&
       formData.end_date < formData.start_date
     ) {
-      setError('end_date', { shouldFocus: true });
       toast.error('End date cannot be before start date');
       return;
     }

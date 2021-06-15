@@ -112,7 +112,7 @@ const Settings = () => {
               </IconButton>
             </div>
           </ListItem>
-          <ListItem role={undefined} dense button>
+          {/* <ListItem role={undefined} dense button>
             <ListItemText primary='Language' />
             <div className={classes.actionsContainer}>
               <Typography>English</Typography>
@@ -120,7 +120,7 @@ const Settings = () => {
                 <ArrowDropDownIcon />
               </IconButton>
             </div>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Paper>
     </>

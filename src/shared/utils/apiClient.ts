@@ -3,7 +3,7 @@ import axios from 'axios';
 const accessToken = localStorage.getItem('accessToken') || null;
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: process.env.REACT_APP_BASE_URL,
   withCredentials: true,
   headers: {
     Accept: 'application/json',

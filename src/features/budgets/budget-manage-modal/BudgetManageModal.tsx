@@ -126,7 +126,6 @@ const BudgetManageModal = () => {
         <Controller
           name='amount'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Amount is required field',
           }}
@@ -149,7 +148,6 @@ const BudgetManageModal = () => {
         <Controller
           name='category_id'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Category is required field',
           }}
@@ -178,7 +176,6 @@ const BudgetManageModal = () => {
         <Controller
           name='start_date'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Start Date is required field',
           }}
@@ -212,7 +209,6 @@ const BudgetManageModal = () => {
         <Controller
           name='end_date'
           control={control}
-          defaultValue=''
           rules={{
             required: 'End date is required field',
           }}

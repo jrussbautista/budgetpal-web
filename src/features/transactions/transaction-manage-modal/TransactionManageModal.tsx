@@ -141,7 +141,6 @@ const TransactionManageModal = () => {
         <Controller
           name='amount'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Amount is required field',
           }}
@@ -164,7 +163,6 @@ const TransactionManageModal = () => {
         <Controller
           name='category_id'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Category is required field',
           }}
@@ -193,7 +191,6 @@ const TransactionManageModal = () => {
         <Controller
           name='type'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Transaction type is required field',
           }}
@@ -222,7 +219,6 @@ const TransactionManageModal = () => {
         <Controller
           name='happened_on'
           control={control}
-          defaultValue=''
           rules={{
             required: 'Date is required field',
           }}

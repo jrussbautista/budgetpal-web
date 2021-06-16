@@ -8,9 +8,11 @@ import {
   fetchCurrentUser,
   removeCurrentUser,
 } from '../features/auth/auth-slice';
+
 import LoginPage from '../features/auth/login/Login';
 import RegisterPage from '../features/auth/register/Register';
-const PageError = lazy(() => import('../shared/components/page-error'));
+import PageError from '../shared/components/page-error';
+import PageLoader from '../shared/components/page-loader';
 const AccountPage = lazy(() => import('../features/account/AccountPage'));
 const SettingsPage = lazy(() => import('../features/settings/SettingsPage'));
 const ReportPage = lazy(() => import('../features/report/ReportPage'));
@@ -56,7 +58,7 @@ function App() {
           ]}
         >
           <Layout>
-            <Suspense fallback={<div />}>
+            <Suspense fallback={<PageLoader />}>
               <Switch>
                 <PrivateRoute path='/' component={DashboardPage} exact />
                 <PrivateRoute path='/budgets' component={BudgetsPage} exact />

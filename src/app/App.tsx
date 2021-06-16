@@ -8,6 +8,8 @@ import {
   fetchCurrentUser,
   removeCurrentUser,
 } from '../features/auth/auth-slice';
+import LoginPage from '../features/auth/login/Login';
+import RegisterPage from '../features/auth/register/Register';
 const PageError = lazy(() => import('../shared/components/page-error'));
 const AccountPage = lazy(() => import('../features/account/AccountPage'));
 const SettingsPage = lazy(() => import('../features/settings/SettingsPage'));
@@ -16,8 +18,6 @@ const TransactionsPage = lazy(
   () => import('../features/transactions/TransactionsPage')
 );
 const BudgetsPage = lazy(() => import('../features/budgets/BudgetPage'));
-const LoginPage = lazy(() => import('../features/auth/login/Login'));
-const RegisterPage = lazy(() => import('../features/auth/register/Register'));
 const DashboardPage = lazy(() => import('../features/dashboard/DashboardPage'));
 
 function App() {
@@ -37,26 +37,26 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div />}>
-        <Switch>
-          <Route path='/login' exact>
-            <LoginPage />
-          </Route>
-          <Route path='/register' exact>
-            <RegisterPage />
-          </Route>
-          <Route
-            exact
-            path={[
-              '/',
-              '/budgets',
-              '/transactions',
-              '/settings',
-              '/account',
-              '/report',
-            ]}
-          >
-            <Layout>
+      <Switch>
+        <Route path='/login' exact>
+          <LoginPage />
+        </Route>
+        <Route path='/register' exact>
+          <RegisterPage />
+        </Route>
+        <Route
+          exact
+          path={[
+            '/',
+            '/budgets',
+            '/transactions',
+            '/settings',
+            '/account',
+            '/report',
+          ]}
+        >
+          <Layout>
+            <Suspense fallback={<div />}>
               <Switch>
                 <PrivateRoute path='/' component={DashboardPage} exact />
                 <PrivateRoute path='/budgets' component={BudgetsPage} exact />
@@ -69,13 +69,13 @@ function App() {
                 <PrivateRoute path='/report' component={ReportPage} exact />
                 <PrivateRoute path='/settings' component={SettingsPage} exact />
               </Switch>
-            </Layout>
-          </Route>
-          <Route path='*'>
-            <PageError message="Sorry we were'nt able to display what you're looking for." />
-          </Route>
-        </Switch>
-      </Suspense>
+            </Suspense>
+          </Layout>
+        </Route>
+        <Route path='*'>
+          <PageError message="Sorry we were'nt able to display what you're looking for." />
+        </Route>
+      </Switch>
     </Router>
   );
 }

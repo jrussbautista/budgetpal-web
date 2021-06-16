@@ -9,7 +9,7 @@ import { useAppSelector } from '../hooks';
 const Theme: React.FC = ({ children }) => {
   const { user } = useAppSelector((state) => state.auth);
 
-  const palletType = user?.theme === 'light' ? 'light' : 'dark';
+  const palletType = user?.theme === 'dark' ? 'dark' : 'light';
 
   const theme = createMuiTheme({
     palette: {

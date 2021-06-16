@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: '#fff',
   },
+  logo: {
+    width: 30,
+    marginRight: 10,
+  },
 }));
 
 interface Props {
@@ -67,6 +71,11 @@ const Sidebar: React.FC<Props> = ({
           }}
         >
           <div className={classes.drawerHeader}>
+            <img
+              src='/images/logo-white.svg'
+              alt='budgetty logo'
+              className={classes.logo}
+            />
             <Typography variant='h6' color='inherit'>
               Budgetty
             </Typography>
@@ -83,6 +92,11 @@ const Sidebar: React.FC<Props> = ({
           open
         >
           <div className={classes.drawerHeader}>
+            <img
+              src='/images/logo-white.svg'
+              alt='budgetty logo'
+              className={classes.logo}
+            />
             <Typography variant='h6' color='inherit'>
               Budgetty
             </Typography>

@@ -50,6 +50,8 @@ const TransactionManageModal = () => {
     (state) => state.transactions
   );
 
+  const { categories } = useAppSelector((state) => state.categories);
+
   const defaultValues = {
     title: selectedTransaction?.title || '',
     amount: selectedTransaction?.amount?.toString() || '',
@@ -180,8 +182,11 @@ const TransactionManageModal = () => {
                 value={value}
                 onChange={onChange}
               >
-                <MenuItem value={1}>Non</MenuItem>
-                <MenuItem value={2}>Ut</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem value={category.id} key={category.id}>
+                    {category.title}
+                  </MenuItem>
+                ))}
               </Select>
               {error && <FormHelperText>{error?.message}</FormHelperText>}
             </FormControl>

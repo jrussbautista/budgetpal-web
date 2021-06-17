@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './layout';
 import PrivateRoute from './PrivateRoute';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useAppDispatch } from './hooks';
+import { useAppDispatch, useAppSelector } from './hooks';
 import {
   fetchCurrentUser,
   removeCurrentUser,
@@ -13,6 +13,8 @@ import LoginPage from '../features/auth/login/Login';
 import RegisterPage from '../features/auth/register/Register';
 import PageError from '../shared/components/page-error';
 import PageLoader from '../shared/components/page-loader';
+import { fetchCategories } from '../features/categories/categories-slice';
+
 const AccountPage = lazy(() => import('../features/account/AccountPage'));
 const SettingsPage = lazy(() => import('../features/settings/SettingsPage'));
 const ReportPage = lazy(() => import('../features/report/ReportPage'));
@@ -25,6 +27,8 @@ const DashboardPage = lazy(() => import('../features/dashboard/DashboardPage'));
 function App() {
   const dispatch = useAppDispatch();
 
+  const { user } = useAppSelector((state) => state.auth);
+
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
@@ -36,6 +40,12 @@ function App() {
     };
     getCurrentUser();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCategories());
+    }
+  }, [user, dispatch]);
 
   return (
     <Router>

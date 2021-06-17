@@ -50,6 +50,8 @@ const BudgetManageModal = () => {
     (state) => state.budgets
   );
 
+  const { categories } = useAppSelector((state) => state.categories);
+
   const defaultValues = {
     amount: selectedBudget?.amount?.toString() || '',
     category_id: selectedBudget?.category.id || '',
@@ -57,7 +59,7 @@ const BudgetManageModal = () => {
     end_date: selectedBudget?.end_date || null,
   };
 
-  const { handleSubmit, control, setError } = useForm<FormData>({
+  const { handleSubmit, control } = useForm<FormData>({
     defaultValues,
   });
 
@@ -165,8 +167,11 @@ const BudgetManageModal = () => {
                 value={value}
                 onChange={onChange}
               >
-                <MenuItem value={1}>Non</MenuItem>
-                <MenuItem value={2}>Ut</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem value={category.id} key={category.id}>
+                    {category.title}
+                  </MenuItem>
+                ))}
               </Select>
               {error && <FormHelperText>{error?.message}</FormHelperText>}
             </FormControl>

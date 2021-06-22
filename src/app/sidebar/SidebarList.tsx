@@ -9,7 +9,9 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SettingsIcon from '@material-ui/icons/Settings';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import List from '@material-ui/core/List';
+import CategoryIcon from '@material-ui/icons/Category';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -19,6 +21,50 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
 }));
+
+interface Links {
+  href: string;
+  icon: React.ReactElement;
+  title: string;
+}
+
+const LINKS: Links[] = [
+  {
+    href: '/',
+    icon: <DashboardIcon />,
+    title: 'Dashboard',
+  },
+  {
+    href: '/transactions',
+    icon: <PaymentIcon />,
+    title: 'Transactions',
+  },
+  {
+    href: '/budgets',
+    icon: <AccountBalanceIcon />,
+    title: 'Budgets',
+  },
+  {
+    href: '/categories',
+    icon: <CategoryIcon />,
+    title: 'Categories',
+  },
+  {
+    href: '/report',
+    icon: <EqualizerIcon />,
+    title: 'Report',
+  },
+  {
+    href: '/settings',
+    icon: <SettingsIcon />,
+    title: 'Settings',
+  },
+  {
+    href: '/settings',
+    icon: <PersonIcon />,
+    title: 'Account',
+  },
+];
 
 const SidebarList = () => {
   const classes = useStyles();
@@ -31,67 +77,18 @@ const SidebarList = () => {
 
   return (
     <List className={classes.list}>
-      <ListItem button component={Link} to='/' selected={getIsActive('/')}>
-        <ListItemIcon className={classes.listItem}>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary='Dashboard' />
-      </ListItem>
-      <ListItem
-        button
-        component={Link}
-        to='/transactions'
-        selected={getIsActive('/transactions')}
-      >
-        <ListItemIcon className={classes.listItem}>
-          <PaymentIcon />
-        </ListItemIcon>
-        <ListItemText primary='Transactions' />
-      </ListItem>
-      <ListItem
-        button
-        component={Link}
-        to='/budgets'
-        selected={getIsActive('/budgets')}
-      >
-        <ListItemIcon className={classes.listItem}>
-          <AccountBalanceIcon />
-        </ListItemIcon>
-        <ListItemText primary='Budgets' />
-      </ListItem>
-      <ListItem
-        button
-        component={Link}
-        to='/report'
-        selected={getIsActive('/report')}
-      >
-        <ListItemIcon className={classes.listItem}>
-          <EqualizerIcon />
-        </ListItemIcon>
-        <ListItemText primary='Report' />
-      </ListItem>
-      <ListItem
-        button
-        component={Link}
-        to='/account'
-        selected={getIsActive('/account')}
-      >
-        <ListItemIcon className={classes.listItem}>
-          <PersonIcon />
-        </ListItemIcon>
-        <ListItemText primary='Account' />
-      </ListItem>
-      <ListItem
-        button
-        component={Link}
-        to='/settings'
-        selected={getIsActive('/settings')}
-      >
-        <ListItemIcon className={classes.listItem}>
-          <SettingsIcon />
-        </ListItemIcon>
-        <ListItemText primary='Settings' />
-      </ListItem>
+      {LINKS.map((link, index) => (
+        <ListItem
+          key={index}
+          button
+          component={Link}
+          to={link.href}
+          selected={getIsActive(link.href)}
+        >
+          <ListItemIcon className={classes.listItem}>{link.icon}</ListItemIcon>
+          <ListItemText primary={link.title} />
+        </ListItem>
+      ))}
     </List>
   );
 };

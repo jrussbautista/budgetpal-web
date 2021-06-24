@@ -60,7 +60,7 @@ const LINKS: Links[] = [
     title: 'Settings',
   },
   {
-    href: '/settings',
+    href: '/account',
     icon: <PersonIcon />,
     title: 'Account',
   },

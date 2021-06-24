@@ -8,12 +8,16 @@ interface InitialState {
   status: Status;
   categories: Category[];
   error: string | null | undefined;
+  selectedCategory: null | Category;
+  selectedModal: null | string;
 }
 
 const initialState: InitialState = {
   status: 'idle',
   categories: [],
   error: null,
+  selectedCategory: null,
+  selectedModal: null,
 };
 
 interface ValidationErrors {
@@ -39,10 +43,79 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const deleteCategory = createAsyncThunk(
+  'categories/delete',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await CategoryApi.deleteCategory(id);
+      return id;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateCategory = createAsyncThunk(
+  'categories/update',
+  async (
+    { id, fields }: { id: string; fields: { title: string } },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await CategoryApi.updateCategory(id, fields);
+      return response.data.data;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const addCategory = createAsyncThunk(
+  'transactions/addTransaction',
+  async (
+    fields: {
+      title: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await CategoryApi.addCategory(fields);
+      return response.data.data;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedModal: (state, action) => {
+      state.selectedModal = action.payload;
+    },
+    setSelectedCategory: (state, action) => {
+      state.selectedCategory = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state, action) => {
       state.status = 'loading';
@@ -59,7 +132,25 @@ export const categoriesSlice = createSlice({
       }
       state.status = 'failed';
     });
+    builder.addCase(addCategory.fulfilled, (state, action) => {
+      state.categories.push(action.payload);
+    });
+    builder.addCase(deleteCategory.fulfilled, (state, action) => {
+      state.categories = state.categories.filter(
+        (category) => category.id !== action.payload
+      );
+    });
+    builder.addCase(updateCategory.fulfilled, (state, action) => {
+      state.categories = state.categories.map((category) =>
+        category.id === action.payload.id
+          ? { ...category, ...action.payload }
+          : category
+      );
+    });
   },
 });
+
+export const { setSelectedModal, setSelectedCategory } =
+  categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

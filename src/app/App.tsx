@@ -23,6 +23,9 @@ const TransactionsPage = lazy(
 );
 const BudgetsPage = lazy(() => import('../features/budgets/BudgetPage'));
 const DashboardPage = lazy(() => import('../features/dashboard/DashboardPage'));
+const CategoriesPage = lazy(
+  () => import('../features/categories/CategoriesPage')
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -65,6 +68,7 @@ function App() {
             '/settings',
             '/account',
             '/report',
+            '/categories',
           ]}
         >
           <Layout>
@@ -80,6 +84,11 @@ function App() {
                 <PrivateRoute path='/account' component={AccountPage} exact />
                 <PrivateRoute path='/report' component={ReportPage} exact />
                 <PrivateRoute path='/settings' component={SettingsPage} exact />
+                <PrivateRoute
+                  path='/categories'
+                  component={CategoriesPage}
+                  exact
+                />
               </Switch>
             </Suspense>
           </Layout>

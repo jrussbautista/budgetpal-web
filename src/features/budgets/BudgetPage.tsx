@@ -12,10 +12,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginBottom: 20,
   },
-  mainContainer: {
-    maxWidth: 800,
-    margin: '0 auto',
-  },
 });
 
 const BudgetPage = () => {
@@ -41,9 +37,7 @@ const BudgetPage = () => {
           Add Budget
         </Button>
       </div>
-      <div className={classes.mainContainer}>
-        <BudgetList />
-      </div>
+      <BudgetList />
       {selectedModal === 'manageBudgetModal' && <BudgetManageModal />}
     </>
   );

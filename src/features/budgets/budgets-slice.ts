@@ -154,7 +154,7 @@ export const BudgetsSlice = createSlice({
     });
     builder.addCase(deleteBudget.fulfilled, (state, action) => {
       state.budgets = state.budgets.filter(
-        (Budget) => Budget.id !== action.payload
+        (budget) => budget.id !== action.payload
       );
     });
     builder.addCase(updateBudget.fulfilled, (state, action) => {

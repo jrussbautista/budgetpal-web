@@ -58,7 +58,7 @@ const BudgetList = () => {
     setValue(newValue);
   };
 
-  if (status === 'loading') {
+  if (status === 'idle' || status === 'loading') {
     return (
       <div className={classes.loadingContainer}>
         <CircularProgress />

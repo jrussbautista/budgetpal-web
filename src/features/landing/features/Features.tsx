@@ -78,13 +78,6 @@ const Features = () => {
             key={feature.id}
             className={classes.featureItem}
           >
-            <Grid item lg={7} xs={12}>
-              <img
-                className={classes.featureImg}
-                src={feature.image}
-                alt={feature.title}
-              />
-            </Grid>
             <Grid item lg={5} xs={12}>
               <Typography variant='h6' className={classes.title}>
                 {feature.title}
@@ -92,6 +85,13 @@ const Features = () => {
               <Typography variant='body1' className={classes.desc}>
                 {feature.description}
               </Typography>
+            </Grid>
+            <Grid item lg={7} xs={12}>
+              <img
+                className={classes.featureImg}
+                src={feature.image}
+                alt={feature.title}
+              />
             </Grid>
           </Grid>
         ))}

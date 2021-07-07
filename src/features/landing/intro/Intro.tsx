@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useAppSelector } from '../../../app/hooks';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      height: 'calc(100vh - 4rem)',
     },
     mainTitle: {
       marginBottom: 20,
@@ -30,9 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
     },
     main: {
-      textAlign: 'center',
-      marginBottom: 100,
-      marginTop: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      height: '100%',
     },
   })
 );
@@ -45,44 +48,57 @@ const Intro = () => {
   return (
     <div className={classes.introContainer}>
       <Container>
-        <div className={classes.main}>
-          <Typography variant='h4' component='h2' className={classes.mainTitle}>
-            Easily keep track your budgets.
-          </Typography>
-          <Typography variant='h6' className={classes.sub}>
-            Create flexible budgets and build better money management habits.
-          </Typography>
-          {user ? (
-            <Button
-              variant='contained'
-              size='large'
-              color='primary'
-              component={Link}
-              to='/dashboard'
-              disableElevation
-            >
-              View Dashboard
-            </Button>
-          ) : (
-            <Button
-              variant='contained'
-              size='large'
-              color='primary'
-              component={Link}
-              to='/signup'
-              disableElevation
-            >
-              Create your account
-            </Button>
-          )}
-        </div>
-        <div className={classes.introImgContainer}>
-          <img
-            src='/images/intro.png'
-            alt='dashboard'
-            className={classes.introImg}
-          />
-        </div>
+        <Grid container spacing={3}>
+          <Grid item lg={5} xs={12}>
+            <div className={classes.main}>
+              <Typography
+                variant='h4'
+                component='h2'
+                className={classes.mainTitle}
+              >
+                Easily keep track your budgets.
+              </Typography>
+              <Typography variant='h6' className={classes.sub}>
+                Create flexible budgets and build better money management
+                habits.
+              </Typography>
+              <div>
+                {user ? (
+                  <Button
+                    variant='contained'
+                    size='large'
+                    color='primary'
+                    component={Link}
+                    to='/dashboard'
+                    disableElevation
+                  >
+                    View Dashboard
+                  </Button>
+                ) : (
+                  <Button
+                    variant='contained'
+                    size='large'
+                    color='primary'
+                    component={Link}
+                    to='/signup'
+                    disableElevation
+                  >
+                    Create your account
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Grid>
+          <Grid item lg={7} xs={12}>
+            <div className={classes.introImgContainer}>
+              <img
+                src='/images/intro.png'
+                alt='dashboard'
+                className={classes.introImg}
+              />
+            </div>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   );

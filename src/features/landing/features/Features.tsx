@@ -67,7 +67,7 @@ const Features = () => {
   return (
     <Container>
       <div id='features'>
-        <Typography variant='h4' className={classes.heading}>
+        <Typography variant='h5' className={classes.heading}>
           Features
         </Typography>
 
@@ -86,10 +86,10 @@ const Features = () => {
               />
             </Grid>
             <Grid item lg={5} xs={12}>
-              <Typography variant='h5' className={classes.title}>
+              <Typography variant='h6' className={classes.title}>
                 {feature.title}
               </Typography>
-              <Typography variant='h6' className={classes.desc}>
+              <Typography variant='body1' className={classes.desc}>
                 {feature.description}
               </Typography>
             </Grid>

@@ -59,6 +59,7 @@ const Intro = () => {
               color='primary'
               component={Link}
               to='/dashboard'
+              disableElevation
             >
               View Dashboard
             </Button>
@@ -69,8 +70,9 @@ const Intro = () => {
               color='primary'
               component={Link}
               to='/signup'
+              disableElevation
             >
-              Create your account for free
+              Create your account
             </Button>
           )}
         </div>

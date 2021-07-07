@@ -54,7 +54,7 @@ const FEATURE_LIST: Feature[] = [
       'Easily create, filter (by category and date range) and search for your expense or income into your transactions.',
   },
   {
-    id: '2',
+    id: '3',
     title: 'View Reports',
     image: '/images/report-page-ss.png',
     description: 'Get insights into your financial situation with graphs.',

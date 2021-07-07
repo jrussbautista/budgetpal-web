@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
+import MenuIcon from '@material-ui/icons/Menu';
+import Sidebar from '../sidebar/Sidebar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,13 +49,30 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       textTransform: 'none',
     },
+    desktopMenu: {
+      display: 'none',
+      [theme.breakpoints.up('lg')]: {
+        display: 'block',
+      },
+    },
+    mobileMenuButton: {
+      [theme.breakpoints.up('lg')]: {
+        display: 'none',
+      },
+    },
   })
 );
 
 const Navbar = () => {
   const classes = useStyles();
 
+  const [isOpenSidebar, setisOpenSidebar] = useState(false);
+
   const { user } = useAppSelector((state) => state.auth);
+
+  const toggleSidebar = () => {
+    setisOpenSidebar(!isOpenSidebar);
+  };
 
   return (
     <AppBar position='static' elevation={0} color='transparent'>
@@ -67,49 +87,63 @@ const Navbar = () => {
             Budgetty
           </Typography>
         </Link>
-        <Button
-          component={HashLink}
-          color='inherit'
-          to='/#features'
-          className={`${classes.link} ${classes.button}`}
-          smooth
-        >
-          Features
-        </Button>
+
         <div className={classes.spacer} />
 
-        {user ? (
+        <div className={classes.desktopMenu}>
           <Button
-            color='primary'
-            variant='contained'
-            className={classes.button}
-            component={Link}
-            to='/dashboard'
+            component={HashLink}
+            color='inherit'
+            to='/#features'
+            className={`${classes.link} ${classes.button}`}
+            smooth
           >
-            Dashboard
+            Features
           </Button>
-        ) : (
-          <>
-            <Button
-              color='inherit'
-              className={`${classes.link} ${classes.button}`}
-              component={Link}
-              to='/signin'
-            >
-              Sign In
-            </Button>
+
+          {user ? (
             <Button
               color='primary'
               variant='contained'
-              disableElevation
               className={classes.button}
               component={Link}
-              to='/signup'
+              to='/dashboard'
             >
-              Sign Up
+              Dashboard
             </Button>
-          </>
-        )}
+          ) : (
+            <>
+              <Button
+                color='inherit'
+                className={`${classes.link} ${classes.button}`}
+                component={Link}
+                to='/signin'
+              >
+                Sign In
+              </Button>
+              <Button
+                color='primary'
+                variant='contained'
+                disableElevation
+                className={classes.button}
+                component={Link}
+                to='/signup'
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
+        </div>
+
+        <Button onClick={toggleSidebar} className={classes.mobileMenuButton}>
+          <MenuIcon />
+        </Button>
+
+        <Sidebar
+          isOpen={isOpenSidebar}
+          onClose={toggleSidebar}
+          onOpen={toggleSidebar}
+        />
       </Toolbar>
     </AppBar>
   );

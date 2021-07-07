@@ -15,6 +15,7 @@ import { useHistory, Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import toast from 'react-hot-toast';
+import GoogleLogin from '../google-login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     width: 60,
     marginBottom: 10,
+  },
+  autSocial: {
+    margin: '10px 0',
   },
 }));
 
@@ -224,6 +228,9 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
+            <div className={classes.autSocial}>
+              <GoogleLogin />
+            </div>
             <Box mt={5}>
               <Copyright />
             </Box>

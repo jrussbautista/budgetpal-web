@@ -48,6 +48,28 @@ export const login = createAsyncThunk(
   }
 );
 
+export const loginWithGoogle = createAsyncThunk(
+  'user/login/google',
+  async (accessToken: string, { rejectWithValue }) => {
+    try {
+      await AuthApi.getCSRFCookie();
+      const response = await AuthApi.loginWithGoogle(accessToken);
+      const { token, user } = response.data.data;
+      window.localStorage.setItem('accessToken', token);
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      return response.data.data.user;
+    } catch (err) {
+      let error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const register = createAsyncThunk(
   'user/register',
   async (
@@ -164,6 +186,16 @@ export const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(login.rejected, (state, action: any) => {
+      if (action.payload) {
+        state.error = action.payload.message;
+      } else {
+        state.error = action.error.message;
+      }
+    });
+    builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(loginWithGoogle.rejected, (state, action: any) => {
       if (action.payload) {
         state.error = action.payload.message;
       } else {

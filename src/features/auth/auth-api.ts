@@ -8,6 +8,10 @@ const login = (email: string, password: string) => {
   return apiClient.post('/api/login', { email, password });
 };
 
+const loginWithGoogle = (accessToken: string) => {
+  return apiClient.post('/api/login/google', { accessToken });
+};
+
 const register = (fields: {
   name: string;
   email: string;
@@ -46,6 +50,7 @@ const updateSettings = (fields: {
 
 export const AuthApi = {
   login,
+  loginWithGoogle,
   getCSRFCookie,
   register,
   getCurrentUser,

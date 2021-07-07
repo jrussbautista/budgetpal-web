@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../app/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,6 +52,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Navbar = () => {
   const classes = useStyles();
 
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
     <AppBar position='static' elevation={0} color='transparent'>
       <Toolbar className={classes.toolbar}>
@@ -73,28 +76,40 @@ const Navbar = () => {
         >
           Features
         </Button>
-
         <div className={classes.spacer} />
-        <div>
-          <Button
-            color='inherit'
-            className={`${classes.link} ${classes.button}`}
-            component={Link}
-            to='/signin'
-          >
-            Sign In
-          </Button>
+
+        {user ? (
           <Button
             color='primary'
             variant='contained'
-            disableElevation
             className={classes.button}
             component={Link}
-            to='/signup'
+            to='/dashboard'
           >
-            Sign Up
+            Dashboard
           </Button>
-        </div>
+        ) : (
+          <>
+            <Button
+              color='inherit'
+              className={`${classes.link} ${classes.button}`}
+              component={Link}
+              to='/signin'
+            >
+              Sign In
+            </Button>
+            <Button
+              color='primary'
+              variant='contained'
+              disableElevation
+              className={classes.button}
+              component={Link}
+              to='/signup'
+            >
+              Sign Up
+            </Button>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );

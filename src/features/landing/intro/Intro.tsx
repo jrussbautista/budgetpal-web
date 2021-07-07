@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import { useAppSelector } from '../../../app/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,6 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Intro = () => {
   const classes = useStyles();
 
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
     <div className={classes.introContainer}>
       <Container>
@@ -49,15 +52,27 @@ const Intro = () => {
           <Typography variant='h6' className={classes.sub}>
             Create flexible budgets and build better money management habits.
           </Typography>
-          <Button
-            variant='contained'
-            size='large'
-            color='primary'
-            component={Link}
-            to='/signup'
-          >
-            Create your account for free
-          </Button>
+          {user ? (
+            <Button
+              variant='contained'
+              size='large'
+              color='primary'
+              component={Link}
+              to='/dashboard'
+            >
+              View Dashboard
+            </Button>
+          ) : (
+            <Button
+              variant='contained'
+              size='large'
+              color='primary'
+              component={Link}
+              to='/signup'
+            >
+              Create your account for free
+            </Button>
+          )}
         </div>
         <div className={classes.introImgContainer}>
           <img

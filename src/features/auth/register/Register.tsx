@@ -113,7 +113,7 @@ const Register = () => {
       unwrapResult(result);
       setIsSubmitting(false);
       toast.success('Successfully Registered!');
-      history.push('/');
+      history.push('/dashboard');
     } catch (error) {
       setError(error.message);
       if (error.errors) setFieldErrors(error.errors);

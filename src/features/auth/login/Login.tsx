@@ -58,8 +58,12 @@ const useStyles = makeStyles((theme) => ({
     width: 60,
     marginBottom: 10,
   },
-  autSocial: {
-    margin: '10px 0',
+  authSocial: {
+    margin: '20px 0',
+    textAlign: 'center',
+  },
+  orText: {
+    marginBottom: 10,
   },
 }));
 
@@ -210,7 +214,7 @@ const Login = () => {
               className={classes.submit}
               disabled={isSubmitting}
             >
-              {isSubmitting ? <CircularProgress size={30} /> : 'Log In'}
+              {isSubmitting ? <CircularProgress size={30} /> : 'Sign In'}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -222,13 +226,20 @@ const Login = () => {
               </Grid>
               <Grid item>
                 <Link to='/signup' className={classes.link}>
-                  <Typography color='primary' variant='body2'>
+                  <Typography color='primary' variant='body1'>
                     Don't have an account? Sign Up
                   </Typography>
                 </Link>
               </Grid>
             </Grid>
-            <div className={classes.autSocial}>
+            <div className={classes.authSocial}>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                className={classes.orText}
+              >
+                or
+              </Typography>
               <GoogleLogin />
             </div>
             <Box mt={5}>

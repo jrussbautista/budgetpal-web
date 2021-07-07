@@ -15,6 +15,7 @@ import { useHistory, Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import toast from 'react-hot-toast';
+import GoogleLogin from '../google-login';
 
 function Copyright() {
   return (
@@ -65,6 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     width: 60,
+    marginBottom: 10,
+  },
+  authSocial: {
+    margin: '20px 0',
+    textAlign: 'center',
+  },
+  orText: {
     marginBottom: 10,
   },
 }));
@@ -282,6 +290,16 @@ const Register = () => {
                 </Link>
               </Grid>
             </Grid>
+            <div className={classes.authSocial}>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                className={classes.orText}
+              >
+                or
+              </Typography>
+              <GoogleLogin />
+            </div>
             <Box mt={5}>
               <Copyright />
             </Box>

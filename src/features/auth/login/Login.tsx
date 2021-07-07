@@ -100,7 +100,7 @@ const Login = () => {
       unwrapResult(result);
       setIsSubmitting(false);
       toast.success('Successfully logged in!');
-      history.push('/');
+      history.push('/dashboard');
     } catch (error) {
       setError(error.message);
       setIsSubmitting(false);
@@ -126,7 +126,7 @@ const Login = () => {
             className={classes.logo}
           />
           <Typography component='h1' variant='h5'>
-            Log in
+            Sign in
           </Typography>
           {error && (
             <Alert severity='error' className={classes.alertContainer}>
@@ -217,7 +217,7 @@ const Login = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to='/register' className={classes.link}>
+                <Link to='/signup' className={classes.link}>
                   <Typography color='primary' variant='body2'>
                     Don't have an account? Sign Up
                   </Typography>

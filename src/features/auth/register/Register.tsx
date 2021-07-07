@@ -275,7 +275,7 @@ const Register = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to='/login' className={classes.link}>
+                <Link to='/signin' className={classes.link}>
                   <Typography color='primary' variant='body2'>
                     Have an account? Log In
                   </Typography>

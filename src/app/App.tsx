@@ -14,6 +14,7 @@ import RegisterPage from '../features/auth/register/Register';
 import PageError from '../shared/components/page-error';
 import PageLoader from '../shared/components/page-loader';
 import { fetchCategories } from '../features/categories/categories-slice';
+import LandingPage from '../features/landing/LandingPage';
 
 const AccountPage = lazy(() => import('../features/account/AccountPage'));
 const SettingsPage = lazy(() => import('../features/settings/SettingsPage'));
@@ -53,16 +54,19 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/login' exact>
+        <Route path='/' exact>
+          <LandingPage />
+        </Route>
+        <Route path='/signin' exact>
           <LoginPage />
         </Route>
-        <Route path='/register' exact>
+        <Route path='/signup' exact>
           <RegisterPage />
         </Route>
         <Route
           exact
           path={[
-            '/',
+            '/dashboard',
             '/budgets',
             '/transactions',
             '/settings',
@@ -74,7 +78,11 @@ function App() {
           <Layout>
             <Suspense fallback={<PageLoader />}>
               <Switch>
-                <PrivateRoute path='/' component={DashboardPage} exact />
+                <PrivateRoute
+                  path='/dashboard'
+                  component={DashboardPage}
+                  exact
+                />
                 <PrivateRoute path='/budgets' component={BudgetsPage} exact />
                 <PrivateRoute
                   path='/transactions'

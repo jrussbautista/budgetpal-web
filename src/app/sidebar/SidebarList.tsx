@@ -30,7 +30,7 @@ interface Links {
 
 const LINKS: Links[] = [
   {
-    href: '/',
+    href: '/dashboard',
     icon: <DashboardIcon />,
     title: 'Dashboard',
   },

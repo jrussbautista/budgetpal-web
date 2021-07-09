@@ -8,6 +8,19 @@ const login = (email: string, password: string) => {
   return apiClient.post('/api/login', { email, password });
 };
 
+const forgotPassword = (email: string) => {
+  return apiClient.post('/api/forgot-password', { email });
+};
+
+const resetPassword = (fields: {
+  email: string;
+  password: string;
+  password_confirmation: string;
+  token: string;
+}) => {
+  return apiClient.post('/api/reset-password', fields);
+};
+
 const loginWithGoogle = (accessToken: string) => {
   return apiClient.post('/api/login/google', { accessToken });
 };
@@ -57,4 +70,6 @@ export const AuthApi = {
   changePassword,
   updateProfile,
   updateSettings,
+  forgotPassword,
+  resetPassword,
 };

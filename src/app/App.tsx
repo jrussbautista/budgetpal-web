@@ -15,6 +15,8 @@ import PageError from '../shared/components/page-error';
 import PageLoader from '../shared/components/page-loader';
 import { fetchCategories } from '../features/categories/categories-slice';
 import LandingPage from '../features/landing/LandingPage';
+import ForgotPasswordPage from '../features/auth/forgot-password';
+import ResetPasswordPage from '../features/auth/reset-password';
 
 const AccountPage = lazy(() => import('../features/account/AccountPage'));
 const SettingsPage = lazy(() => import('../features/settings/SettingsPage'));
@@ -62,6 +64,12 @@ function App() {
         </Route>
         <Route path='/signup' exact>
           <RegisterPage />
+        </Route>
+        <Route path='/forgot-password' exact>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path='/reset-password' exact>
+          <ResetPasswordPage />
         </Route>
         <Route
           exact

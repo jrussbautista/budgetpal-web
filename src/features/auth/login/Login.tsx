@@ -171,7 +171,6 @@ const Login = () => {
                   label='Email Address'
                   name='email'
                   autoComplete='email'
-                  autoFocus
                   error={Boolean(error)}
                   helperText={error?.message}
                 />
@@ -198,7 +197,6 @@ const Login = () => {
                   label='Password'
                   name='password'
                   type='password'
-                  autoFocus
                   error={Boolean(error)}
                   helperText={error?.message}
                 />

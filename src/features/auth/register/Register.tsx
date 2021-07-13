@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
+    textAlign: 'center',
   },
   alertContainer: {
     marginTop: 20,
@@ -178,7 +179,6 @@ const Register = () => {
                   label='Name'
                   name='name'
                   type='name'
-                  autoFocus
                   error={Boolean(error)}
                   helperText={error?.message || fieldErrors['name']}
                 />
@@ -206,7 +206,6 @@ const Register = () => {
                   label='Email Address'
                   name='email'
                   autoComplete='email'
-                  autoFocus
                   error={Boolean(error || fieldErrors['email'])}
                   helperText={error?.message || fieldErrors['email']}
                 />
@@ -230,7 +229,6 @@ const Register = () => {
                   label='Password'
                   name='password'
                   type='password'
-                  autoFocus
                   error={Boolean(error || fieldErrors['password'])}
                   helperText={error?.message || fieldErrors['password']}
                 />
@@ -256,7 +254,6 @@ const Register = () => {
                   label='Confirm Password'
                   name='password_confirm'
                   type='password'
-                  autoFocus
                   error={Boolean(error || fieldErrors['password_confirm'])}
                   helperText={error?.message || fieldErrors['password_confirm']}
                 />
@@ -274,16 +271,13 @@ const Register = () => {
             >
               {isSubmitting ? <CircularProgress size={30} /> : 'Register'}
             </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link to='/signin' className={classes.link}>
-                  <Typography color='primary' variant='body2'>
-                    Already have an account? Log In.
-                  </Typography>
-                </Link>
-              </Grid>
-            </Grid>
+
+            <Link to='/signin' className={classes.link}>
+              <Typography color='primary' variant='body2'>
+                Already have an account? Log In.
+              </Typography>
+            </Link>
+
             <div className={classes.authSocial}>
               <Typography
                 variant='body2'

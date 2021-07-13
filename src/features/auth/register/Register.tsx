@@ -275,17 +275,11 @@ const Register = () => {
               {isSubmitting ? <CircularProgress size={30} /> : 'Register'}
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link to='/forgot-password' className={classes.link}>
-                  <Typography color='primary' variant='body2'>
-                    Forgot password?
-                  </Typography>
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link to='/signin' className={classes.link}>
                   <Typography color='primary' variant='body2'>
-                    Have an account? Log In
+                    Already have an account? Log In.
                   </Typography>
                 </Link>
               </Grid>

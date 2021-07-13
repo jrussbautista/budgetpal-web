@@ -226,8 +226,8 @@ const Login = () => {
               </Grid>
               <Grid item>
                 <Link to='/signup' className={classes.link}>
-                  <Typography color='primary' variant='body1'>
-                    Don't have an account? Sign Up
+                  <Typography color='primary' variant='body2'>
+                    Don't have an account? Sign Up.
                   </Typography>
                 </Link>
               </Grid>

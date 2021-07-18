@@ -21,6 +21,10 @@ const resetPassword = (fields: {
   return apiClient.post('/api/reset-password', fields);
 };
 
+const resendVerifyEmail = () => {
+  return apiClient.post('/api/email/verification-notification');
+};
+
 const loginWithGoogle = (accessToken: string) => {
   return apiClient.post('/api/login/google', { accessToken });
 };
@@ -72,4 +76,5 @@ export const AuthApi = {
   updateSettings,
   forgotPassword,
   resetPassword,
+  resendVerifyEmail,
 };

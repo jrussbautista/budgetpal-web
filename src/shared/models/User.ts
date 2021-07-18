@@ -5,4 +5,5 @@ export default interface User {
   language: string;
   theme: string;
   currency: string;
+  is_email_verified: boolean;
 }

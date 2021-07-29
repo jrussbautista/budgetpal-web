@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '../../shared/types/Status';
+import { Status } from '@/shared/types/Status';
 
 import { DashboardApi } from './dashboard-api';
 import { Dashboard } from './types/Dashboard';

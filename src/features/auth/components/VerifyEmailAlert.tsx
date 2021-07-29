@@ -4,8 +4,8 @@ import Alert from '@material-ui/lab/Alert';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppSelector } from '../../../app/hooks';
-import { AuthApi } from '../auth-api';
+import { useAppSelector } from '@/app/hooks';
+import { AuthApi } from '@/features/auth/auth-api';
 
 const useStyles = makeStyles(() =>
   createStyles({

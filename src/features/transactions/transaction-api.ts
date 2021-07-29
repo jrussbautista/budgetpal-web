@@ -1,4 +1,4 @@
-import apiClient from '../../shared/utils/apiClient';
+import apiClient from '../../shared/lib/apiClient';
 
 const getTransactions = (page = 1, filter: Record<string, string>) => {
   const params = new URLSearchParams({

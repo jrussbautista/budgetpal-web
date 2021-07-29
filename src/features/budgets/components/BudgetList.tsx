@@ -7,7 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Alert from '@material-ui/lab/Alert';
 import { useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+
 import { fetchBudgets, selectBudgetsByStatus } from '../budgets-slice';
 
 import BudgetItem from './BudgetItem';

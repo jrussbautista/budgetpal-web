@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import Modal from '../../../shared/components/Modal';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/shared/components/Modal';
+
 import { setSelectedFilter } from '../transactions-slice';
 
 const useStyles = makeStyles({

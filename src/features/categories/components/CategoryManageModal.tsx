@@ -7,8 +7,9 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import Modal from '../../../shared/components/Modal';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/shared/components/Modal';
+
 import {
   setSelectedModal,
   addCategory,

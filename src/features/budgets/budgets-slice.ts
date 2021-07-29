@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
+import { RootState } from '@/app/store';
+
 import { Status } from '../../shared/types/Status';
 
-import { RootState } from './../../app/store';
 import { BudgetApi } from './budget-api';
 import { Budget } from './types/Budget';
 

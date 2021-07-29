@@ -7,11 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { CURRENCIES } from '../../../shared/constants/currency';
-import formatMoney from '../../../shared/utils/formatMoney';
-import BudgetCard from '../../budgets/components/BudgetCard';
-import TransactionCard from '../../transactions/components/TransactionCard';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import BudgetCard from '@/features/budgets/components/BudgetCard';
+import TransactionCard from '@/features/transactions/components/TransactionCard';
+import { CURRENCIES } from '@/shared/constants/currency';
+import formatMoney from '@/shared/utils/formatMoney';
+
 import { fetchDashboard } from '../dashboard-slice';
 
 const useStyles = makeStyles(() =>

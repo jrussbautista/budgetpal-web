@@ -1,4 +1,4 @@
-import apiClient from '../../shared/utils/apiClient';
+import apiClient from '@/shared/lib/apiClient';
 
 const getBudgets = () => {
   return apiClient.get('/api/budgets');

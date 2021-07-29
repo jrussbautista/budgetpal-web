@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '../../shared/types/Status';
-import { getStartAndEndDate } from '../../shared/utils/getDateRange';
+import { Status } from '@/shared/types/Status';
+import { getStartAndEndDate } from '@/shared/utils/getDateRange';
+
 import { Transaction } from '../transactions/types/Transaction';
 
 import { ReportApi } from './report-api';

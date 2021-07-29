@@ -8,7 +8,8 @@ import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 
-import useQueryParams from '../../../shared/hooks/useQueryParams';
+import useQueryParams from '@/shared/hooks/useQueryParams';
+
 import { AuthApi } from '../auth-api';
 import Layout from '../components/Layout';
 

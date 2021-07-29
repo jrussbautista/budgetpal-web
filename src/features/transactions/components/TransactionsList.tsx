@@ -7,7 +7,8 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+
 import { fetchTransactions, setBudgetStatus } from '../transactions-slice';
 
 import TransactionItem from './TransactionItem';

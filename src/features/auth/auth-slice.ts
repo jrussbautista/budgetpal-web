@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import User from '../../shared/types/User';
-import apiClient from '../../shared/utils/apiClient';
+import apiClient from '@/shared/lib/apiClient';
+import User from '@/shared/types/User';
 
 import { AuthApi } from './auth-api';
 

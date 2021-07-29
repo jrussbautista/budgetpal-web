@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+
 import TransactionManageModal from '../components/TransactionManageModal';
 import TransactionsFilter from '../components/TransactionsFilter';
 import TransactionsList from '../components/TransactionsList';

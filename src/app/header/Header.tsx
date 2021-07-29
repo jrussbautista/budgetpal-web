@@ -10,9 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 
-import { removeCurrentUser } from '../../features/auth/auth-slice';
-import upperCaseFirstLetter from '../../shared/utils/uppercaseFistLetter';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { removeCurrentUser } from '@/features/auth/auth-slice';
+import upperCaseFirstLetter from '@/shared/utils/uppercaseFistLetter';
 
 const drawerWidth = 240;
 

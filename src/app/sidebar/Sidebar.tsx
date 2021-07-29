@@ -4,6 +4,8 @@ import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
+import logo from '@/assets/images/logo-white.svg';
+
 import SidebarList from './SidebarList';
 
 const drawerWidth = 240;
@@ -67,7 +69,7 @@ const Sidebar: React.FC<Props> = ({ isMobileSidebarOpen, toggleMobileSidebar, wi
           }}
         >
           <div className={classes.drawerHeader}>
-            <img src="/images/logo-white.svg" alt="budgetty logo" className={classes.logo} />
+            <img src={logo} alt="budgetty logo" className={classes.logo} />
             <Typography variant="h6" color="inherit">
               Budgetty
             </Typography>
@@ -84,7 +86,7 @@ const Sidebar: React.FC<Props> = ({ isMobileSidebarOpen, toggleMobileSidebar, wi
           open
         >
           <div className={classes.drawerHeader}>
-            <img src="/images/logo-white.svg" alt="budgetty logo" className={classes.logo} />
+            <img src={logo} alt="budgetty logo" className={classes.logo} />
             <Typography variant="h6" color="inherit">
               Budgetty
             </Typography>

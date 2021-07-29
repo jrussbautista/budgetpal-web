@@ -12,10 +12,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import debounce from 'lodash.debounce';
 import React, { useState, useEffect, useMemo } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import SelectDateRangeModal from '../../../shared/components/SelectDateRangeModal';
-import { DateRange } from '../../../shared/types/DateRange';
-import formatDate from '../../../shared/utils/formatDate';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import SelectDateRangeModal from '@/shared/components/SelectDateRangeModal';
+import { DateRange } from '@/shared/types/DateRange';
+import formatDate from '@/shared/utils/formatDate';
+
 import { setSelectedFilter, resetSelectedFilter } from '../transactions-slice';
 
 import SelectAmountModal from './SelectAmountModal';

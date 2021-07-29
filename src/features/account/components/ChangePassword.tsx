@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { AuthApi } from '../../auth/auth-api';
+import { AuthApi } from '@/features/auth/auth-api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

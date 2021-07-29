@@ -1,4 +1,4 @@
-import apiClient from '../../shared/utils/apiClient';
+import apiClient from '@/shared/lib/apiClient';
 
 const getDashboard = () => {
   return apiClient.get('/api/dashboard');

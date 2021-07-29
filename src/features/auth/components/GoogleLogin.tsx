@@ -5,8 +5,8 @@ import GoogleLoginLib from 'react-google-login';
 import toast from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 
-import { useAppDispatch } from '../../../app/hooks';
-import { loginWithGoogle } from '../auth-slice';
+import { useAppDispatch } from '@/app/hooks';
+import { loginWithGoogle } from '@/features/auth/auth-slice';
 
 const useStyles = makeStyles(() => ({
   googleButton: {

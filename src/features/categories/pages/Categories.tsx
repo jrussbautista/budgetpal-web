@@ -2,7 +2,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+
 import { setSelectedModal } from '../categories-slice';
 import CategoryList from '../components/CategoryList';
 import CategoryManageModal from '../components/CategoryManageModal';

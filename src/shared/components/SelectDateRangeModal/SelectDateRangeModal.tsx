@@ -2,9 +2,10 @@ import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import { DateRange } from '../../types/DateRange';
-import formatDate from '../../utils/formatDate';
-import { getStartAndEndDate } from '../../utils/getDateRange';
+import { DateRange } from '@/shared/types/DateRange';
+import formatDate from '@/shared/utils/formatDate';
+import { getStartAndEndDate } from '@/shared/utils/getDateRange';
+
 import Modal from '../Modal';
 
 const useStyles = makeStyles(() =>
@@ -15,6 +16,8 @@ const useStyles = makeStyles(() =>
       borderBottom: '1px solid #ccc',
       cursor: 'pointer',
       background: 'transparent',
+      display: 'block',
+      width: '100%  ',
     },
   })
 );

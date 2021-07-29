@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { updateProfile } from '../../auth/auth-slice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { updateProfile } from '@/features/auth/auth-slice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

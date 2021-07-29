@@ -3,8 +3,9 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch } from '../../../app/hooks';
-import ConfirmDialog from '../../../shared/components/ConfirmDialog';
+import { useAppDispatch } from '@/app/hooks';
+import ConfirmDialog from '@/shared/components/ConfirmDialog';
+
 import { deleteTransaction, setSelectedTransaction, setSelectedModal } from '../transactions-slice';
 import { Transaction } from '../types/Transaction';
 

@@ -5,8 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import loginCoverImg from '../../../assets/images/budgetty-login-cover.jpg';
-import logo from '../../../assets/images/logo.svg';
+import loginCoverImg from '@/assets/images/budgetty-login-cover.jpg';
+import logo from '@/assets/images/logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,4 +1,4 @@
-import { Category } from '../../categories/types/Category';
+import { Category } from '@/features/categories/types/Category';
 
 export interface Transaction {
   id: string;

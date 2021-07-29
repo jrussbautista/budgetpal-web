@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '../../shared/types/Status';
+import { Status } from '@/shared/types/Status';
 
 import { TransactionApi } from './transaction-api';
 import { Transaction } from './types/Transaction';

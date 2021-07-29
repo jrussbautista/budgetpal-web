@@ -4,9 +4,10 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import SelectDateRangeModal from '../../../shared/components/SelectDateRangeModal/SelectDateRangeModal';
-import { DateRange } from '../../../shared/types/DateRange';
+import { useAppSelector, useAppDispatch } from '@/app/hooks';
+import SelectDateRangeModal from '@/shared/components/SelectDateRangeModal/SelectDateRangeModal';
+import { DateRange } from '@/shared/types/DateRange';
+
 import ReportChart from '../components/ReportChart';
 import { setSelectedFilter } from '../report-slice';
 

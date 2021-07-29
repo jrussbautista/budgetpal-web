@@ -9,7 +9,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+
 import { deleteCategory, setSelectedCategory, setSelectedModal } from '../categories-slice';
 import { Category } from '../types/Category';
 

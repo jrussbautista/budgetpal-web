@@ -1,4 +1,4 @@
-import apiClient from '../../shared/utils/apiClient';
+import apiClient from '@/shared/lib/apiClient';
 
 const getCSRFCookie = () => {
   return apiClient.get('/sanctum/csrf-cookie');

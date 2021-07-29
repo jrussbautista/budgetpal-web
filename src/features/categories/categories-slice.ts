@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '../../shared/types/Status';
+import { Status } from '@/shared/types/Status';
 
 import { CategoryApi } from './category-api';
 import { Category } from './types/Category';

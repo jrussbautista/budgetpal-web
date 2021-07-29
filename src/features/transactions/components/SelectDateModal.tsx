@@ -4,9 +4,10 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import Modal from '../../../shared/components/Modal';
-import getFormattedDate from '../../../shared/utils/getFormattedDate';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/shared/components/Modal';
+import getFormattedDate from '@/shared/utils/getFormattedDate';
+
 import { setSelectedFilter, setSelectedModal } from '../transactions-slice';
 
 const useStyles = makeStyles({

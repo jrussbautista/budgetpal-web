@@ -1,17 +1,17 @@
-import { Link, useLocation } from 'react-router-dom';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PersonIcon from '@material-ui/icons/Person';
-import PaymentIcon from '@material-ui/icons/Payment';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import SettingsIcon from '@material-ui/icons/Settings';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import List from '@material-ui/core/List';
-import CategoryIcon from '@material-ui/icons/Category';
 import { makeStyles } from '@material-ui/core/styles';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import CategoryIcon from '@material-ui/icons/Category';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import PaymentIcon from '@material-ui/icons/Payment';
+import PersonIcon from '@material-ui/icons/Person';
+import SettingsIcon from '@material-ui/icons/Settings';
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   list: {

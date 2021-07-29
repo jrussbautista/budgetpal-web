@@ -1,12 +1,12 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ReactDOM from 'react-dom';
-import MaterialModal from '@material-ui/core/Modal';
+import { Typography } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
+import MaterialModal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { Typography } from '@material-ui/core';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,13 +43,7 @@ interface Props {
   withClose?: boolean;
 }
 
-const Modal: React.FC<Props> = ({
-  title,
-  isVisible,
-  onClose,
-  children,
-  withClose = true,
-}) => {
+const Modal: React.FC<Props> = ({ title, isVisible, onClose, children, withClose = true }) => {
   const classes = useStyles();
 
   return (
@@ -70,10 +64,10 @@ const Modal: React.FC<Props> = ({
               <Fade in={isVisible}>
                 <div className={classes.paper}>
                   <div className={classes.modalHeader}>
-                    <Typography variant='h6'>{title}</Typography>
+                    <Typography variant="h6">{title}</Typography>
                     {withClose && (
                       <div className={classes.closeContainer}>
-                        <IconButton aria-label='delete' onClick={onClose}>
+                        <IconButton aria-label="delete" onClick={onClose}>
                           <CloseIcon />
                         </IconButton>
                       </div>

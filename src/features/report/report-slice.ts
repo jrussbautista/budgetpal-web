@@ -1,9 +1,11 @@
-import { ReportApi } from './report-api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Transaction } from '../../shared/models/Transaction';
 import { AxiosError } from 'axios';
-import { Status } from '../../shared/models/Status';
+
+import { Status } from '../../shared/types/Status';
 import { getStartAndEndDate } from '../../shared/utils/getDateRange';
+import { Transaction } from '../transactions/types/Transaction';
+
+import { ReportApi } from './report-api';
 
 interface InitialState {
   transactions: Transaction[];
@@ -38,7 +40,7 @@ export const fetchReport = createAsyncThunk(
       const response = await ReportApi.getReport(filter);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -58,7 +60,7 @@ export const reportSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchReport.pending, (state, action) => {
+    builder.addCase(fetchReport.pending, (state) => {
       state.status = 'loading';
     });
     builder.addCase(fetchReport.fulfilled, (state, action) => {

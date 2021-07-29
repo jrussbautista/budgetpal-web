@@ -12,10 +12,7 @@ const deleteBudget = (id: string) => {
   return apiClient.delete(`/api/budgets/${id}`);
 };
 
-const updateBudget = (
-  id: string,
-  fields: { category_id: string; amount: number }
-) => {
+const updateBudget = (id: string, fields: { category_id: string; amount: number }) => {
   return apiClient.put(`/api/budgets/${id}`, fields);
 };
 

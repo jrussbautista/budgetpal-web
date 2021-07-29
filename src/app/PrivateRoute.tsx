@@ -1,4 +1,5 @@
 import { Route, Redirect, RouteProps } from 'react-router-dom';
+
 import { useAppSelector } from './hooks';
 
 interface PrivateRouteProps extends RouteProps {
@@ -12,7 +13,7 @@ const PrivateRoute = ({ component: Component }: PrivateRouteProps) => {
       render={() => {
         if (user) return <Component />;
 
-        return <Redirect to='/signin' />;
+        return <Redirect to="/signin" />;
       }}
     />
   );

@@ -1,13 +1,14 @@
+import utils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app/App';
-import reportWebVitals from './reportWebVitals';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import Theme from './app/theme/Theme';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import utils from '@date-io/date-fns';
+import { Provider } from 'react-redux';
+
+import App from './app/App';
+import { store } from './app/store';
+import Theme from './app/Theme/Theme';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>

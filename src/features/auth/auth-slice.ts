@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import User from '../../shared/models/User';
-import { AuthApi } from './auth-api';
 import { AxiosError } from 'axios';
+
+import User from '../../shared/types/User';
 import apiClient from '../../shared/utils/apiClient';
+
+import { AuthApi } from './auth-api';
 
 interface InitialState {
   user: User | null;
@@ -17,18 +19,13 @@ interface ValidationErrors {
 const localStorageCurrentUser = localStorage.getItem('currentUser');
 
 const initialState: InitialState = {
-  user: localStorageCurrentUser
-    ? JSON.parse(localStorageCurrentUser as string)
-    : null,
+  user: localStorageCurrentUser ? JSON.parse(localStorageCurrentUser as string) : null,
   error: null,
 };
 
 export const login = createAsyncThunk(
   'user/login',
-  async (
-    { email, password }: { email: string; password: string },
-    { rejectWithValue }
-  ) => {
+  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
       await AuthApi.getCSRFCookie();
       const response = await AuthApi.login(email, password);
@@ -38,7 +35,7 @@ export const login = createAsyncThunk(
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return response.data.data.user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -60,7 +57,7 @@ export const loginWithGoogle = createAsyncThunk(
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return response.data.data.user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -100,7 +97,7 @@ export const register = createAsyncThunk(
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return response.data.data.user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -111,13 +108,10 @@ export const register = createAsyncThunk(
   }
 );
 
-export const removeCurrentUser = createAsyncThunk(
-  'user/removeCurrentUser',
-  async () => {
-    window.localStorage.removeItem('currentUser');
-    window.localStorage.removeItem('accessToken');
-  }
-);
+export const removeCurrentUser = createAsyncThunk('user/removeCurrentUser', async () => {
+  window.localStorage.removeItem('currentUser');
+  window.localStorage.removeItem('accessToken');
+});
 
 export const fetchCurrentUser = createAsyncThunk(
   'user/currentUser',
@@ -128,7 +122,7 @@ export const fetchCurrentUser = createAsyncThunk(
       window.localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
         throw error;
       }
@@ -146,7 +140,7 @@ export const updateProfile = createAsyncThunk(
       window.localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
         throw error;
       }
@@ -157,10 +151,7 @@ export const updateProfile = createAsyncThunk(
 
 export const updateSettings = createAsyncThunk(
   'user/updateSettings',
-  async (
-    fields: { language: string; currency: string; theme: string },
-    { rejectWithValue }
-  ) => {
+  async (fields: { language: string; currency: string; theme: string }, { rejectWithValue }) => {
     try {
       const response = await AuthApi.updateSettings(fields);
       console.log(response);
@@ -168,7 +159,7 @@ export const updateSettings = createAsyncThunk(
       window.localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
         throw error;
       }
@@ -215,7 +206,7 @@ export const authSlice = createSlice({
     builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
       state.user = action.payload;
     });
-    builder.addCase(removeCurrentUser.fulfilled, (state, action) => {
+    builder.addCase(removeCurrentUser.fulfilled, (state) => {
       state.user = null;
       state.error = null;
     });

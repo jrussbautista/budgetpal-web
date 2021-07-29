@@ -1,8 +1,10 @@
-import { Category } from '../../shared/models/Category';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { CategoryApi } from './category-api';
 import { AxiosError } from 'axios';
-import { Status } from '../../shared/models/Status';
+
+import { Status } from '../../shared/types/Status';
+
+import { CategoryApi } from './category-api';
+import { Category } from './types/Category';
 
 interface InitialState {
   status: Status;
@@ -25,23 +27,20 @@ interface ValidationErrors {
   message: string;
 }
 
-export const fetchCategories = createAsyncThunk(
-  'categories',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await CategoryApi.getCategories();
-      return response.data.data;
-    } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+export const fetchCategories = createAsyncThunk('categories', async (_, { rejectWithValue }) => {
+  try {
+    const response = await CategoryApi.getCategories();
+    return response.data.data;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
 
-      if (!error.response) {
-        throw error;
-      }
-
-      return rejectWithValue(error.response.data);
+    if (!error.response) {
+      throw error;
     }
+
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const deleteCategory = createAsyncThunk(
   'categories/delete',
@@ -50,7 +49,7 @@ export const deleteCategory = createAsyncThunk(
       await CategoryApi.deleteCategory(id);
       return id;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -63,15 +62,12 @@ export const deleteCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
   'categories/update',
-  async (
-    { id, fields }: { id: string; fields: { title: string } },
-    { rejectWithValue }
-  ) => {
+  async ({ id, fields }: { id: string; fields: { title: string } }, { rejectWithValue }) => {
     try {
       const response = await CategoryApi.updateCategory(id, fields);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -94,7 +90,7 @@ export const addCategory = createAsyncThunk(
       const response = await CategoryApi.addCategory(fields);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -117,7 +113,7 @@ export const categoriesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCategories.pending, (state, action) => {
+    builder.addCase(fetchCategories.pending, (state) => {
       state.status = 'loading';
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
@@ -136,21 +132,16 @@ export const categoriesSlice = createSlice({
       state.categories.push(action.payload);
     });
     builder.addCase(deleteCategory.fulfilled, (state, action) => {
-      state.categories = state.categories.filter(
-        (category) => category.id !== action.payload
-      );
+      state.categories = state.categories.filter((category) => category.id !== action.payload);
     });
     builder.addCase(updateCategory.fulfilled, (state, action) => {
       state.categories = state.categories.map((category) =>
-        category.id === action.payload.id
-          ? { ...category, ...action.payload }
-          : category
+        category.id === action.payload.id ? { ...category, ...action.payload } : category
       );
     });
   },
 });
 
-export const { setSelectedModal, setSelectedCategory } =
-  categoriesSlice.actions;
+export const { setSelectedModal, setSelectedCategory } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

@@ -1,9 +1,10 @@
-import React from 'react';
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import React from 'react';
+
 import { useAppSelector } from '../hooks';
 
 const Theme: React.FC = ({ children }) => {

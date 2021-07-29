@@ -1,8 +1,10 @@
-import { Dashboard } from '../../shared/models/Dashboard';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { DashboardApi } from './dashboard-api';
 import { AxiosError } from 'axios';
-import { Status } from '../../shared/models/Status';
+
+import { Status } from '../../shared/types/Status';
+
+import { DashboardApi } from './dashboard-api';
+import { Dashboard } from './types/Dashboard';
 
 interface InitialState {
   status: Status;
@@ -21,30 +23,27 @@ interface ValidationErrors {
   message: string;
 }
 
-export const fetchDashboard = createAsyncThunk(
-  'dashboard',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await DashboardApi.getDashboard();
-      return response.data.data;
-    } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+export const fetchDashboard = createAsyncThunk('dashboard', async (_, { rejectWithValue }) => {
+  try {
+    const response = await DashboardApi.getDashboard();
+    return response.data.data;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
 
-      if (!error.response) {
-        throw error;
-      }
-
-      return rejectWithValue(error.response.data);
+    if (!error.response) {
+      throw error;
     }
+
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchDashboard.pending, (state, action) => {
+    builder.addCase(fetchDashboard.pending, (state) => {
       state.status = 'loading';
     });
     builder.addCase(fetchDashboard.fulfilled, (state, action) => {

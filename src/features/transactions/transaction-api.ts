@@ -1,6 +1,6 @@
 import apiClient from '../../shared/utils/apiClient';
 
-const getTransactions = (page: number = 1, filter: Record<string, string>) => {
+const getTransactions = (page = 1, filter: Record<string, string>) => {
   const params = new URLSearchParams({
     page: page.toString(),
     ...filter,

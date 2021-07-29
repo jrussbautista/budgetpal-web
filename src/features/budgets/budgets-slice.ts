@@ -1,13 +1,11 @@
-import { RootState } from './../../app/store';
-import { Budget } from '../../shared/models/Budget';
-import {
-  createSlice,
-  createAsyncThunk,
-  createSelector,
-} from '@reduxjs/toolkit';
-import { BudgetApi } from './budget-api';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { Status } from '../../shared/models/Status';
+
+import { Status } from '../../shared/types/Status';
+
+import { RootState } from './../../app/store';
+import { BudgetApi } from './budget-api';
+import { Budget } from './types/Budget';
 
 interface InitialState {
   status: Status;
@@ -37,7 +35,7 @@ export const fetchBudgets = createAsyncThunk(
       const response = await BudgetApi.getBudgets();
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -62,7 +60,7 @@ export const addBudget = createAsyncThunk(
       const response = await BudgetApi.addBudget(budget);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -80,7 +78,7 @@ export const deleteBudget = createAsyncThunk(
       await BudgetApi.deleteBudget(id);
       return id;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -111,7 +109,7 @@ export const updateBudget = createAsyncThunk(
       const response = await BudgetApi.updateBudget(id, fields);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -153,15 +151,11 @@ export const BudgetsSlice = createSlice({
       state.budgets.unshift(action.payload);
     });
     builder.addCase(deleteBudget.fulfilled, (state, action) => {
-      state.budgets = state.budgets.filter(
-        (budget) => budget.id !== action.payload
-      );
+      state.budgets = state.budgets.filter((budget) => budget.id !== action.payload);
     });
     builder.addCase(updateBudget.fulfilled, (state, action) => {
       state.budgets = state.budgets.map((budget) =>
-        budget.id === action.payload.id
-          ? { ...budget, ...action.payload }
-          : budget
+        budget.id === action.payload.id ? { ...budget, ...action.payload } : budget
       );
     });
   },

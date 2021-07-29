@@ -1,11 +1,12 @@
 import { getMonth, getDate } from 'date-fns';
+
 import formatDate from '../../../shared/utils/formatDate';
-import { Transaction } from '../../../shared/models/Transaction';
+import { Transaction } from '../../transactions/types/Transaction';
 
 const getTransactionByDate = (
   transactions: Transaction[],
   value: number,
-  dateType: string = 'withInMonth'
+  dateType = 'withInMonth'
 ) => {
   let amount = 0;
   let selected = false;

@@ -1,8 +1,10 @@
-import { Transaction } from '../../shared/models/Transaction';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { TransactionApi } from './transaction-api';
 import { AxiosError } from 'axios';
-import { Status } from '../../shared/models/Status';
+
+import { Status } from '../../shared/types/Status';
+
+import { TransactionApi } from './transaction-api';
+import { Transaction } from './types/Transaction';
 
 interface InitialState {
   status: Status;
@@ -49,7 +51,7 @@ export const fetchTransactions = createAsyncThunk(
       const response = await TransactionApi.getTransactions(page, filter);
       return response.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -75,7 +77,7 @@ export const addTransaction = createAsyncThunk(
       const response = await TransactionApi.addTransaction(transaction);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -93,7 +95,7 @@ export const deleteTransaction = createAsyncThunk(
       await TransactionApi.deleteTransaction(id);
       return id;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -125,7 +127,7 @@ export const updateTransaction = createAsyncThunk(
       const response = await TransactionApi.updateTransaction(id, fields);
       return response.data.data;
     } catch (err) {
-      let error: AxiosError<ValidationErrors> = err;
+      const error: AxiosError<ValidationErrors> = err;
 
       if (!error.response) {
         throw error;
@@ -146,10 +148,7 @@ export const transactionsSlice = createSlice({
     setSelectedModal: (state, action) => {
       state.selectedModal = action.payload;
     },
-    setSelectedFilter: (
-      state,
-      action: PayloadAction<Record<string, string>>
-    ) => {
+    setSelectedFilter: (state, action: PayloadAction<Record<string, string>>) => {
       state.status = 'idle'; // necessary in order to refetch transactions from api
       state.selectedFilter = { ...state.selectedFilter, ...action.payload };
     },
@@ -188,9 +187,7 @@ export const transactionsSlice = createSlice({
     });
     builder.addCase(updateTransaction.fulfilled, (state, action) => {
       state.transactions = state.transactions.map((transaction) =>
-        transaction.id === action.payload.id
-          ? { ...transaction, ...action.payload }
-          : transaction
+        transaction.id === action.payload.id ? { ...transaction, ...action.payload } : transaction
       );
     });
   },

@@ -1,9 +1,10 @@
-import Drawer from '@material-ui/core/Drawer';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import SidebarList from './SidebarList';
 import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+
+import SidebarList from './SidebarList';
 
 const drawerWidth = 240;
 
@@ -43,23 +44,18 @@ interface Props {
   toggleMobileSidebar(): void;
 }
 
-const Sidebar: React.FC<Props> = ({
-  isMobileSidebarOpen,
-  toggleMobileSidebar,
-  window,
-}) => {
+const Sidebar: React.FC<Props> = ({ isMobileSidebarOpen, toggleMobileSidebar, window }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <nav className={classes.drawer} aria-label='menu'>
-      <Hidden smUp implementation='css'>
+    <nav className={classes.drawer} aria-label="menu">
+      <Hidden smUp implementation="css">
         <Drawer
           container={container}
-          variant='temporary'
+          variant="temporary"
           anchor={theme.direction === 'rtl' ? 'right' : 'left'}
           open={isMobileSidebarOpen}
           onClose={toggleMobileSidebar}
@@ -71,33 +67,25 @@ const Sidebar: React.FC<Props> = ({
           }}
         >
           <div className={classes.drawerHeader}>
-            <img
-              src='/images/logo-white.svg'
-              alt='budgetty logo'
-              className={classes.logo}
-            />
-            <Typography variant='h6' color='inherit'>
+            <img src="/images/logo-white.svg" alt="budgetty logo" className={classes.logo} />
+            <Typography variant="h6" color="inherit">
               Budgetty
             </Typography>
           </div>
           <SidebarList />
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation='css'>
+      <Hidden xsDown implementation="css">
         <Drawer
           classes={{
             paper: classes.drawerPaper,
           }}
-          variant='permanent'
+          variant="permanent"
           open
         >
           <div className={classes.drawerHeader}>
-            <img
-              src='/images/logo-white.svg'
-              alt='budgetty logo'
-              className={classes.logo}
-            />
-            <Typography variant='h6' color='inherit'>
+            <img src="/images/logo-white.svg" alt="budgetty logo" className={classes.logo} />
+            <Typography variant="h6" color="inherit">
               Budgetty
             </Typography>
           </div>

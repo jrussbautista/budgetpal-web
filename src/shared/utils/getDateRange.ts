@@ -8,10 +8,7 @@ import {
   endOfYear,
 } from 'date-fns';
 
-export const getStartAndEndDate = (
-  range: string = 'month',
-  value: number = 0
-) => {
+export const getStartAndEndDate = (range = 'month', value = 0) => {
   let date = new Date();
   let startDate = date;
   let endDate = date;
@@ -21,12 +18,13 @@ export const getStartAndEndDate = (
       startDate = startOfMonth(date);
       endDate = endOfMonth(date);
       break;
-    case 'lastMonth':
+    case 'lastMonth': {
       const subStartDate = subMonths(date, value);
       const subEndDate = subMonths(date, 1);
       startDate = startOfMonth(subStartDate);
       endDate = endOfMonth(subEndDate);
       break;
+    }
     case 'year':
       date = subYears(date, value);
       startDate = startOfYear(date);

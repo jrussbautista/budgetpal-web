@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Sidebar from '../sidebar';
-import Header from '../header';
-import VerifyEmailAlert from '../../features/auth/verify-email-alert';
+import React, { useState } from 'react';
+
+import VerifyEmailAlert from '../../features/auth/components/VerifyEmailAlert';
+import Header from '../Header';
+import Sidebar from '../Sidebar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

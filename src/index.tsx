@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import App from './app/App';
 import { store } from './app/store';
-import Theme from './app/Theme/Theme';
+import Theme from './app/Theme';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

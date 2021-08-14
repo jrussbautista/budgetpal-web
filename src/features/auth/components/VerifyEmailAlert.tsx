@@ -5,7 +5,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { useAppSelector } from '@/app/hooks';
-import { AuthApi } from '@/features/auth/auth-api';
+import { resendVerifyEmail } from '@/features/auth/api';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -33,7 +33,7 @@ const VerifyEmailAlert = () => {
   const handleResendEmailVerify = async () => {
     try {
       setResending(true);
-      await AuthApi.resendVerifyEmail();
+      await resendVerifyEmail();
       toast.success('Successfully sent you a verification email');
     } catch (error) {
       toast.error(

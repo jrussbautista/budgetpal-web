@@ -3,10 +3,10 @@ import EditProfile from '../components/EditProfile';
 
 const AccountPage = () => {
   return (
-    <div>
+    <>
       <EditProfile />
       <ChangePassword />
-    </div>
+    </>
   );
 };
 

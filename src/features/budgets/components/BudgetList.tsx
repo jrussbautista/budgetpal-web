@@ -7,11 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Alert from '@material-ui/lab/Alert';
 import { useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-
-import { fetchBudgets, selectBudgetsByStatus } from '../budgets-slice';
+import { fetchBudgets, selectBudgetsByStatus } from '../slice';
 
 import BudgetItem from './BudgetItem';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 
 const useStyles = makeStyles(() =>
   createStyles({

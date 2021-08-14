@@ -9,7 +9,7 @@ import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { updateProfile } from '@/features/auth/auth-slice';
+import { updateProfile } from '@/features/auth/slice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

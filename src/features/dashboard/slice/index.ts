@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '@/shared/types/Status';
+import * as DashboardAPI from '../api';
+import { Dashboard } from '../types';
 
-import { DashboardApi } from './dashboard-api';
-import { Dashboard } from './types/Dashboard';
+import { Status } from '@/types';
 
 interface InitialState {
   status: Status;
@@ -25,7 +25,7 @@ interface ValidationErrors {
 
 export const fetchDashboard = createAsyncThunk('dashboard', async (_, { rejectWithValue }) => {
   try {
-    const response = await DashboardApi.getDashboard();
+    const response = await DashboardAPI.getDashboard();
     return response.data.data;
   } catch (err) {
     const error: AxiosError<ValidationErrors> = err;

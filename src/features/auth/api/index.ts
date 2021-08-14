@@ -1,18 +1,18 @@
-import apiClient from '@/shared/lib/apiClient';
+import apiClient from '@/lib/apiClient';
 
-const getCSRFCookie = () => {
+export const getCSRFCookie = () => {
   return apiClient.get('/sanctum/csrf-cookie');
 };
 
-const login = (email: string, password: string) => {
+export const login = (email: string, password: string) => {
   return apiClient.post('/api/login', { email, password });
 };
 
-const forgotPassword = (email: string) => {
+export const forgotPassword = (email: string) => {
   return apiClient.post('/api/forgot-password', { email });
 };
 
-const resetPassword = (fields: {
+export const resetPassword = (fields: {
   email: string;
   password: string;
   password_confirmation: string;
@@ -21,15 +21,15 @@ const resetPassword = (fields: {
   return apiClient.post('/api/reset-password', fields);
 };
 
-const resendVerifyEmail = () => {
+export const resendVerifyEmail = () => {
   return apiClient.post('/api/email/verification-notification');
 };
 
-const loginWithGoogle = (accessToken: string) => {
+export const loginWithGoogle = (accessToken: string) => {
   return apiClient.post('/api/login/google', { accessToken });
 };
 
-const register = (fields: {
+export const register = (fields: {
   name: string;
   email: string;
   password: string;
@@ -38,11 +38,11 @@ const register = (fields: {
   return apiClient.post('/api/register', fields);
 };
 
-const getCurrentUser = () => {
+export const getCurrentUser = () => {
   return apiClient.get('/api/account/me');
 };
 
-const changePassword = async (fields: {
+export const changePassword = async (fields: {
   current_password: string;
   new_password: string;
   new_password_confirmation: string;
@@ -53,24 +53,10 @@ const changePassword = async (fields: {
   apiClient.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 };
 
-const updateProfile = (fields: { name: string; email: string }) => {
+export const updateProfile = (fields: { name: string; email: string }) => {
   return apiClient.post('/api/account/update-profile', fields);
 };
 
-const updateSettings = (fields: { language: string; currency: string; theme: string }) => {
+export const updateSettings = (fields: { language: string; currency: string; theme: string }) => {
   return apiClient.put('/api/settings', fields);
-};
-
-export const AuthApi = {
-  login,
-  loginWithGoogle,
-  getCSRFCookie,
-  register,
-  getCurrentUser,
-  changePassword,
-  updateProfile,
-  updateSettings,
-  forgotPassword,
-  resetPassword,
-  resendVerifyEmail,
 };

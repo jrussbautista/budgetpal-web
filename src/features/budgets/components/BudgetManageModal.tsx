@@ -14,17 +14,17 @@ import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import Modal from '@/shared/components/Modal';
-import getFormattedDate from '@/shared/utils/getFormattedDate';
-
 import {
   addBudget,
   setSelectedModal,
   updateBudget,
   fetchBudgets,
   setSelectedBudget,
-} from '../budgets-slice';
+} from '../slice';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/components/Modal';
+import getFormattedDate from '@/utils/getFormattedDate';
 
 interface FormData {
   category_id: string;

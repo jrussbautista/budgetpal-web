@@ -2,19 +2,19 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { fetchCurrentUser, removeCurrentUser } from '@/features/auth/auth-slice';
+import { useAppDispatch, useAppSelector } from './hooks';
+import Layout from './Layout';
+import PrivateRoute from './PrivateRoute';
+
+import PageError from '@/components/PageError';
+import PageLoader from '@/components/PageLoader';
 import ForgotPasswordPage from '@/features/auth/pages/ForgotPassword';
 import LoginPage from '@/features/auth/pages/Login';
 import RegisterPage from '@/features/auth/pages/Register';
 import ResetPasswordPage from '@/features/auth/pages/ResetPassword';
-import { fetchCategories } from '@/features/categories/categories-slice';
+import { fetchCurrentUser, removeCurrentUser } from '@/features/auth/slice';
+import { fetchCategories } from '@/features/categories/slice';
 import LandingPage from '@/features/landing/pages/Landing';
-import PageError from '@/shared/components/PageError';
-import PageLoader from '@/shared/components/PageLoader';
-
-import { useAppDispatch, useAppSelector } from './hooks';
-import Layout from './Layout';
-import PrivateRoute from './PrivateRoute';
 
 const AccountPage = lazy(() => import('@/features/account/pages/Account'));
 const SettingsPage = lazy(() => import('@/features/settings/pages/Settings'));

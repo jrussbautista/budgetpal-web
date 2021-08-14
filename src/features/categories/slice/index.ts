@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '@/shared/types/Status';
+import * as CategoryAPI from '../api';
+import { Category } from '../types';
 
-import { CategoryApi } from './category-api';
-import { Category } from './types/Category';
+import { Status } from '@/types';
 
 interface InitialState {
   status: Status;
@@ -29,7 +29,7 @@ interface ValidationErrors {
 
 export const fetchCategories = createAsyncThunk('categories', async (_, { rejectWithValue }) => {
   try {
-    const response = await CategoryApi.getCategories();
+    const response = await CategoryAPI.getCategories();
     return response.data.data;
   } catch (err) {
     const error: AxiosError<ValidationErrors> = err;
@@ -46,7 +46,7 @@ export const deleteCategory = createAsyncThunk(
   'categories/delete',
   async (id: string, { rejectWithValue }) => {
     try {
-      await CategoryApi.deleteCategory(id);
+      await CategoryAPI.deleteCategory(id);
       return id;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -64,7 +64,7 @@ export const updateCategory = createAsyncThunk(
   'categories/update',
   async ({ id, fields }: { id: string; fields: { title: string } }, { rejectWithValue }) => {
     try {
-      const response = await CategoryApi.updateCategory(id, fields);
+      const response = await CategoryAPI.updateCategory(id, fields);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -87,7 +87,7 @@ export const addCategory = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await CategoryApi.addCategory(fields);
+      const response = await CategoryAPI.addCategory(fields);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;

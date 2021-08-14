@@ -1,5 +1,5 @@
-import { Budget } from '@/features/budgets/types/Budget';
-import { Transaction } from '@/features/transactions/types/Transaction';
+import { Budget } from '@/features/budgets/types';
+import { Transaction } from '@/features/transactions/types';
 
 interface Analytics {
   name: string;

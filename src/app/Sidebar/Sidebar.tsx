@@ -4,9 +4,9 @@ import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import logo from '@/assets/images/logo-white.svg';
-
 import SidebarList from './SidebarList';
+
+import logo from '@/assets/images/logo-white.svg';
 
 const drawerWidth = 240;
 

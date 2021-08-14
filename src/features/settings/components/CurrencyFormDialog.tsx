@@ -12,8 +12,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { updateSettings } from '../../auth/auth-slice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { updateSettings } from '@/features/auth/slice';
 
 const useStyles = makeStyles(() =>
   createStyles({

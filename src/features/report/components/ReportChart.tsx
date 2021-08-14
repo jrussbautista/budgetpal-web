@@ -6,13 +6,13 @@ import { getDaysInMonth, differenceInDays, addMonths, getMonth } from 'date-fns'
 import React, { useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-
-import { fetchReport } from '../report-slice';
-import getChartLabel from '../utils/get-chart-label';
-import getTransactionByDate from '../utils/get-transaction-by-date';
+import { fetchReport } from '../slice';
+import getChartLabel from '../utils/getChartLabel';
+import getTransactionByDate from '../utils/getTransactionByDate';
 
 import CustomToolTip from './CustomToolTip';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 
 const useStyles = makeStyles(() =>
   createStyles({

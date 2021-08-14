@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import Modal from '@/shared/components/Modal';
+import { setSelectedFilter } from '../slice';
 
-import { setSelectedFilter } from '../transactions-slice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/components/Modal';
 
 const useStyles = makeStyles({
   group: {

@@ -7,15 +7,10 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import Modal from '@/shared/components/Modal';
+import { setSelectedModal, addCategory, setSelectedCategory, updateCategory } from '../slice';
 
-import {
-  setSelectedModal,
-  addCategory,
-  setSelectedCategory,
-  updateCategory,
-} from '../categories-slice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Modal from '@/components/Modal';
 
 interface FormData {
   title: string;

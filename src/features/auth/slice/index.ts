@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import apiClient from '@/shared/lib/apiClient';
-import User from '@/shared/types/User';
+import * as AuthAPI from '../api';
 
-import { AuthApi } from './auth-api';
+import apiClient from '@/lib/apiClient';
+import { User } from '@/types';
 
 interface InitialState {
   user: User | null;
@@ -27,8 +27,8 @@ export const login = createAsyncThunk(
   'user/login',
   async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      await AuthApi.getCSRFCookie();
-      const response = await AuthApi.login(email, password);
+      await AuthAPI.getCSRFCookie();
+      const response = await AuthAPI.login(email, password);
       const { token, user } = response.data.data;
       window.localStorage.setItem('accessToken', token);
       window.localStorage.setItem('currentUser', JSON.stringify(user));
@@ -49,8 +49,8 @@ export const loginWithGoogle = createAsyncThunk(
   'user/login/google',
   async (accessToken: string, { rejectWithValue }) => {
     try {
-      await AuthApi.getCSRFCookie();
-      const response = await AuthApi.loginWithGoogle(accessToken);
+      await AuthAPI.getCSRFCookie();
+      const response = await AuthAPI.loginWithGoogle(accessToken);
       const { token, user } = response.data.data;
       window.localStorage.setItem('accessToken', token);
       window.localStorage.setItem('currentUser', JSON.stringify(user));
@@ -84,8 +84,8 @@ export const register = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      await AuthApi.getCSRFCookie();
-      const response = await AuthApi.register({
+      await AuthAPI.getCSRFCookie();
+      const response = await AuthAPI.register({
         email,
         name,
         password,
@@ -117,7 +117,7 @@ export const fetchCurrentUser = createAsyncThunk(
   'user/currentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await AuthApi.getCurrentUser();
+      const response = await AuthAPI.getCurrentUser();
       const user = response.data.data;
       window.localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
@@ -135,7 +135,7 @@ export const updateProfile = createAsyncThunk(
   'user/updateProfile',
   async (fields: { name: string; email: string }, { rejectWithValue }) => {
     try {
-      const response = await AuthApi.updateProfile(fields);
+      const response = await AuthAPI.updateProfile(fields);
       const user = response.data.data.user;
       window.localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
@@ -153,7 +153,7 @@ export const updateSettings = createAsyncThunk(
   'user/updateSettings',
   async (fields: { language: string; currency: string; theme: string }, { rejectWithValue }) => {
     try {
-      const response = await AuthApi.updateSettings(fields);
+      const response = await AuthAPI.updateSettings(fields);
       console.log(response);
       const user = response.data.data;
       window.localStorage.setItem('currentUser', JSON.stringify(user));

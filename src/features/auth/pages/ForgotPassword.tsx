@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { AuthApi } from '../auth-api';
+import { forgotPassword, getCSRFCookie } from '../api';
 import Layout from '../components/Layout';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +50,8 @@ const ForgotPassword = () => {
   const onSubmit = async ({ email }: FormData) => {
     try {
       setIsSubmitting(true);
-      await AuthApi.getCSRFCookie();
-      await AuthApi.forgotPassword(email);
+      await getCSRFCookie();
+      await forgotPassword(email);
 
       setIsSubmitting(false);
       toast.success('Successfully sent your password reset link!');

@@ -1,6 +1,6 @@
-import apiClient from '../../shared/lib/apiClient';
+import apiClient from '../../../lib/apiClient';
 
-const getTransactions = (page = 1, filter: Record<string, string>) => {
+export const getTransactions = (page = 1, filter: Record<string, string>) => {
   const params = new URLSearchParams({
     page: page.toString(),
     ...filter,
@@ -9,11 +9,11 @@ const getTransactions = (page = 1, filter: Record<string, string>) => {
   return apiClient.get(url);
 };
 
-const deleteTransaction = (id: string) => {
+export const deleteTransaction = (id: string) => {
   return apiClient.delete(`/api/transactions/${id}`);
 };
 
-const updateTransaction = (
+export const updateTransaction = (
   id: string,
   fields: {
     category_id: string;
@@ -25,18 +25,11 @@ const updateTransaction = (
   return apiClient.put(`/api/transactions/${id}`, fields);
 };
 
-const addTransaction = (fields: {
+export const addTransaction = (fields: {
   category_id: string;
   title: string;
   amount: number;
   type: string;
 }) => {
   return apiClient.post('/api/transactions', fields);
-};
-
-export const TransactionApi = {
-  getTransactions,
-  updateTransaction,
-  addTransaction,
-  deleteTransaction,
 };

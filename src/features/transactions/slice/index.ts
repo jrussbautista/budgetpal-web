@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '@/shared/types/Status';
+import * as TransactionAPI from '../api';
+import { Transaction } from '../types';
 
-import { TransactionApi } from './transaction-api';
-import { Transaction } from './types/Transaction';
+import { Status } from '@/types';
 
 interface InitialState {
   status: Status;
@@ -48,7 +48,7 @@ export const fetchTransactions = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await TransactionApi.getTransactions(page, filter);
+      const response = await TransactionAPI.getTransactions(page, filter);
       return response.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -74,7 +74,7 @@ export const addTransaction = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await TransactionApi.addTransaction(transaction);
+      const response = await TransactionAPI.addTransaction(transaction);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -92,7 +92,7 @@ export const deleteTransaction = createAsyncThunk(
   'transactions/deleteTransaction',
   async (id: string, { rejectWithValue }) => {
     try {
-      await TransactionApi.deleteTransaction(id);
+      await TransactionAPI.deleteTransaction(id);
       return id;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -124,7 +124,7 @@ export const updateTransaction = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await TransactionApi.updateTransaction(id, fields);
+      const response = await TransactionAPI.updateTransaction(id, fields);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { AuthApi } from '@/features/auth/auth-api';
+import { changePassword } from '@/features/auth/api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,7 +52,7 @@ const ChangePassword = () => {
         new_password: newPassword,
         new_password_confirmation: newPasswordConfirm,
       };
-      await AuthApi.changePassword(fields);
+      await changePassword(fields);
       toast.success('You have successfully changed your password');
     } catch (error) {
       toast.error(error.response.data.message);

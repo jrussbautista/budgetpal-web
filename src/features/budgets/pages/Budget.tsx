@@ -1,11 +1,11 @@
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-
-import { setSelectedModal } from '../budgets-slice';
 import BudgetList from '../components/BudgetList';
 import BudgetManageModal from '../components/BudgetManageModal';
+import { setSelectedModal } from '../slice';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 
 const useStyles = makeStyles({
   topContainer: {

@@ -2,11 +2,11 @@ import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import { DateRange } from '@/shared/types/DateRange';
-import formatDate from '@/shared/utils/formatDate';
-import { getStartAndEndDate } from '@/shared/utils/getDateRange';
-
 import Modal from '../Modal';
+
+import { DateRange } from '@/types';
+import formatDate from '@/utils/formatDate';
+import { getStartAndEndDate } from '@/utils/getDateRange';
 
 const useStyles = makeStyles(() =>
   createStyles({

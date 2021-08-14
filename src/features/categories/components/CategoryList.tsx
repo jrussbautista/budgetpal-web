@@ -5,9 +5,9 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import { useAppSelector } from '@/app/hooks';
-
 import CategoryItem from './CategoryItem';
+
+import { useAppSelector } from '@/app/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

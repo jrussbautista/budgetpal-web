@@ -3,13 +3,13 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch } from '@/app/hooks';
-import ConfirmDialog from '@/shared/components/ConfirmDialog';
-
-import { deleteBudget, setSelectedBudget, setSelectedModal } from '../budgets-slice';
-import { Budget } from '../types/Budget';
+import { deleteBudget, setSelectedBudget, setSelectedModal } from '../slice';
+import { Budget } from '../types';
 
 import BudgetCard from './BudgetCard';
+
+import { useAppDispatch } from '@/app/hooks';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 interface Props {
   budget: Budget;

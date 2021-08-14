@@ -8,11 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
 
-import { useAppSelector } from '@/app/hooks';
-import { CURRENCIES } from '@/shared/constants/currency';
-import formatMoney from '@/shared/utils/formatMoney';
+import { Transaction } from '../types';
 
-import { Transaction } from '../types/Transaction';
+import { useAppSelector } from '@/app/hooks';
+import { CURRENCIES } from '@/constants/currency';
+import formatMoney from '@/utils/formatMoney';
 
 interface Props {
   transaction: Transaction;

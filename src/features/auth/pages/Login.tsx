@@ -11,11 +11,11 @@ import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useHistory, Link } from 'react-router-dom';
 
-import { useAppDispatch } from '@/app/hooks';
-
-import { login } from '../auth-slice';
 import GoogleLogin from '../components/GoogleLogin';
 import Layout from '../components/Layout';
+import { login } from '../slice';
+
+import { useAppDispatch } from '@/app/hooks';
 
 const useStyles = makeStyles((theme) => ({
   form: {

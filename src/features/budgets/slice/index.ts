@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
+import * as BudgetAPI from '../api';
+import { Budget } from '../types';
+
 import { RootState } from '@/app/store';
-
-import { Status } from '../../shared/types/Status';
-
-import { BudgetApi } from './budget-api';
-import { Budget } from './types/Budget';
+import { Status } from '@/types';
 
 interface InitialState {
   status: Status;
@@ -33,7 +32,7 @@ export const fetchBudgets = createAsyncThunk(
   'budgets/fetchBudgets',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await BudgetApi.getBudgets();
+      const response = await BudgetAPI.getBudgets();
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -58,7 +57,7 @@ export const addBudget = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await BudgetApi.addBudget(budget);
+      const response = await BudgetAPI.addBudget(budget);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -76,7 +75,7 @@ export const deleteBudget = createAsyncThunk(
   'budgets/deleteBudget',
   async (id: string, { rejectWithValue }) => {
     try {
-      await BudgetApi.deleteBudget(id);
+      await BudgetAPI.deleteBudget(id);
       return id;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -107,7 +106,7 @@ export const updateBudget = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await BudgetApi.updateBudget(id, fields);
+      const response = await BudgetAPI.updateBudget(id, fields);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;

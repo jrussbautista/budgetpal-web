@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { Status } from '@/shared/types/Status';
-import { getStartAndEndDate } from '@/shared/utils/getDateRange';
+import * as ReportAPI from '../api';
 
-import { Transaction } from '../transactions/types/Transaction';
-
-import { ReportApi } from './report-api';
+import { Transaction } from '@/features/transactions/types';
+import { Status } from '@/types';
+import { getStartAndEndDate } from '@/utils/getDateRange';
 
 interface InitialState {
   transactions: Transaction[];
@@ -38,7 +37,7 @@ export const fetchReport = createAsyncThunk(
   'report',
   async (filter: Record<string, string> = {}, { rejectWithValue }) => {
     try {
-      const response = await ReportApi.getReport(filter);
+      const response = await ReportAPI.getReport(filter);
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;

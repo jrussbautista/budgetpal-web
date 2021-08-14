@@ -10,11 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
 
-import { useAppSelector } from '@/app/hooks';
-import { CURRENCIES } from '@/shared/constants/currency';
-import formatMoney from '@/shared/utils/formatMoney';
+import { Budget } from '../types';
 
-import { Budget } from '../types/Budget';
+import { useAppSelector } from '@/app/hooks';
+import { CURRENCIES } from '@/constants/currency';
+import formatMoney from '@/utils/formatMoney';
 
 const useStyles = makeStyles(() =>
   createStyles({

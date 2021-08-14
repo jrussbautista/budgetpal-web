@@ -8,10 +8,10 @@ import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 
-import useQueryParams from '@/shared/hooks/useQueryParams';
-
-import { AuthApi } from '../auth-api';
+import { resetPassword, getCSRFCookie } from '../api';
 import Layout from '../components/Layout';
+
+import useQueryParams from '@/hooks/useQueryParams';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -60,8 +60,8 @@ const ForgotPassword = () => {
   const onSubmit = async (fields: FormData) => {
     try {
       setIsSubmitting(true);
-      await AuthApi.getCSRFCookie();
-      await AuthApi.resetPassword({ ...fields, token });
+      await getCSRFCookie();
+      await resetPassword({ ...fields, token });
       setIsSubmitting(false);
       toast.success('Successfully reset your password');
       history.push('/signin');

@@ -11,11 +11,12 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { CURRENCIES } from '../../../shared/constants/currency';
-import upperCaseFirstLetter from '../../../shared/utils/uppercaseFistLetter';
-import { updateSettings } from '../../auth/auth-slice';
 import CurrencyFormDialog from '../components/CurrencyFormDialog';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { CURRENCIES } from '@/constants/currency';
+import { updateSettings } from '@/features/auth/slice';
+import upperCaseFirstLetter from '@/utils/uppercaseFistLetter';
 
 const useStyles = makeStyles(() =>
   createStyles({

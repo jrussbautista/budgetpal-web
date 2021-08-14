@@ -11,8 +11,8 @@ import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { removeCurrentUser } from '@/features/auth/auth-slice';
-import upperCaseFirstLetter from '@/shared/utils/uppercaseFistLetter';
+import { removeCurrentUser } from '@/features/auth/slice';
+import upperCaseFirstLetter from '@/utils/uppercaseFistLetter';
 
 const drawerWidth = 240;
 

@@ -1,6 +1,12 @@
 # Budgetty
 
-## The front end codebase of budgetty built with React, Redux-Toolkit and Typescript.
+## Easily keep track and manage your budgets.
+
+## Built with
+
+- React
+- Typescript
+- Redux toolkit
 
 ### [Live demo](https://budgettyy.netlify.app/)
 

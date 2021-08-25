@@ -5,8 +5,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
-import { useAppSelector } from '../../../app/hooks';
-import introImage from '../../../assets/images/intro.png';
+import { useAppSelector } from '@/app/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,7 +87,7 @@ const Intro = () => {
           </Grid>
           <Grid item lg={7} xs={12}>
             <div className={classes.introImgContainer}>
-              <img src={introImage} alt="dashboard" className={classes.introImg} />
+              <img src="/intro.png" alt="dashboard" className={classes.introImg} />
             </div>
           </Grid>
         </Grid>

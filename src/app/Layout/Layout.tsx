@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     main: {
       maxWidth: 1000,
       margin: '0 auto',
+      position: 'relative',
     },
     drawerHeader: {
       display: 'flex',

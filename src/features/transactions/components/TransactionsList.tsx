@@ -1,4 +1,3 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
@@ -12,6 +11,7 @@ import { fetchTransactions, setBudgetStatus } from '../slice';
 import TransactionItem from './TransactionItem';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import PageLoader from '@/components/PageLoader';
 
 const useStyles = makeStyles({
   table: {
@@ -20,10 +20,6 @@ const useStyles = makeStyles({
   buttonsContainer: {},
   buttonAction: {
     marginRight: 10,
-  },
-  loadingContainer: {
-    textAlign: 'center',
-    margin: '100px 0',
   },
 
   paginationContainer: {
@@ -64,11 +60,7 @@ const TransactionsList = () => {
   }, [status, dispatch, selectedFilter, page]);
 
   if (status === 'idle' || status === 'loading') {
-    return (
-      <div className={classes.loadingContainer}>
-        <CircularProgress />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   const handlePaginationChange = (event: React.ChangeEvent<unknown>, value: number) => {

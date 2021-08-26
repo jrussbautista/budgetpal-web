@@ -1,7 +1,9 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
+import logo from '@/assets/images/logo.svg';
+
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
       position: 'fixed',
@@ -9,15 +11,18 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100vh',
       right: 0,
       top: 0,
-      [theme.breakpoints.up('lg')]: {
-        paddingLeft: 240,
-      },
     },
     loading: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
+      flexDirection: 'column',
+    },
+    logo: {
+      width: 80,
+      height: 80,
+      marginBottom: 20,
     },
   })
 );
@@ -27,6 +32,7 @@ const PageLoader = () => {
   return (
     <div className={classes.container}>
       <div className={classes.loading}>
+        <img src={logo} alt="Budgetty logo" className={classes.logo} />
         <CircularProgress />
       </div>
     </div>

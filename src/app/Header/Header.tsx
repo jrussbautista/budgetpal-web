@@ -72,13 +72,14 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
     setAnchorEl(null);
   };
 
-  const handleClickMenu = (val: string) => {
+  const handleClickMenu = async (val: string) => {
     switch (val) {
       case 'my_account':
         history.push('/account');
         break;
       case 'logout':
-        dispatch(removeCurrentUser());
+        await dispatch(removeCurrentUser());
+        history.push('/');
         break;
     }
     handleClose();

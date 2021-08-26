@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './app/App';
 import { store } from './app/store';
@@ -13,12 +14,14 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <MuiPickersUtilsProvider utils={utils}>
-        <Theme>
-          <App />
-        </Theme>
-      </MuiPickersUtilsProvider>
-      <Toaster />
+      <Router>
+        <MuiPickersUtilsProvider utils={utils}>
+          <Theme>
+            <App />
+          </Theme>
+        </MuiPickersUtilsProvider>
+        <Toaster />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

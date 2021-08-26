@@ -1,4 +1,5 @@
 import { Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import { getDaysInMonth, differenceInDays, addMonths, getMonth } from 'date-fns';
@@ -12,7 +13,6 @@ import getTransactionByDate from '../utils/getTransactionByDate';
 import CustomToolTip from './CustomToolTip';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import PageLoader from '@/components/PageLoader';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,6 +23,10 @@ const useStyles = makeStyles(() =>
     totalContainer: {
       textAlign: 'center',
       marginBottom: 40,
+    },
+    loadingContainer: {
+      textAlign: 'center',
+      margin: '100px 0',
     },
   })
 );
@@ -46,7 +50,11 @@ const ReportChart = () => {
   };
 
   if (status === 'loading') {
-    return <PageLoader />;
+    return (
+      <div className={classes.loadingContainer}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   if (status === 'failed') {

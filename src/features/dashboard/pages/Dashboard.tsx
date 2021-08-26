@@ -1,5 +1,6 @@
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,7 +10,6 @@ import { useEffect } from 'react';
 import { fetchDashboard } from '../slice';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import PageLoader from '@/components/PageLoader';
 import { CURRENCIES } from '@/constants/currency';
 import BudgetCard from '@/features/budgets/components/BudgetCard';
 import TransactionCard from '@/features/transactions/components/TransactionCard';
@@ -48,7 +48,11 @@ const DashboardPage = () => {
   }, [status, dispatch]);
 
   if (status === 'loading' || status === 'idle') {
-    return <PageLoader />;
+    return (
+      <div className={classes.loadingContainer}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   if (status === 'failed') {

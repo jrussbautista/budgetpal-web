@@ -1,5 +1,6 @@
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
@@ -7,7 +8,6 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import CategoryItem from './CategoryItem';
 
 import { useAppSelector } from '@/app/hooks';
-import PageLoader from '@/components/PageLoader';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       padding: 0,
       backgroundColor: theme.palette.background.paper,
+    },
+    loadingContainer: {
+      textAlign: 'center',
+      margin: '100px 0',
     },
   })
 );
@@ -26,7 +30,11 @@ const CategoryList = () => {
   const { categories, status } = useAppSelector((state) => state.categories);
 
   if (status === 'loading') {
-    return <PageLoader />;
+    return (
+      <div className={classes.loadingContainer}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (

@@ -1,3 +1,4 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -11,7 +12,6 @@ import { fetchBudgets, selectBudgetsByStatus } from '../slice';
 import BudgetItem from './BudgetItem';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import PageLoader from '@/components/PageLoader';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -28,6 +28,10 @@ const useStyles = makeStyles(() =>
     alertContainer: {
       margin: '20px 8px',
       width: '100%',
+    },
+    loadingContainer: {
+      textAlign: 'center',
+      margin: '100px 0',
     },
   })
 );
@@ -56,7 +60,9 @@ const BudgetList = () => {
   };
 
   if (status === 'idle' || status === 'loading') {
-    return <PageLoader />;
+    <div className={classes.loadingContainer}>
+      <CircularProgress />
+    </div>;
   }
 
   return (

@@ -1,14 +1,14 @@
-# Budgetty
+# Budgetpal
 
 ## Easily keep track and manage your budgets.
 
-## Built with
+### Built with
 
 - React
 - Typescript
 - Redux toolkit
 
-### [Live demo](https://budgettyy.netlify.app/)
+### [Live demo](https://budgetpal.netlify.app/)
 
 ## Preview
 
@@ -17,9 +17,9 @@
 # Installation
 
 ```
-git clone https://github.com/jrussumbrella/budgetty-web
+git clone https://github.com/jrussumbrella/budgetpal-web
 
-cd budgetty-web
+cd budgetpal-web
 
 npm install
 

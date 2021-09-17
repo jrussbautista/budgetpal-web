@@ -69,9 +69,9 @@ const Sidebar: React.FC<Props> = ({ isMobileSidebarOpen, toggleMobileSidebar, wi
           }}
         >
           <div className={classes.drawerHeader}>
-            <img src={logo} alt="budgetty logo" className={classes.logo} />
+            <img src={logo} alt="Budgetpal logo" className={classes.logo} />
             <Typography variant="h6" color="inherit">
-              Budgetty
+              Budgetpal
             </Typography>
           </div>
           <SidebarList />
@@ -86,9 +86,9 @@ const Sidebar: React.FC<Props> = ({ isMobileSidebarOpen, toggleMobileSidebar, wi
           open
         >
           <div className={classes.drawerHeader}>
-            <img src={logo} alt="budgetty logo" className={classes.logo} />
+            <img src={logo} alt="Budgetpal logo" className={classes.logo} />
             <Typography variant="h6" color="inherit">
-              Budgetty
+              Budgetpal
             </Typography>
           </div>
           <Divider />

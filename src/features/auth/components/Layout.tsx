@@ -50,7 +50,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <span>Budgetty</span> {new Date().getFullYear()}
+      <span>Budgetpal</span> {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -76,7 +76,7 @@ const Layout: React.FC<Props> = ({ children, title }) => {
       />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <img src={logo} alt="budgetty logo" className={classes.logo} />
+          <img src={logo} alt="Budgetpal logo" className={classes.logo} />
           <Typography component="h1" variant="h5">
             {title}
           </Typography>

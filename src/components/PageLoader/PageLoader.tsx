@@ -32,7 +32,7 @@ const PageLoader = () => {
   return (
     <div className={classes.container}>
       <div className={classes.loading}>
-        <img src={logo} alt="Budgetty logo" className={classes.logo} />
+        <img src={logo} alt="Budgetpal logo" className={classes.logo} />
         <CircularProgress />
       </div>
     </div>

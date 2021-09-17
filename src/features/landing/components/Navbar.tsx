@@ -81,9 +81,9 @@ const Navbar = () => {
     <AppBar position="static" elevation={0} color="transparent">
       <Toolbar className={classes.toolbar}>
         <Link to="/" className={classes.siteLogoLinkContainer}>
-          <img src={logo} alt="budgetty-logo" className={classes.logo} />
+          <img src={logo} alt="Budgetpal logo" className={classes.logo} />
           <Typography variant="h6" className={classes.title}>
-            Budgetty
+            Budgetpal
           </Typography>
         </Link>
 

@@ -15,7 +15,7 @@ const Footer = () => {
 
   return (
     <footer className={classes.footer}>
-      <strong>@2021 Budgetty</strong>
+      <strong>@2021 Budgetpal</strong>
     </footer>
   );
 };

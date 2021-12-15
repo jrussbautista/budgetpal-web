@@ -67,7 +67,7 @@ const Modal: React.FC<Props> = ({ title, isVisible, onClose, children, withClose
                     <Typography variant="h6">{title}</Typography>
                     {withClose && (
                       <div className={classes.closeContainer}>
-                        <IconButton aria-label="delete" onClick={onClose}>
+                        <IconButton aria-label="close" onClick={onClose}>
                           <CloseIcon />
                         </IconButton>
                       </div>

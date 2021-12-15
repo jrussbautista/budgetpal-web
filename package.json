@@ -90,5 +90,10 @@
     "*.+(ts|tsx)": [
       "npm run lint"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.+)": "<rootDir>/src/$1"
+    }
   }
 }

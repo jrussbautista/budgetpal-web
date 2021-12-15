@@ -41,6 +41,7 @@
     "start": "craco start",
     "build": "craco build",
     "test:jest": "craco test",
+    "test:jest-no-watch": "npm run test -- --watchAll=false",
     "lint": "eslint --fix --ext .js,.ts,.tsx ./src --ignore-path .gitignore",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "format": "npm run prettier -- --write",
@@ -88,7 +89,8 @@
   },
   "lint-staged": {
     "*.+(ts|tsx)": [
-      "npm run lint"
+      "npm run lint",
+      "npm run test:jest-no-watch"
     ]
   },
   "jest": {

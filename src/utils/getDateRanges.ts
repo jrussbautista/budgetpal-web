@@ -1,5 +1,5 @@
-import { DateRange } from '@/types';
-import { getStartAndEndDate } from '@/utils/getDateRange';
+import { DateRange } from 'types';
+import { getStartAndEndDate } from 'utils/getDateRange';
 
 const getDateRanges = () => {
   const ranges: DateRange[] = [];

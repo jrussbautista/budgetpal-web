@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import PageError from './PageError';
+import PageError from '.';
 
 test('should display default title and message', () => {
   render(<PageError />);

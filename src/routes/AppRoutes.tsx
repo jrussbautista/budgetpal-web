@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from 'react';
 
-import PublicRoutes from './PublicRoutes';
+import { useAppSelector } from 'app/hooks';
+import PageLoader from 'components/PageLoader';
 
-import { useAppSelector } from '@/app/hooks';
-import PageLoader from '@/components/PageLoader';
+import PublicRoutes from './PublicRoutes';
 
 const PrivateRoutes = lazy(() => import(/* webpackPrefetch: true */ './PrivateRoutes'));
 

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Modal from './Modal';
+import Modal from '.';
 
 test('should shows the children and a close button', () => {
   const title = 'Test title';

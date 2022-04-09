@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import transactionsReducer from '../features/transactions/slice';
-
-import authReducer from '@/features/auth/slice';
-import budgetReducer from '@/features/budgets/slice';
-import categoriesReducer from '@/features/categories/slice';
-import dashboardReducer from '@/features/dashboard/slice';
-import reportReducer from '@/features/report/slice';
+import authReducer from 'features/auth/authSlice';
+import budgetReducer from 'features/budgets/budgetsSlice';
+import categoriesReducer from 'features/categories/categoriesSlice';
+import dashboardReducer from 'features/dashboard/dashboardSlice';
+import reportReducer from 'features/report/reportSlice';
+import transactionsReducer from 'features/transactions/transactionsSlice';
 
 export const store = configureStore({
   reducer: {

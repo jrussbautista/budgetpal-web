@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import SelectDateRangeModal from './SelectDateRangeModal';
+import formatDate from 'utils/formatDate';
+import getDateRanges from 'utils/getDateRanges';
 
-import formatDate from '@/utils/formatDate';
-import getDateRanges from '@/utils/getDateRanges';
+import SelectDateRangeModal from '.';
 
 test('should shows date ranges', () => {
   const onClose = jest.fn();

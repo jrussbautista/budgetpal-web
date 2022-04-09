@@ -1,7 +1,7 @@
 import { getMonth, getDate } from 'date-fns';
 
-import { Transaction } from '@/features/transactions/types';
-import formatDate from '@/utils/formatDate';
+import { Transaction } from 'types/Transaction';
+import formatDate from 'utils/formatDate';
 
 const getTransactionByDate = (
   transactions: Transaction[],

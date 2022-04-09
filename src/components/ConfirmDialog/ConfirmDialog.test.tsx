@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import ConfirmDialog from './ConfirmDialog';
+import ConfirmDialog from '.';
 
 test('should display correct title and message', () => {
   const title = 'Test title';

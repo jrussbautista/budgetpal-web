@@ -1,4 +1,4 @@
-import formatMoney from '@/utils/formatMoney';
+import formatMoney from 'utils/formatMoney';
 
 test('correctly format price with default currency', () => {
   expect(formatMoney(500)).toBe('$500.00');

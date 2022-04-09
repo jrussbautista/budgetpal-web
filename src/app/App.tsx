@@ -1,11 +1,11 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from './hooks';
+import { fetchCurrentUser, removeCurrentUser } from 'features/auth/authSlice';
+import { fetchCategories } from 'features/categories/categoriesSlice';
+import AppRoutes from 'routes/AppRoutes';
 
-import { fetchCurrentUser, removeCurrentUser } from '@/features/auth/slice';
-import { fetchCategories } from '@/features/categories/slice';
-import AppRoutes from '@/routes/AppRoutes';
+import { useAppDispatch, useAppSelector } from './hooks';
 
 function App() {
   const dispatch = useAppDispatch();

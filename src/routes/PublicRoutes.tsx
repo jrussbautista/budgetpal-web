@@ -1,11 +1,11 @@
 import { Switch, Route } from 'react-router-dom';
 
-import PageError from '@/components/PageError';
-import ForgotPasswordPage from '@/features/auth/pages/ForgotPassword';
-import LoginPage from '@/features/auth/pages/Login';
-import RegisterPage from '@/features/auth/pages/Register';
-import ResetPasswordPage from '@/features/auth/pages/ResetPassword';
-import LandingPage from '@/features/landing/pages/Landing';
+import PageError from 'components/PageError';
+import ForgotPasswordPage from 'pages/ForgotPassword';
+import LandingPage from 'pages/Landing';
+import LoginPage from 'pages/Login';
+import RegisterPage from 'pages/Register';
+import ResetPasswordPage from 'pages/ResetPassword';
 
 const PublicRoutes = () => {
   return (

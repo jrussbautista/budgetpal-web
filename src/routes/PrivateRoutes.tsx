@@ -1,14 +1,14 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Layout from '@/app/Layout';
-import PageError from '@/components/PageError';
-import AccountPage from '@/features/account/pages/Account';
-import BudgetsPage from '@/features/budgets/pages/Budgets';
-import CategoriesPage from '@/features/categories/pages/Categories';
-import DashboardPage from '@/features/dashboard/pages/Dashboard';
-import ReportPage from '@/features/report/pages/Report';
-import SettingsPage from '@/features/settings/pages/Settings';
-import TransactionsPage from '@/features/transactions/pages/Transactions';
+import PageError from 'components/PageError';
+import Layout from 'layouts/main';
+import AccountPage from 'pages/Account';
+import BudgetsPage from 'pages/Budgets';
+import CategoriesPage from 'pages/Categories';
+import DashboardPage from 'pages/Dashboard';
+import ReportPage from 'pages/Report';
+import SettingsPage from 'pages/Settings';
+import TransactionsPage from 'pages/Transactions';
 
 const PrivateRoutes = () => {
   return (

@@ -4,6 +4,8 @@ import PageError from 'components/PageError';
 import Layout from 'layouts/main';
 import AccountPage from 'pages/Account';
 import BudgetsPage from 'pages/Budgets';
+import AddBudgetPage from 'pages/Budgets/AddBudget';
+import EditBudgetPage from 'pages/Budgets/EditBudget';
 import CategoriesPage from 'pages/Categories';
 import DashboardPage from 'pages/Dashboard';
 import ReportPage from 'pages/Report';
@@ -19,6 +21,8 @@ const PrivateRoutes = () => {
           '/',
           '/dashboard',
           '/budgets',
+          '/budgets/add',
+          '/budgets/:id/edit',
           '/transactions',
           '/settings',
           '/account',
@@ -32,6 +36,8 @@ const PrivateRoutes = () => {
         <Layout>
           <Route path="/dashboard" component={DashboardPage} exact />
           <Route path="/budgets" component={BudgetsPage} exact />
+          <Route path="/budgets/add" component={AddBudgetPage} exact />
+          <Route path="/budgets/:id/edit" component={EditBudgetPage} exact />
           <Route path="/transactions" component={TransactionsPage} exact />
           <Route path="/account" component={AccountPage} exact />
           <Route path="/report" component={ReportPage} exact />

@@ -40,7 +40,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:noWatch": "npm run test -- --watchAll=false",
+    "test:noWatch": "npm run test -- --watchAll=false --passWithNoTests",
     "lint": "eslint --fix --ext .js,.ts,.tsx ./src --ignore-path .gitignore",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "format": "npm run prettier -- --write",

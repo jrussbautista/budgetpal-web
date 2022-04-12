@@ -1,7 +1,6 @@
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 
-import VerifyEmailAlert from 'features/auth/VerifyEmailAlert';
 import Header from 'layouts/main/Header';
 import Sidebar from 'layouts/main/Sidebar';
 
@@ -49,7 +48,7 @@ const Layout: React.FC = ({ children }) => {
       />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <VerifyEmailAlert />
+
         <div className={classes.main}>{children}</div>
       </main>
     </div>

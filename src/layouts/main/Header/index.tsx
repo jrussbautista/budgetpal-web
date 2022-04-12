@@ -5,14 +5,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { removeCurrentUser } from 'features/auth/authSlice';
-import upperCaseFirstLetter from 'utils/uppercaseFistLetter';
 
 const drawerWidth = 240;
 
@@ -56,14 +54,6 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
 
   const history = useHistory();
 
-  const location = useLocation();
-
-  const getHeaderTitle = () => {
-    return location.pathname === '/'
-      ? 'Dashboard'
-      : upperCaseFirstLetter(location.pathname.substring(1, location.pathname.length));
-  };
-
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -97,9 +87,7 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
-          {getHeaderTitle()}
-        </Typography>
+
         <div className={classes.spacer} />
         <IconButton color="inherit" aria-label="account" edge="start" onClick={handleOpenMenu}>
           <Avatar className={classes.avatarLetter}>{user?.name?.charAt(0)}</Avatar>

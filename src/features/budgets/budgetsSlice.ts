@@ -10,16 +10,16 @@ interface InitialState {
   status: Status;
   budgets: Budget[];
   error: string | null | undefined;
-  selectedModal: null | string;
   selectedBudget: Budget | null;
+  budget: { status: Status; data: Budget | null; error: string };
 }
 
 const initialState: InitialState = {
   status: 'idle',
   budgets: [],
   error: null,
-  selectedModal: null,
   selectedBudget: null,
+  budget: { status: 'idle', data: null, error: '' },
 };
 
 interface ValidationErrors {
@@ -33,6 +33,24 @@ export const fetchBudgets = createAsyncThunk(
     try {
       const response = await service.getBudgets();
       return response.data.data;
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchBudget = createAsyncThunk<Budget, string>(
+  'budgets/fetchBudget',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await service.getBudget(id);
+      return response.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
 
@@ -123,14 +141,18 @@ export const BudgetsSlice = createSlice({
   name: 'Budgets',
   initialState,
   reducers: {
-    setSelectedModal: (state, action) => {
-      state.selectedModal = action.payload;
-    },
     setSelectedBudget: (state, action) => {
       state.selectedBudget = action.payload;
     },
+    clearBudget: (state) => {
+      state.budget = initialState.budget;
+    },
+    clearSelectedBudget: (state) => {
+      state.selectedBudget = initialState.selectedBudget;
+    },
   },
   extraReducers: (builder) => {
+    // fetch budgets case
     builder.addCase(fetchBudgets.pending, (state) => {
       state.status = 'loading';
     });
@@ -146,12 +168,26 @@ export const BudgetsSlice = createSlice({
       }
       state.status = 'failed';
     });
+    // fetch budget case
+    builder.addCase(fetchBudget.pending, (state) => {
+      state.budget.status = 'loading';
+    });
+    builder.addCase(fetchBudget.fulfilled, (state, action) => {
+      state.budget.status = 'succeed';
+      state.budget.data = action.payload;
+    });
+    builder.addCase(fetchBudget.rejected, (state) => {
+      state.budget.status = 'failed';
+    });
+    // add budget case
     builder.addCase(addBudget.fulfilled, (state, action) => {
       state.budgets.unshift(action.payload);
     });
+    // delete budget case
     builder.addCase(deleteBudget.fulfilled, (state, action) => {
       state.budgets = state.budgets.filter((budget) => budget.id !== action.payload);
     });
+    // update budget case
     builder.addCase(updateBudget.fulfilled, (state, action) => {
       state.budgets = state.budgets.map((budget) =>
         budget.id === action.payload.id ? { ...budget, ...action.payload } : budget
@@ -160,7 +196,7 @@ export const BudgetsSlice = createSlice({
   },
 });
 
-export const { setSelectedModal, setSelectedBudget } = BudgetsSlice.actions;
+export const { setSelectedBudget, clearBudget, clearSelectedBudget } = BudgetsSlice.actions;
 
 export const selectAllBudgets = (state: RootState) => state.budgets.budgets;
 

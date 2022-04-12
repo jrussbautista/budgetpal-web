@@ -4,10 +4,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { useAppDispatch } from 'app/hooks';
 import BudgetDeleteDialog from 'features/budgets/BudgetDeleteDialog';
-import { setSelectedBudget, setSelectedModal } from 'features/budgets/budgetsSlice';
 import { Budget } from 'types/Budget';
 
 const useStyles = makeStyles(() =>
@@ -23,12 +22,10 @@ type BudgetMenuActionsProps = {
 };
 
 const BudgetMenuActions = ({ budget }: BudgetMenuActionsProps) => {
-  const dispatch = useAppDispatch();
+  const classes = useStyles();
+  const history = useHistory();
 
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
-
-  const classes = useStyles();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,8 +38,8 @@ const BudgetMenuActions = ({ budget }: BudgetMenuActionsProps) => {
 
   const handleClickEdit = () => {
     setAnchorEl(null);
-    dispatch(setSelectedModal('manageBudgetModal'));
-    dispatch(setSelectedBudget(budget));
+    const url = `/budgets/${budget.id}/edit`;
+    history.push(url);
   };
 
   const handleClickDelete = () => {
@@ -65,10 +62,6 @@ const BudgetMenuActions = ({ budget }: BudgetMenuActionsProps) => {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',

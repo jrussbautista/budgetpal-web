@@ -3,7 +3,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import GoogleLoginLib from 'react-google-login';
 import toast from 'react-hot-toast';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from 'app/hooks';
 import { loginWithGoogle } from 'features/auth/authSlice';
@@ -22,7 +22,7 @@ const GoogleLogin = () => {
 
   const dispatch = useAppDispatch();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSuccess = async (response: any) => {
     try {
@@ -30,7 +30,7 @@ const GoogleLogin = () => {
       const results = await dispatch(loginWithGoogle(response.accessToken));
       unwrapResult(results);
       console.log('Successfully login');
-      history.push('/dashboard');
+      navigate('/dashboard');
       setVerifying(false);
     } catch (error) {
       toast.error(

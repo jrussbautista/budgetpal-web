@@ -1,5 +1,6 @@
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import Header from 'layouts/main/Header';
 import Sidebar from 'layouts/main/Sidebar';
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Layout: React.FC = ({ children }) => {
+const Layout = () => {
   const classes = useStyles();
 
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -49,7 +50,9 @@ const Layout: React.FC = ({ children }) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <div className={classes.main}>{children}</div>
+        <div className={classes.main}>
+          <Outlet />
+        </div>
       </main>
     </div>
   );

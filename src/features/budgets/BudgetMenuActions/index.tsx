@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BudgetDeleteDialog from 'features/budgets/BudgetDeleteDialog';
 import { Budget } from 'types/Budget';
@@ -23,7 +23,7 @@ type BudgetMenuActionsProps = {
 
 const BudgetMenuActions = ({ budget }: BudgetMenuActionsProps) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -39,7 +39,7 @@ const BudgetMenuActions = ({ budget }: BudgetMenuActionsProps) => {
   const handleClickEdit = () => {
     setAnchorEl(null);
     const url = `/budgets/${budget.id}/edit`;
-    history.push(url);
+    navigate(url);
   };
 
   const handleClickDelete = () => {

@@ -9,7 +9,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { useAppDispatch } from 'app/hooks';
 import { login } from 'features/auth/authSlice';
@@ -58,7 +58,7 @@ const Login = () => {
     defaultValues,
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -72,7 +72,7 @@ const Login = () => {
       unwrapResult(result);
       setIsSubmitting(false);
       toast.success('Successfully logged in!');
-      history.push('/dashboard');
+      navigate('/dashboard');
     } catch (error) {
       setError(error.message);
       setIsSubmitting(false);

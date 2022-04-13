@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { removeCurrentUser } from 'features/auth/authSlice';
@@ -52,7 +52,7 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
 
   const dispatch = useAppDispatch();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -65,11 +65,11 @@ const Header: React.FC<Props> = ({ toggleMobileSidebar }) => {
   const handleClickMenu = async (val: string) => {
     switch (val) {
       case 'my_account':
-        history.push('/account');
+        navigate('/account');
         break;
       case 'logout':
         await dispatch(removeCurrentUser());
-        history.push('/');
+        navigate('/');
         break;
     }
     handleClose();

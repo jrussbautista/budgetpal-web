@@ -1,6 +1,6 @@
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -29,10 +29,10 @@ const PageError: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleBackToHome = () => {
-    history.push('/');
+    navigate('/');
   };
 
   return (

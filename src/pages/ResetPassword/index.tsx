@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import useQueryParams from 'hooks/useQueryParams';
 import Layout from 'layouts/auth';
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const query = useQueryParams();
 
   const token = query.get('token') as string;
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
       await resetPassword({ ...fields, token });
       setIsSubmitting(false);
       toast.success('Successfully reset your password');
-      history.push('/signin');
+      navigate('/signin');
     } catch (error) {
       setError(error.response.data.message);
       if (error.response.data.errors) setFieldErrors(error.response.data.errors);

@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import Pagination from '@material-ui/lab/Pagination';
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { fetchTransactions, setBudgetStatus } from 'features/transactions/transactionsSlice';
@@ -45,7 +45,7 @@ const TransactionsList = () => {
 
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const parsedQueryString = queryString.parse(location.search);
   const initialPage = parsedQueryString.page ? parseInt(parsedQueryString.page as string) : 1;
@@ -77,7 +77,7 @@ const TransactionsList = () => {
       page: value,
     });
     const url = `${location.pathname}?${newQueryString}`;
-    history.push(url);
+    navigate(url);
     dispatch(setBudgetStatus('idle'));
   };
 

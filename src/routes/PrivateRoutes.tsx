@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import PageError from 'components/PageError';
 import Layout from 'layouts/main';
@@ -14,41 +14,23 @@ import TransactionsPage from 'pages/Transactions';
 
 const PrivateRoutes = () => {
   return (
-    <Switch>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="budgets" element={<BudgetsPage />} />
+        <Route path="budgets/add" element={<AddBudgetPage />} />
+        <Route path="budgets/:id/edit" element={<EditBudgetPage />} />
+        <Route path="transactions" element={<TransactionsPage />} />
+        <Route path="account" element={<AccountPage />} />
+        <Route path="report" element={<ReportPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
+      </Route>
       <Route
-        exact
-        path={[
-          '/',
-          '/dashboard',
-          '/budgets',
-          '/budgets/add',
-          '/budgets/:id/edit',
-          '/transactions',
-          '/settings',
-          '/account',
-          '/report',
-          '/categories',
-        ]}
-      >
-        <Route path="/" exact>
-          <Redirect to="/dashboard" />
-        </Route>
-        <Layout>
-          <Route path="/dashboard" component={DashboardPage} exact />
-          <Route path="/budgets" component={BudgetsPage} exact />
-          <Route path="/budgets/add" component={AddBudgetPage} exact />
-          <Route path="/budgets/:id/edit" component={EditBudgetPage} exact />
-          <Route path="/transactions" component={TransactionsPage} exact />
-          <Route path="/account" component={AccountPage} exact />
-          <Route path="/report" component={ReportPage} exact />
-          <Route path="/settings" component={SettingsPage} exact />
-          <Route path="/categories" component={CategoriesPage} exact />
-        </Layout>
-      </Route>
-      <Route path="*">
-        <PageError />
-      </Route>
-    </Switch>
+        path="*"
+        element={<PageError message="Sorry we were'nt able to display what you're looking for." />}
+      />
+    </Routes>
   );
 };
 

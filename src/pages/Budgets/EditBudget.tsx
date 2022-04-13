@@ -33,7 +33,7 @@ const UpdateBudgetPage = () => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    dispatch(fetchBudget(id));
+    dispatch(fetchBudget(id as string));
     return () => {
       dispatch(clearBudget());
     };

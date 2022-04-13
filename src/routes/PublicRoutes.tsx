@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import PageError from 'components/PageError';
 import ForgotPasswordPage from 'pages/ForgotPassword';
@@ -9,26 +9,17 @@ import ResetPasswordPage from 'pages/ResetPassword';
 
 const PublicRoutes = () => {
   return (
-    <Switch>
-      <Route path="/" exact>
-        <LandingPage />
-      </Route>
-      <Route path="/signin" exact>
-        <LoginPage />
-      </Route>
-      <Route path="/signup" exact>
-        <RegisterPage />
-      </Route>
-      <Route path="/forgot-password" exact>
-        <ForgotPasswordPage />
-      </Route>
-      <Route path="/reset-password" exact>
-        <ResetPasswordPage />
-      </Route>
-      <Route path="*">
-        <PageError message="Sorry we were'nt able to display what you're looking for." />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<LoginPage />} />
+      <Route path="/signup" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route
+        path="*"
+        element={<PageError message="Sorry we were'nt able to display what you're looking for." />}
+      />
+    </Routes>
   );
 };
 

@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addBudget, updateBudget, fetchBudgets } from 'features/budgets/budgetsSlice';
@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 
 const BudgetManageForm = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { selectedBudget } = useAppSelector((state) => state.budgets);
   const { categories } = useAppSelector((state) => state.categories);
@@ -89,7 +89,7 @@ const BudgetManageForm = () => {
 
       setIsSubmitting(false);
       dispatch(fetchBudgets());
-      history.push('/budgets');
+      navigate('/budgets');
     } catch (error) {
       toast.error(error.message);
       setIsSubmitting(false);

@@ -8,7 +8,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { useAppDispatch } from 'app/hooks';
 import { register } from 'features/auth/authSlice';
@@ -61,7 +61,7 @@ const Register = () => {
     defaultValues,
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -78,7 +78,7 @@ const Register = () => {
       unwrapResult(result);
       setIsSubmitting(false);
       toast.success('Successfully Registered!');
-      history.push('/dashboard');
+      navigate('/dashboard');
     } catch (error) {
       setError(error.message);
       if (error.errors) setFieldErrors(error.errors);

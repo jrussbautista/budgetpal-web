@@ -4,10 +4,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from 'app/hooks';
 import TransactionDeleteDialog from 'features/transactions/TransactionDeleteDialog';
-import { setSelectedTransaction, setSelectedModal } from 'features/transactions/transactionsSlice';
 import { Transaction } from 'types/Transaction';
 
 const useStyles = makeStyles(() =>
@@ -23,13 +22,12 @@ type TransactionMenuActionsProps = {
 };
 
 const TransactionMenuActions = ({ transaction }: TransactionMenuActionsProps) => {
-  const dispatch = useAppDispatch();
-
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
 
   const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,9 +38,8 @@ const TransactionMenuActions = ({ transaction }: TransactionMenuActionsProps) =>
   };
 
   const handleClickEdit = () => {
-    setAnchorEl(null);
-    dispatch(setSelectedModal('manageTransactionModal'));
-    dispatch(setSelectedTransaction(transaction));
+    const url = `/transactions/${transaction.id}/edit`;
+    navigate(url);
   };
 
   const handleClickDelete = () => {
@@ -65,10 +62,6 @@ const TransactionMenuActions = ({ transaction }: TransactionMenuActionsProps) =>
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',

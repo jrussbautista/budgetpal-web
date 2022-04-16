@@ -3,12 +3,10 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import TransactionManageModal from 'features/transactions/TransactionManageModal';
 import TransactionsFilter from 'features/transactions/TransactionsFilter';
 import TransactionsList from 'features/transactions/TransactionsList';
-import { setSelectedModal } from 'features/transactions/transactionsSlice';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -27,14 +25,6 @@ const TransactionsPage = () => {
 
   const [isOpenFilter, setIsOpenFilter] = useState(false);
 
-  const { selectedModal } = useAppSelector((state) => state.transactions);
-
-  const dispatch = useAppDispatch();
-
-  const handleOpenTransactionModal = () => {
-    dispatch(setSelectedModal('manageTransactionModal'));
-  };
-
   const handleToggleFilter = () => {
     setIsOpenFilter(!isOpenFilter);
   };
@@ -49,16 +39,14 @@ const TransactionsPage = () => {
           variant="contained"
           color="primary"
           disableElevation
-          onClick={handleOpenTransactionModal}
+          component={Link}
+          to="/transactions/add"
         >
           Add Transaction
         </Button>
       </div>
-      <>
-        {isOpenFilter && <TransactionsFilter onToggleFilter={handleToggleFilter} />}
-        <TransactionsList />
-      </>
-      {selectedModal === 'manageTransactionModal' && <TransactionManageModal />}
+      {isOpenFilter && <TransactionsFilter onToggleFilter={handleToggleFilter} />}
+      <TransactionsList />
     </>
   );
 };

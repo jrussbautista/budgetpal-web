@@ -4,13 +4,12 @@ import { AxiosError } from 'axios';
 import { RootState } from 'app/store';
 import * as service from 'services/budgets';
 import { Status } from 'types';
-import { Budget } from 'types/Budget';
+import { Budget, ManageBudgetFields } from 'types/Budget';
 
 interface InitialState {
   status: Status;
   budgets: Budget[];
   error: string | null | undefined;
-  selectedBudget: Budget | null;
   budget: { status: Status; data: Budget | null; error: string };
 }
 
@@ -18,7 +17,6 @@ const initialState: InitialState = {
   status: 'idle',
   budgets: [],
   error: null,
-  selectedBudget: null,
   budget: { status: 'idle', data: null, error: '' },
 };
 
@@ -35,11 +33,9 @@ export const fetchBudgets = createAsyncThunk(
       return response.data.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
@@ -50,39 +46,28 @@ export const fetchBudget = createAsyncThunk<Budget, string>(
   async (id, { rejectWithValue }) => {
     try {
       const response = await service.getBudget(id);
-      return response.data;
+      return response;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const addBudget = createAsyncThunk(
+export const addBudget = createAsyncThunk<Budget, ManageBudgetFields>(
   'budgets/addBudget',
-  async (
-    budget: {
-      category_id: string;
-      amount: number;
-      type: string;
-    },
-    { rejectWithValue }
-  ) => {
+  async (fields, { rejectWithValue }) => {
     try {
-      const response = await service.addBudget(budget);
-      return response.data.data;
+      const response = await service.addBudget(fields);
+      return response;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
@@ -92,46 +77,29 @@ export const deleteBudget = createAsyncThunk(
   'budgets/deleteBudget',
   async (id: string, { rejectWithValue }) => {
     try {
-      await service.deleteBudget(id);
-      return id;
+      const res = await service.deleteBudget(id);
+      return res;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const updateBudget = createAsyncThunk(
-  'Budgets/updateBudget',
-  async (
-    {
-      id,
-      fields,
-    }: {
-      id: string;
-      fields: {
-        category_id: string;
-        amount: number;
-        type: string;
-      };
-    },
-    { rejectWithValue }
-  ) => {
+export const updateBudget = createAsyncThunk<Budget, { id: string; fields: ManageBudgetFields }>(
+  'budgets/updateBudget',
+  async ({ id, fields }, { rejectWithValue }) => {
     try {
       const response = await service.updateBudget(id, fields);
-      return response.data.data;
+      return response;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
@@ -141,14 +109,8 @@ export const BudgetsSlice = createSlice({
   name: 'Budgets',
   initialState,
   reducers: {
-    setSelectedBudget: (state, action) => {
-      state.selectedBudget = action.payload;
-    },
     clearBudget: (state) => {
       state.budget = initialState.budget;
-    },
-    clearSelectedBudget: (state) => {
-      state.selectedBudget = initialState.selectedBudget;
     },
   },
   extraReducers: (builder) => {
@@ -196,7 +158,7 @@ export const BudgetsSlice = createSlice({
   },
 });
 
-export const { setSelectedBudget, clearBudget, clearSelectedBudget } = BudgetsSlice.actions;
+export const { clearBudget } = BudgetsSlice.actions;
 
 export const selectAllBudgets = (state: RootState) => state.budgets.budgets;
 

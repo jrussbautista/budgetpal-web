@@ -11,3 +11,10 @@ export interface Budget {
   status: string;
   spent_percentage: string;
 }
+
+export interface ManageBudgetFields {
+  amount: number;
+  category_id: string;
+  start_date: string;
+  end_date: string;
+}

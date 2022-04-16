@@ -9,9 +9,8 @@ interface InitialState {
   status: Status;
   transactions: Transaction[];
   error: string | null | undefined;
-  selectedTransaction: Transaction | null;
+  transaction: { status: Status; data: Transaction | null; error: string };
   selectedFilter: Record<string, string>;
-  selectedModal: string | null;
   total: number;
 }
 
@@ -29,10 +28,9 @@ const initialState: InitialState = {
   status: 'idle',
   transactions: [],
   error: null,
-  selectedTransaction: null,
   selectedFilter: initialSelectedFilter,
-  selectedModal: null,
   total: 0,
+  transaction: { status: 'idle', data: null, error: '' },
 };
 
 interface ValidationErrors {
@@ -48,6 +46,24 @@ export const fetchTransactions = createAsyncThunk(
   ) => {
     try {
       const response = await service.getTransactions(page, filter);
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<ValidationErrors> = err;
+
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchTransaction = createAsyncThunk<Transaction, string>(
+  'transactions/fetchTransaction',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await service.getTransaction(id);
       return response.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -141,12 +157,6 @@ export const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    setSelectedTransaction: (state, action) => {
-      state.selectedTransaction = action.payload;
-    },
-    setSelectedModal: (state, action) => {
-      state.selectedModal = action.payload;
-    },
     setSelectedFilter: (state, action: PayloadAction<Record<string, string>>) => {
       state.status = 'idle'; // necessary in order to refetch transactions from api
       state.selectedFilter = { ...state.selectedFilter, ...action.payload };
@@ -158,8 +168,12 @@ export const transactionsSlice = createSlice({
     setBudgetStatus: (state, action) => {
       state.status = action.payload;
     },
+    clearTransaction: (state) => {
+      state.transaction = initialState.transaction;
+    },
   },
   extraReducers: (builder) => {
+    // fetch transactions case
     builder.addCase(fetchTransactions.pending, (state) => {
       state.status = 'loading';
     });
@@ -176,14 +190,28 @@ export const transactionsSlice = createSlice({
       }
       state.status = 'failed';
     });
+    // fetch transaction case
+    builder.addCase(fetchTransaction.pending, (state) => {
+      state.transaction.status = 'loading';
+    });
+    builder.addCase(fetchTransaction.fulfilled, (state, action) => {
+      state.transaction.status = 'succeed';
+      state.transaction.data = action.payload;
+    });
+    builder.addCase(fetchTransaction.rejected, (state) => {
+      state.transaction.status = 'failed';
+    });
+    // add transaction case
     builder.addCase(addTransaction.fulfilled, (state, action) => {
       state.transactions.unshift(action.payload);
     });
+    // delete transaction case
     builder.addCase(deleteTransaction.fulfilled, (state, action) => {
       state.transactions = state.transactions.filter(
         (transaction) => transaction.id !== action.payload
       );
     });
+    // update transaction case
     builder.addCase(updateTransaction.fulfilled, (state, action) => {
       state.transactions = state.transactions.map((transaction) =>
         transaction.id === action.payload.id ? { ...transaction, ...action.payload } : transaction
@@ -192,12 +220,7 @@ export const transactionsSlice = createSlice({
   },
 });
 
-export const {
-  setSelectedTransaction,
-  setSelectedFilter,
-  setSelectedModal,
-  setBudgetStatus,
-  resetSelectedFilter,
-} = transactionsSlice.actions;
+export const { setSelectedFilter, setBudgetStatus, resetSelectedFilter, clearTransaction } =
+  transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

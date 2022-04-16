@@ -1,4 +1,5 @@
 import apiClient from 'lib/apiClient';
+import { Transaction } from 'types/Transaction';
 
 export const getTransactions = (page = 1, filter: Record<string, string>) => {
   const params = new URLSearchParams({
@@ -7,6 +8,12 @@ export const getTransactions = (page = 1, filter: Record<string, string>) => {
   }).toString();
   const url = `/api/transactions?${params}`;
   return apiClient.get(url);
+};
+
+export const getTransaction = async (id: string): Promise<{ data: Transaction }> => {
+  const url = `/api/transactions/${id}`;
+  const res = await apiClient.get(url);
+  return res.data;
 };
 
 export const deleteTransaction = (id: string) => {

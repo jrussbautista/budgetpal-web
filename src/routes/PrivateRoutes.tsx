@@ -11,6 +11,8 @@ import DashboardPage from 'pages/Dashboard';
 import ReportPage from 'pages/Report';
 import SettingsPage from 'pages/Settings';
 import TransactionsPage from 'pages/Transactions';
+import AddTransactionPage from 'pages/Transactions/AddTransaction';
+import EditTransactionPage from 'pages/Transactions/EditTransaction';
 
 const PrivateRoutes = () => {
   return (
@@ -21,6 +23,8 @@ const PrivateRoutes = () => {
         <Route path="budgets/add" element={<AddBudgetPage />} />
         <Route path="budgets/:id/edit" element={<EditBudgetPage />} />
         <Route path="transactions" element={<TransactionsPage />} />
+        <Route path="transactions/add" element={<AddTransactionPage />} />
+        <Route path="transactions/:id/edit" element={<EditTransactionPage />} />
         <Route path="account" element={<AccountPage />} />
         <Route path="report" element={<ReportPage />} />
         <Route path="settings" element={<SettingsPage />} />

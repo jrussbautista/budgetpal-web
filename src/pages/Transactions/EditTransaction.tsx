@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import TransactionManageForm from 'features/transactions/TransactionManageForm';
 import { clearTransaction, fetchTransaction } from 'features/transactions/transactionsSlice';
-import { UpdateTransactionFields } from 'types/Transaction';
+import { ManageTransactionFields } from 'types/Transaction';
 
 const useStyles = makeStyles(() => ({
   loadingContainer: {
@@ -51,9 +51,9 @@ const UpdateBudgetPage = () => {
 
   const { title, amount, category, type, happened_on } = data;
 
-  const fields: UpdateTransactionFields = {
+  const fields: ManageTransactionFields = {
     title,
-    amount: amount.toString(),
+    amount,
     category_id: category.id,
     type,
     happened_on,

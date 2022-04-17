@@ -1,5 +1,5 @@
 import apiClient from 'lib/apiClient';
-import { Transaction } from 'types/Transaction';
+import { ManageTransactionFields, Transaction } from 'types/Transaction';
 
 export const getTransactions = (page = 1, filter: Record<string, string>) => {
   const params = new URLSearchParams({
@@ -10,33 +10,26 @@ export const getTransactions = (page = 1, filter: Record<string, string>) => {
   return apiClient.get(url);
 };
 
-export const getTransaction = async (id: string): Promise<{ data: Transaction }> => {
+export const getTransaction = async (id: string): Promise<Transaction> => {
   const url = `/api/transactions/${id}`;
   const res = await apiClient.get(url);
-  return res.data;
+  return res.data.data;
 };
 
-export const deleteTransaction = (id: string) => {
-  return apiClient.delete(`/api/transactions/${id}`);
+export const deleteTransaction = async (id: string): Promise<string> => {
+  await apiClient.delete(`/api/transactions/${id}`);
+  return id;
 };
 
-export const updateTransaction = (
+export const updateTransaction = async (
   id: string,
-  fields: {
-    category_id: string;
-    title: string;
-    amount: number;
-    type: string;
-  }
-) => {
-  return apiClient.put(`/api/transactions/${id}`, fields);
+  fields: ManageTransactionFields
+): Promise<Transaction> => {
+  const { data } = await apiClient.put(`/api/transactions/${id}`, fields);
+  return data.data;
 };
 
-export const addTransaction = (fields: {
-  category_id: string;
-  title: string;
-  amount: number;
-  type: string;
-}) => {
-  return apiClient.post('/api/transactions', fields);
+export const addTransaction = async (fields: ManageTransactionFields): Promise<Transaction> => {
+  const { data } = await apiClient.post('/api/transactions', fields);
+  return data.data;
 };

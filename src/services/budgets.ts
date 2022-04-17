@@ -7,13 +7,13 @@ export const getBudgets = () => {
 
 export const getBudget = async (id: string): Promise<Budget> => {
   const url = `/api/budgets/${id}`;
-  const res = await apiClient.get(url);
-  return res.data.data;
+  const { data } = await apiClient.get(url);
+  return data.data;
 };
 
 export const addBudget = async (fields: ManageBudgetFields): Promise<Budget> => {
-  const res = await apiClient.post('/api/budgets', fields);
-  return res.data.data;
+  const { data } = await apiClient.post('/api/budgets', fields);
+  return data.data;
 };
 
 export const deleteBudget = async (id: string): Promise<string> => {
@@ -22,6 +22,6 @@ export const deleteBudget = async (id: string): Promise<string> => {
 };
 
 export const updateBudget = async (id: string, fields: ManageBudgetFields): Promise<Budget> => {
-  const res = await apiClient.put(`/api/budgets/${id}`, fields);
-  return res.data.data;
+  const { data } = await apiClient.put(`/api/budgets/${id}`, fields);
+  return data.data;
 };

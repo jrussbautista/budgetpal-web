@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import NumberFormat from 'react-number-format';
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addBudget, updateBudget, fetchBudgets } from 'features/budgets/budgetsSlice';
+import { ManageBudgetFields } from 'types/Budget';
 import getFormattedDate from 'utils/getFormattedDate';
 
 interface FormData {
@@ -38,27 +39,46 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const BudgetManageForm = () => {
+interface BudgetManageFormProps {
+  fields?: ManageBudgetFields;
+  id?: string;
+}
+
+const BudgetManageForm = ({ fields, id }: BudgetManageFormProps) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const { selectedBudget } = useAppSelector((state) => state.budgets);
+  const dispatch = useAppDispatch();
+
   const { categories } = useAppSelector((state) => state.categories);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const defaultValues = {
-    amount: selectedBudget?.amount?.toString() || '',
-    category_id: selectedBudget?.category.id || '',
-    start_date: selectedBudget?.start_date || null,
-    end_date: selectedBudget?.end_date || null,
+    amount: '',
+    category_id: '',
+    start_date: null,
+    end_date: null,
   };
 
-  const { handleSubmit, control } = useForm<FormData>({
+  const { handleSubmit, control, setValue } = useForm<FormData>({
     defaultValues,
   });
 
-  const dispatch = useAppDispatch();
+  const setInitialValues = useCallback(
+    (fields: ManageBudgetFields) => {
+      Object.entries(fields).forEach(([key, value]) => {
+        setValue(key as keyof ManageBudgetFields, value);
+      });
+    },
+    [setValue]
+  );
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  useEffect(() => {
+    if (fields) {
+      setInitialValues(fields);
+    }
+  }, [fields, setInitialValues]);
 
   const onSubmit = async (formData: FormData) => {
     if (formData.end_date && formData.start_date && formData.end_date < formData.start_date) {
@@ -68,25 +88,22 @@ const BudgetManageForm = () => {
 
     try {
       setIsSubmitting(true);
-
-      const fields = {
+      const newFields = {
         ...formData,
         amount: parseFloat(formData.amount),
         start_date: getFormattedDate(formData.start_date as Date),
         end_date: getFormattedDate(formData.end_date as Date),
       };
-
-      if (selectedBudget) {
-        const result = await dispatch(updateBudget({ id: selectedBudget.id, fields }));
+      if (id) {
+        // if id is present, then we know that the action is update
+        const result = await dispatch(updateBudget({ id, fields: newFields }));
         unwrapResult(result);
-
         toast.success("You've successfully update budget");
       } else {
-        const result = await dispatch(addBudget(fields));
+        const result = await dispatch(addBudget(newFields));
         unwrapResult(result);
         toast.success("You've successfully added new budget");
       }
-
       setIsSubmitting(false);
       dispatch(fetchBudgets());
       navigate('/budgets');

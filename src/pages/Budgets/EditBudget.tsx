@@ -9,12 +9,8 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import BudgetManageForm from 'features/budgets/BudgetManageForm';
-import {
-  fetchBudget,
-  setSelectedBudget,
-  clearBudget,
-  clearSelectedBudget,
-} from 'features/budgets/budgetsSlice';
+import { fetchBudget, clearBudget } from 'features/budgets/budgetsSlice';
+import { ManageBudgetFields } from 'types/Budget';
 
 const useStyles = makeStyles(() => ({
   loadingContainer: {
@@ -27,7 +23,7 @@ const UpdateBudgetPage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const { budget, selectedBudget } = useAppSelector((state) => state.budgets);
+  const { budget } = useAppSelector((state) => state.budgets);
   const { status, data } = budget;
 
   const { id } = useParams<{ id: string }>();
@@ -39,17 +35,7 @@ const UpdateBudgetPage = () => {
     };
   }, [dispatch, id]);
 
-  useEffect(() => {
-    if (data) {
-      dispatch(setSelectedBudget(data));
-    }
-    return () => {
-      dispatch(clearSelectedBudget());
-    };
-  }, [data, dispatch]);
-
-  const isLoading = status === 'idle' || status === 'loading' || !selectedBudget;
-  const isError = status === 'failed' || !data;
+  const isLoading = status === 'idle' || status === 'loading';
 
   if (isLoading) {
     return (
@@ -59,15 +45,24 @@ const UpdateBudgetPage = () => {
     );
   }
 
-  if (isError) {
+  if (status === 'failed' || !data) {
     return <Alert severity="error">Unable to fetch budget right now. Please try again.</Alert>;
   }
+
+  const { amount, category, start_date, end_date } = data;
+
+  const fields: ManageBudgetFields = {
+    amount,
+    category_id: category.id,
+    start_date,
+    end_date,
+  };
 
   return (
     <Card>
       <CardContent>
         <Typography variant="h6">Update Budget</Typography>
-        <BudgetManageForm />
+        <BudgetManageForm id={id} fields={fields} />
       </CardContent>
     </Card>
   );

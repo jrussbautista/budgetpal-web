@@ -77,7 +77,6 @@ const TransactionManageForm = ({ fields, id }: TransactionManageFormProps) => {
   useEffect(() => {
     if (fields) {
       setInitialValues(fields);
-      console.log('running');
     }
   }, [fields, setInitialValues]);
 

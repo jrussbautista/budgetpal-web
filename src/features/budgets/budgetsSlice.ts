@@ -45,8 +45,7 @@ export const fetchBudget = createAsyncThunk<Budget, string>(
   'budgets/fetchBudget',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await service.getBudget(id);
-      return response;
+      return service.getBudget(id);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
@@ -61,8 +60,7 @@ export const addBudget = createAsyncThunk<Budget, ManageBudgetFields>(
   'budgets/addBudget',
   async (fields, { rejectWithValue }) => {
     try {
-      const response = await service.addBudget(fields);
-      return response;
+      return service.addBudget(fields);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {
@@ -93,8 +91,7 @@ export const updateBudget = createAsyncThunk<Budget, { id: string; fields: Manag
   'budgets/updateBudget',
   async ({ id, fields }, { rejectWithValue }) => {
     try {
-      const response = await service.updateBudget(id, fields);
-      return response;
+      return service.updateBudget(id, fields);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
       if (!error.response) {

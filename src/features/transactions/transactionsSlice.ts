@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 
 import * as service from 'services/transactions';
 import { Status } from 'types';
-import { Transaction } from 'types/Transaction';
+import { Transaction, ManageTransactionFields } from 'types/Transaction';
 
 interface InitialState {
   status: Status;
@@ -49,11 +49,9 @@ export const fetchTransactions = createAsyncThunk(
       return response.data;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
@@ -63,41 +61,27 @@ export const fetchTransaction = createAsyncThunk<Transaction, string>(
   'transactions/fetchTransaction',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await service.getTransaction(id);
-      return response.data;
+      return service.getTransaction(id);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const addTransaction = createAsyncThunk(
+export const addTransaction = createAsyncThunk<Transaction, ManageTransactionFields>(
   'transactions/addTransaction',
-  async (
-    transaction: {
-      title: string;
-      category_id: string;
-      amount: number;
-      type: string;
-    },
-    { rejectWithValue }
-  ) => {
+  async (transaction, { rejectWithValue }) => {
     try {
-      const response = await service.addTransaction(transaction);
-      return response.data.data;
+      return service.addTransaction(transaction);
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
@@ -111,47 +95,28 @@ export const deleteTransaction = createAsyncThunk(
       return id;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const updateTransaction = createAsyncThunk(
-  'transactions/updateTransaction',
-  async (
-    {
-      id,
-      fields,
-    }: {
-      id: string;
-      fields: {
-        title: string;
-        category_id: string;
-        amount: number;
-        type: string;
-      };
-    },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await service.updateTransaction(id, fields);
-      return response.data.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-
-      if (!error.response) {
-        throw error;
-      }
-
-      return rejectWithValue(error.response.data);
+export const updateTransaction = createAsyncThunk<
+  Transaction,
+  { id: string; fields: ManageTransactionFields }
+>('transactions/updateTransaction', async ({ id, fields }, { rejectWithValue }) => {
+  try {
+    return service.updateTransaction(id, fields);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const transactionsSlice = createSlice({
   name: 'transactions',

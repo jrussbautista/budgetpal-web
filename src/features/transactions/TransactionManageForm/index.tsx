@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { fetchBudgets } from 'features/budgets/budgetsSlice';
 import { addTransaction, updateTransaction } from 'features/transactions/transactionsSlice';
-import { UpdateTransactionFields } from 'types/Transaction';
+import { ManageTransactionFields } from 'types/Transaction';
 import getFormattedDate from 'utils/getFormattedDate';
 
 interface FormData {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface TransactionManageFormProps {
-  fields?: UpdateTransactionFields;
+  fields?: ManageTransactionFields;
   id?: string;
 }
 
@@ -66,9 +66,9 @@ const TransactionManageForm = ({ fields, id }: TransactionManageFormProps) => {
   });
 
   const setInitialValues = useCallback(
-    (fields: UpdateTransactionFields) => {
+    (fields: ManageTransactionFields) => {
       Object.entries(fields).forEach(([key, value]) => {
-        setValue(key as keyof UpdateTransactionFields, value);
+        setValue(key as keyof ManageTransactionFields, value);
       });
     },
     [setValue]

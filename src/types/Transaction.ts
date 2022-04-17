@@ -10,10 +10,10 @@ export interface Transaction {
   created_at: string;
 }
 
-export interface UpdateTransactionFields {
-  title?: string;
-  amount?: string;
-  category_id?: string;
-  type?: string;
-  happened_on?: string;
+export interface ManageTransactionFields {
+  title: string;
+  amount: number;
+  category_id: string;
+  type: string;
+  happened_on: string;
 }

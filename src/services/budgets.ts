@@ -1,8 +1,10 @@
 import apiClient from 'lib/apiClient';
+import { Result } from 'types';
 import { Budget, ManageBudgetFields } from 'types/Budget';
 
-export const getBudgets = () => {
-  return apiClient.get('/api/budgets');
+export const getBudgets = async (): Promise<Result<Budget>> => {
+  const { data } = await apiClient.get('/api/budgets');
+  return data;
 };
 
 export const getBudget = async (id: string): Promise<Budget> => {

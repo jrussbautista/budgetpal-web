@@ -52,7 +52,6 @@ const ForgotPassword = () => {
       setIsSubmitting(true);
       await getCSRFCookie();
       await forgotPassword(email);
-
       setIsSubmitting(false);
       toast.success('Successfully sent your password reset link!');
       reset({ email: '' });

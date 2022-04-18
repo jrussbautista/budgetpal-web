@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 
 import { RootState } from 'app/store';
 import * as service from 'services/budgets';
-import { Status } from 'types';
+import { Result, Status, ValidationErrors } from 'types';
 import { Budget, ManageBudgetFields } from 'types/Budget';
 
 interface InitialState {
@@ -20,28 +20,24 @@ const initialState: InitialState = {
   budget: { status: 'idle', data: null, error: '' },
 };
 
-interface ValidationErrors {
-  errors: Record<string, string>;
-  message: string;
-}
-
-export const fetchBudgets = createAsyncThunk(
-  'budgets/fetchBudgets',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await service.getBudgets();
-      return response.data.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const fetchBudgets = createAsyncThunk<
+  Result<Budget>,
+  void,
+  { rejectValue: ValidationErrors }
+>('budgets/fetchBudgets', async (_, { rejectWithValue }) => {
+  try {
+    const response = await service.getBudgets();
+    return response;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
-export const fetchBudget = createAsyncThunk<Budget, string>(
+export const fetchBudget = createAsyncThunk<Budget, string, { rejectValue: ValidationErrors }>(
   'budgets/fetchBudget',
   async (id, { rejectWithValue }) => {
     try {
@@ -56,22 +52,23 @@ export const fetchBudget = createAsyncThunk<Budget, string>(
   }
 );
 
-export const addBudget = createAsyncThunk<Budget, ManageBudgetFields>(
-  'budgets/addBudget',
-  async (fields, { rejectWithValue }) => {
-    try {
-      return service.addBudget(fields);
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const addBudget = createAsyncThunk<
+  Budget,
+  ManageBudgetFields,
+  { rejectValue: ValidationErrors }
+>('budgets/addBudget', async (fields, { rejectWithValue }) => {
+  try {
+    return service.addBudget(fields);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
-export const deleteBudget = createAsyncThunk(
+export const deleteBudget = createAsyncThunk<string, string, { rejectValue: ValidationErrors }>(
   'budgets/deleteBudget',
   async (id: string, { rejectWithValue }) => {
     try {
@@ -87,20 +84,21 @@ export const deleteBudget = createAsyncThunk(
   }
 );
 
-export const updateBudget = createAsyncThunk<Budget, { id: string; fields: ManageBudgetFields }>(
-  'budgets/updateBudget',
-  async ({ id, fields }, { rejectWithValue }) => {
-    try {
-      return service.updateBudget(id, fields);
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const updateBudget = createAsyncThunk<
+  Budget,
+  { id: string; fields: ManageBudgetFields },
+  { rejectValue: ValidationErrors }
+>('budgets/updateBudget', async ({ id, fields }, { rejectWithValue }) => {
+  try {
+    return service.updateBudget(id, fields);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const BudgetsSlice = createSlice({
   name: 'Budgets',
@@ -117,14 +115,10 @@ export const BudgetsSlice = createSlice({
     });
     builder.addCase(fetchBudgets.fulfilled, (state, action) => {
       state.status = 'succeed';
-      state.budgets = action.payload;
+      state.budgets = action.payload.data;
     });
-    builder.addCase(fetchBudgets.rejected, (state, action: any) => {
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
+    builder.addCase(fetchBudgets.rejected, (state, action) => {
+      state.error = action.payload?.message;
       state.status = 'failed';
     });
     // fetch budget case

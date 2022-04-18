@@ -1,13 +1,18 @@
 import apiClient from 'lib/apiClient';
+import { Result } from 'types';
 import { ManageTransactionFields, Transaction } from 'types/Transaction';
 
-export const getTransactions = (page = 1, filter: Record<string, string>) => {
+export const getTransactions = async (
+  page = 1,
+  filter: Record<string, string>
+): Promise<Result<Transaction>> => {
   const params = new URLSearchParams({
     page: page.toString(),
     ...filter,
   }).toString();
   const url = `/api/transactions?${params}`;
-  return apiClient.get(url);
+  const { data } = await apiClient.get(url);
+  return data;
 };
 
 export const getTransaction = async (id: string): Promise<Transaction> => {

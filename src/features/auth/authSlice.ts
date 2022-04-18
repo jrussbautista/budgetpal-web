@@ -1,18 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import apiClient from 'lib/apiClient';
 import * as service from 'services/auth';
-import { User } from 'types';
+import { User, ValidationErrors } from 'types';
+import { LoginFields, RegisterFields, UpdateProfileFields } from 'types/Auth';
+
+import { removeAuth, setAuth, setUserLocalStorage } from './utils';
 
 interface InitialState {
   user: User | null;
   error: string | null | undefined;
-}
-
-interface ValidationErrors {
-  errors: Record<string, string>;
-  message: string;
 }
 
 const localStorageCurrentUser = localStorage.getItem('currentUser');
@@ -22,20 +19,17 @@ const initialState: InitialState = {
   error: null,
 };
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<User, LoginFields, { rejectValue: ValidationErrors }>(
   'user/login',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
       await service.getCSRFCookie();
       const response = await service.login(email, password);
-      const { token, user } = response.data.data;
-      window.localStorage.setItem('accessToken', token);
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      return response.data.data.user;
+      const { token, user } = response;
+      setAuth(user, token);
+      return user;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
@@ -44,20 +38,17 @@ export const login = createAsyncThunk(
   }
 );
 
-export const loginWithGoogle = createAsyncThunk(
+export const loginWithGoogle = createAsyncThunk<User, string, { rejectValue: ValidationErrors }>(
   'user/login/google',
-  async (accessToken: string, { rejectWithValue }) => {
+  async (accessToken, { rejectWithValue }) => {
     try {
       await service.getCSRFCookie();
       const response = await service.loginWithGoogle(accessToken);
-      const { token, user } = response.data.data;
-      window.localStorage.setItem('accessToken', token);
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      return response.data.data.user;
+      const { token, user } = response;
+      setAuth(user, token);
+      return user;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
@@ -66,59 +57,35 @@ export const loginWithGoogle = createAsyncThunk(
   }
 );
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<User, RegisterFields, { rejectValue: ValidationErrors }>(
   'user/register',
-  async (
-    {
-      email,
-      password,
-      password_confirmation,
-      name,
-    }: {
-      email: string;
-      password: string;
-      name: string;
-      password_confirmation: string;
-    },
-    { rejectWithValue }
-  ) => {
+  async (fields, { rejectWithValue }) => {
     try {
       await service.getCSRFCookie();
-      const response = await service.register({
-        email,
-        name,
-        password,
-        password_confirmation,
-      });
-      const { token, user } = response.data.data;
-      window.localStorage.setItem('accessToken', token);
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      return response.data.data.user;
+      const response = await service.register(fields);
+      const { token, user } = response;
+      setAuth(user, token);
+      return user;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
-
       if (!error.response) {
         throw error;
       }
-
       return rejectWithValue(error.response.data);
     }
   }
 );
 
 export const removeCurrentUser = createAsyncThunk('user/removeCurrentUser', async () => {
-  window.localStorage.removeItem('currentUser');
-  window.localStorage.removeItem('accessToken');
+  removeAuth();
 });
 
-export const fetchCurrentUser = createAsyncThunk(
+export const fetchCurrentUser = createAsyncThunk<User, void, { rejectValue: ValidationErrors }>(
   'user/currentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await service.getCurrentUser();
-      const user = response.data.data;
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      const user = await service.getCurrentUser();
+      setUserLocalStorage(user);
       return user;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -130,32 +97,30 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-export const updateProfile = createAsyncThunk(
-  'user/updateProfile',
-  async (fields: { name: string; email: string }, { rejectWithValue }) => {
-    try {
-      const response = await service.updateProfile(fields);
-      const user = response.data.data.user;
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
-      return user;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const updateProfile = createAsyncThunk<
+  User,
+  UpdateProfileFields,
+  { rejectValue: ValidationErrors }
+>('user/updateProfile', async (fields, { rejectWithValue }) => {
+  try {
+    const user = await service.updateProfile(fields);
+    setUserLocalStorage(user);
+    return user;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const updateSettings = createAsyncThunk(
   'user/updateSettings',
   async (fields: { language: string; currency: string; theme: string }, { rejectWithValue }) => {
     try {
-      const response = await service.updateSettings(fields);
-      console.log(response);
-      const user = response.data.data;
-      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      const user = await service.updateSettings(fields);
+      setUserLocalStorage(user);
       return user;
     } catch (err) {
       const error: AxiosError<ValidationErrors> = err;
@@ -175,32 +140,20 @@ export const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload;
     });
-    builder.addCase(login.rejected, (state, action: any) => {
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
+    builder.addCase(login.rejected, (state, action) => {
+      state.error = action.payload?.message;
     });
     builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
       state.user = action.payload;
     });
-    builder.addCase(loginWithGoogle.rejected, (state, action: any) => {
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
+    builder.addCase(loginWithGoogle.rejected, (state, action) => {
+      state.error = action.payload?.message;
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload;
     });
-    builder.addCase(register.rejected, (state, action: any) => {
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
+    builder.addCase(register.rejected, (state, action) => {
+      state.error = action.payload?.message;
     });
     builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
       state.user = action.payload;

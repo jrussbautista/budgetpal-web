@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import * as service from 'services/transactions';
-import { Status } from 'types';
+import { Status, Result, ValidationErrors } from 'types';
 import { Transaction, ManageTransactionFields } from 'types/Transaction';
 
 interface InitialState {
@@ -33,79 +33,76 @@ const initialState: InitialState = {
   transaction: { status: 'idle', data: null, error: '' },
 };
 
-interface ValidationErrors {
-  errors: Record<string, string>;
-  message: string;
-}
-
-export const fetchTransactions = createAsyncThunk(
-  'transactions/fetchTransactions',
-  async (
-    { filter, page }: { filter: Record<string, string>; page: number },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await service.getTransactions(page, filter);
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const fetchTransactions = createAsyncThunk<
+  Result<Transaction>,
+  { page: number; filter: Record<string, string> },
+  { rejectValue: ValidationErrors }
+>('transactions/fetchTransactions', async ({ filter, page }, { rejectWithValue }) => {
+  try {
+    const response = await service.getTransactions(page, filter);
+    return response;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
-export const fetchTransaction = createAsyncThunk<Transaction, string>(
-  'transactions/fetchTransaction',
-  async (id, { rejectWithValue }) => {
-    try {
-      return service.getTransaction(id);
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const fetchTransaction = createAsyncThunk<
+  Transaction,
+  string,
+  { rejectValue: ValidationErrors }
+>('transactions/fetchTransaction', async (id, { rejectWithValue }) => {
+  try {
+    return service.getTransaction(id);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
-export const addTransaction = createAsyncThunk<Transaction, ManageTransactionFields>(
-  'transactions/addTransaction',
-  async (transaction, { rejectWithValue }) => {
-    try {
-      return service.addTransaction(transaction);
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const addTransaction = createAsyncThunk<
+  Transaction,
+  ManageTransactionFields,
+  { rejectValue: ValidationErrors }
+>('transactions/addTransaction', async (transaction, { rejectWithValue }) => {
+  try {
+    return service.addTransaction(transaction);
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
-export const deleteTransaction = createAsyncThunk(
-  'transactions/deleteTransaction',
-  async (id: string, { rejectWithValue }) => {
-    try {
-      await service.deleteTransaction(id);
-      return id;
-    } catch (err) {
-      const error: AxiosError<ValidationErrors> = err;
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+export const deleteTransaction = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: ValidationErrors }
+>('transactions/deleteTransaction', async (id, { rejectWithValue }) => {
+  try {
+    await service.deleteTransaction(id);
+    return id;
+  } catch (err) {
+    const error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 export const updateTransaction = createAsyncThunk<
   Transaction,
-  { id: string; fields: ManageTransactionFields }
+  { id: string; fields: ManageTransactionFields },
+  { rejectValue: ValidationErrors }
 >('transactions/updateTransaction', async ({ id, fields }, { rejectWithValue }) => {
   try {
     return service.updateTransaction(id, fields);
@@ -147,12 +144,8 @@ export const transactionsSlice = createSlice({
       state.transactions = action.payload.data;
       state.total = action.payload.meta.total;
     });
-    builder.addCase(fetchTransactions.rejected, (state, action: any) => {
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
+    builder.addCase(fetchTransactions.rejected, (state, action) => {
+      state.error = action.payload?.message;
       state.status = 'failed';
     });
     // fetch transaction case

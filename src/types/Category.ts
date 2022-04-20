@@ -3,3 +3,7 @@ export interface Category {
   title: string;
   user_id: string;
 }
+
+export interface ManageCategoryFields {
+  title: string;
+}

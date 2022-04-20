@@ -7,6 +7,8 @@ import BudgetsPage from 'pages/Budgets';
 import AddBudgetPage from 'pages/Budgets/AddBudget';
 import EditBudgetPage from 'pages/Budgets/EditBudget';
 import CategoriesPage from 'pages/Categories';
+import AddCategoryPage from 'pages/Categories/AddCategory';
+import EditCategoryPage from 'pages/Categories/EditCategory';
 import DashboardPage from 'pages/Dashboard';
 import ReportPage from 'pages/Report';
 import SettingsPage from 'pages/Settings';
@@ -29,6 +31,8 @@ const PrivateRoutes = () => {
         <Route path="report" element={<ReportPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="categories" element={<CategoriesPage />} />
+        <Route path="categories/add" element={<AddCategoryPage />} />
+        <Route path="categories/:id/edit" element={<EditCategoryPage />} />
       </Route>
       <Route
         path="*"

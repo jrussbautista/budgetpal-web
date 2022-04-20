@@ -1,17 +1,32 @@
 import apiClient from 'lib/apiClient';
+import { Result } from 'types';
+import { Category, ManageCategoryFields } from 'types/Category';
 
-export const getCategories = () => {
-  return apiClient.get('/api/categories');
+export const getCategories = async (): Promise<Result<Category>> => {
+  const { data } = await apiClient.get('/api/categories');
+  return data;
 };
 
-export const addCategory = (fields: { title: string }) => {
-  return apiClient.post('/api/categories', fields);
+export const getCategory = async (id: string): Promise<Category> => {
+  const url = `/api/categories/${id}`;
+  const { data } = await apiClient.get(url);
+  return data.data;
 };
 
-export const deleteCategory = (id: string) => {
-  return apiClient.delete(`/api/categories/${id}`);
+export const addCategory = async (fields: ManageCategoryFields): Promise<Category> => {
+  const { data } = await apiClient.post('/api/categories', fields);
+  return data.data;
 };
 
-export const updateCategory = (id: string, fields: { title: string }) => {
-  return apiClient.put(`/api/categories/${id}`, fields);
+export const deleteCategory = async (id: string): Promise<string> => {
+  await apiClient.delete(`/api/categories/${id}`);
+  return id;
+};
+
+export const updateCategory = async (
+  id: string,
+  fields: ManageCategoryFields
+): Promise<Category> => {
+  const { data } = await apiClient.put(`/api/categories/${id}`, fields);
+  return data.data;
 };

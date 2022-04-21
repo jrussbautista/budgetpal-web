@@ -13,7 +13,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: 'calc(100vh - 4rem)',
+      margin: '40px 0',
+      [theme.breakpoints.up('lg')]: {
+        height: 'calc(100vh - 4rem)',
+        margin: 0,
+      },
     },
     mainTitle: {
       marginBottom: 20,
@@ -49,7 +53,7 @@ const Intro = () => {
   return (
     <div className={classes.introContainer}>
       <Container>
-        <Grid container spacing={3}>
+        <Grid container spacing={4}>
           <Grid item lg={5} xs={12}>
             <div className={classes.main}>
               <Typography variant="h4" component="h2" className={classes.mainTitle}>
